@@ -1,0 +1,9 @@
+nav a {
+    color: black; /* Changes the default link color to black */
+    text-decoration: none; /* Removes the underline */
+}
+
+nav a:hover {
+    color: red; /* Changes the color to red when hovered */
+    text-decoration: underline; /* Adds an underline on hover */
+}
