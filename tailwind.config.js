@@ -10,6 +10,44 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        drawLine: {
+          '0%': {
+            opacity: 0,
+            pathLength: 0
+          },
+          '100%': {
+            opacity: 0.9,
+            pathLength: 1
+          }
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' }
+        },
+        sectionFade: {
+          '0%': { 
+            opacity: '0',
+            transform: 'translateY(2rem)'
+          },
+          '100%': { 
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
+        },
+        subtleFloat: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-0.5rem)' }
+        }
+      },
+      animation: {
+        drawLine: 'drawLine 12s ease-in-out forwards',
+        'float-slow': 'float 6s ease-in-out infinite',
+        'float-medium': 'float 5s ease-in-out infinite',
+        'float-fast': 'float 4s ease-in-out infinite',
+        'section-entrance': 'sectionFade 0.8s ease-out forwards',
+        'section-float': 'subtleFloat 6s ease-in-out infinite',
+      },
       colors: {
         //2 red
         deepRed: 'rgb(116, 9, 56)', // new color
@@ -56,13 +94,94 @@ module.exports = {
         lightTeal: 'rgb(65, 179, 162)', // new color
         paleTurquoise: 'rgb(189, 232, 202)', // new color
         lavenderMist: 'rgb(215, 195, 241)', // new color
+        string: {
+          pink: '#FFC0CB',
+          blue: '#B0E0E6',
+          purple: '#E6E6FA',
+          rose: '#FFE4E1',
+          sky: '#87CEEB'
+        }
       },
       fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
         sans: ["Inter", "sans-serif"], // Use Inter or replace with preferred font
+        cormorant: ['Cormorant Garamond', 'sans-serif'],
+        
+      },
+      backgroundImage: {
+        'section-gradient': 'linear-gradient(135deg, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%)',
+      },
+      extend: {
+        '.section-base': {
+          '@apply relative min-h-screen w-full': {},
+          '@apply bg-gradient-to-br from-cream/90 to-peach/80': {},
+          '@apply px-6 sm:px-8 lg:px-12 py-16 sm:py-20 lg:py-24': {},
+          '@apply animate-section-entrance': {},
+          
+          // Container styling
+          '& > .container': {
+            '@apply max-w-7xl mx-auto relative': {},
+            '@apply flex flex-col lg:flex-row items-center gap-8 lg:gap-16': {},
+          },
+          
+          // Section headers
+          '& h2': {
+            '@apply text-3xl sm:text-4xl lg:text-5xl font-bold': {},
+            '@apply text-gray-800 mb-6': {},
+            '@apply font-montserrat': {},
+          },
+          
+          // Content wrappers
+          '& .content-wrapper': {
+            '@apply bg-white/40 backdrop-blur-sm': {},
+            '@apply rounded-2xl shadow-lg': {},
+            '@apply p-6 sm:p-8 lg:p-10': {},
+            '@apply transition-all duration-300': {},
+            '@apply hover:shadow-xl hover:scale-[1.01]': {},
+          }
+        }
+      },
+      zIndex: {
+        '300': '300', // Add custom z-index value
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addComponents }) {
+      addComponents({
+        '.section-base': {
+          '@apply relative min-h-screen w-full': {},
+          '@apply bg-gradient-to-br from-cream/90 to-peach/80': {},
+          '@apply px-6 sm:px-8 lg:px-12 py-16 sm:py-20 lg:py-24': {},
+          '@apply animate-section-entrance': {},
+          
+          // Container styling
+          '& > .container': {
+            '@apply max-w-7xl mx-auto relative': {},
+            '@apply flex flex-col lg:flex-row items-center gap-8 lg:gap-16': {},
+          },
+          
+          // Section headers
+          '& h2': {
+            '@apply text-3xl sm:text-4xl lg:text-5xl font-bold': {},
+            '@apply text-gray-800 mb-6': {},
+            '@apply font-montserrat': {},
+          },
+          
+          // Content wrappers
+          '& .content-wrapper': {
+            '@apply bg-white/40 backdrop-blur-sm': {},
+            '@apply rounded-2xl shadow-lg': {},
+            '@apply p-6 sm:p-8 lg:p-10': {},
+            '@apply transition-all duration-300': {},
+            '@apply hover:shadow-xl hover:scale-[1.01]': {},
+          }
+        }
+      })
+    }
+  ],
 };
+
+
 
 

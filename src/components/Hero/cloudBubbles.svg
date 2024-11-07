@@ -1,0 +1,96 @@
+<svg width="100%" height="100%" viewBox="0 0 600 300" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Enhanced shadow with more spread and softness -->
+        <filter id="cloudShadow">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+            <feOffset dx="0" dy="5"/>
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="0.15"/>
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        <!-- Softer glow effect for highlights -->
+        <filter id="cloudGlow">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+            <feOffset dx="0" dy="0"/>
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="0.5"/>
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- Bottom layer cloud with animation -->
+    <path 
+        d="M50 140
+           C100 140 150 130 200 130
+           S300 120 350 120
+           S450 130 480 140
+           C510 150 510 160 480 170
+           C450 180 400 180 350 180
+           S250 170 200 170
+           S100 160 50 150
+           C20 140 20 130 50 140Z"
+        fill="rgba(128, 128, 128, 0.15)"
+        filter="url(#cloudShadow)"
+        transform="matrix(0.8, 0.2, -0.5, 1.2, 90, -90)">
+        <animate
+            attributeName="d"
+            dur="20s"
+            repeatCount="indefinite"
+            values="
+                M50 140 C100 140 150 130 200 130 S300 120 350 120 S450 130 480 140 C510 150 510 160 480 170 C450 180 400 180 350 180 S250 170 200 170 S100 160 50 150 C20 140 20 130 50 140Z;
+                M50 135 C100 135 150 125 200 125 S300 115 350 115 S450 125 480 135 C510 145 510 155 480 165 C450 175 400 175 350 175 S250 165 200 165 S100 155 50 145 C20 135 20 125 50 135Z;
+                M50 140 C100 140 150 130 200 130 S300 120 350 120 S450 130 480 140 C510 150 510 160 480 170 C450 180 400 180 350 180 S250 170 200 170 S100 160 50 150 C20 140 20 130 50 140Z"
+            />
+    </path>
+
+    <!-- Middle layer cloud with animation -->
+    <path 
+        d="M420 120
+           C380 115 340 105 300 105
+           S220 95 180 95
+           S100 105 70 115
+           C40 125 40 135 70 145
+           C100 155 140 155 180 155
+           S260 145 300 145
+           S380 135 420 125
+           C450 115 450 105 420 120Z"
+        fill="rgba(160, 160, 160, 0.3)"
+        filter="url(#cloudShadow)"
+        transform="matrix(0.8, 0.2, -0.5, 1.2, 100, -100)">
+        <animate
+            attributeName="d"
+            dur="15s"
+            repeatCount="indefinite"
+            values="
+                M420 120 C380 115 340 105 300 105 S220 95 180 95 S100 105 70 115 C40 125 40 135 70 145 C100 155 140 155 180 155 S260 145 300 145 S380 135 420 125 C450 115 450 105 420 120Z;
+                M420 115 C380 110 340 100 300 100 S220 90 180 90 S100 100 70 110 C40 120 40 130 70 140 C100 150 140 150 180 150 S260 140 300 140 S380 130 420 120 C450 110 450 100 420 115Z;
+                M420 120 C380 115 340 105 300 105 S220 95 180 95 S100 105 70 115 C40 125 40 135 70 145 C100 155 140 155 180 155 S260 145 300 145 S380 135 420 125 C450 115 450 105 420 120Z"
+            />
+    </path>
+
+    <!-- Top layer (smallest and most opaque) -->
+    <path 
+        d="M90 100
+           C120 100 150 90 180 90
+           S240 80 270 80
+           S330 90 360 100
+           C390 110 390 120 360 130
+           C330 140 300 140 270 140
+           S210 130 180 130
+           S120 120 90 110
+           C60 100 60 90 90 100Z"
+        fill="rgba(192, 192, 192, 0.9)"
+        stroke-width="1"
+        filter="url(#cloudShadow)"
+        transform="matrix(0.8, 0.2, -0.5, 1.2, 100, -100)"
+    />
+</svg>

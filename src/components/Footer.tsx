@@ -11,7 +11,11 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ className, children }) => {
   return (
-    <footer className={`relative h-10 bg-gray-100 text-white p-8 ${className}`}>
+    <footer className={`
+        relative h-auto min-h-[200px] 
+        bg-gray-100 text-white p-8 
+        ${className}
+    `}>
       {/* Canvas as Background */}
       <Canvas className="absolute inset-0 z-0" camera={{ position: [0, 0, 10], fov: 75 }}>
         <ambientLight intensity={0.5} />

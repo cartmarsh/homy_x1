@@ -11,13 +11,13 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className="snap-container">
-        <Hero className="hero" />
-        <Portfolio className="portfolio" />
-        <AboutMe className="aboutMe" />
-        <Contact className="contact" />
-        <Footer className="footer" />
-      </div>
+        <div className="snap-container">
+          <Hero className="hero" />
+          <Portfolio className="portfolio" />
+          <AboutMe className="aboutMe" id="aboutMe" />
+          <Contact className="contact" id="contact" />
+          <Footer className="footer" />
+        </div>
     </>
   );
 }

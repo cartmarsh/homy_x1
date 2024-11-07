@@ -1,7 +1,32 @@
 .hero-image {
     position: relative;
-    top: 50%;
-    left: 20%;
+    top: 45%;
+    left: 15%;
     transform: translateY(-50%);
-    width: 34%;
+}
+
+.string-path {
+    animation: buttonPathAnimation 3s ease-in-out infinite;
+}
+
+@keyframes buttonPathAnimation {
+    0%, 100% {
+        d: path("M 40 20 Q 60 25, 80 40");
+    }
+    50% {
+        d: path("M 40 20 Q 60 15, 80 40");
+    }
+}
+
+.radial-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.2;
+    }
 }

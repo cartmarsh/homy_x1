@@ -1,75 +1,135 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+// Import image directly
+import profileImage from '../assets/Alace_Doom.png';
 
 interface AboutMeProps {
     className?: string;
-    children?: React.ReactNode; // Include children prop of type React.ReactNode
+    children?: React.ReactNode;
 }
 
-const AboutMe: React.FC<AboutMeProps> = ({ className, children }) => {
+const AboutMe: React.FC<AboutMeProps> = ({ className, children, id }) => {
+    const [navbarHeight, setNavbarHeight] = useState(0);
+
+    useEffect(() => {
+        const updateNavbarHeight = () => {
+            const navbar = document.querySelector('nav');
+            if (navbar) setNavbarHeight(navbar.offsetHeight);
+        };
+
+        updateNavbarHeight();
+        window.addEventListener('resize', updateNavbarHeight);
+        return () => window.removeEventListener('resize', updateNavbarHeight);
+    }, []);
+
     return (
-        <section className={`p-6 sm:p-8 bg-skyBlue rounded-lg shadow-md max-w-xl sm:max-w-2xl lg:max-w-4xl mx-auto ${className}`}>
-
-            {/* Section Title */}
-            <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6">About Me</h2>
-
-            {/* Background Section */}
-            <div className="mb-6">
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">Background</h3>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                    With a strong passion for technology and design, Dominik has been developing and refining his skills in web development and UX design. With hands-on experience across various projects, he’s focused on crafting meaningful digital experiences.
-                </p>
-            </div>
-
-            {/* Education Section */}
-            <div className="mb-6">
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">Education</h3>
-                <ul className="space-y-4">
-                    <li className="text-gray-600 text-sm sm:text-base">
-                        <strong>Bachelor of Science in Computer Science</strong> - University of Technology, 2018
-                    </li>
-                    <li className="text-gray-600 text-sm sm:text-base">
-                        <strong>Certified UX Designer</strong> - UX Design Institute, 2020
-                    </li>
-                </ul>
-            </div>
-
-            {/* Notable Achievements Section */}
-            <div className="mb-6">
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">Notable Achievements</h3>
-                <ul className="space-y-4 pl-4 list-disc text-gray-600 text-sm sm:text-base">
-                    <li>Led the design and development of a high-traffic e-commerce site, improving user engagement by 30%.</li>
-                    <li>Published an article in a renowned tech magazine on the importance of accessibility in web design.</li>
-                    <li>Awarded “Developer of the Year” at XYZ Company for exceptional contributions to product development.</li>
-                </ul>
-            </div>
-
-            {/* Timeline Layout for Achievements (Optional Enhancement) */}
-            <div className="relative border-l-2 border-blue-500 ml-4 pl-4">
-                {/* Timeline Entry 1 */}
-                <div className="mb-6 relative">
-                    {/* Circular Marker */}
-                    <div className="absolute w-3 h-3 bg-blue-500 rounded-full -left-5 top-1"></div>
-                    <p className="text-sm sm:text-base font-semibold">2020 - Published in Tech Magazine</p>
-                    <p className="text-gray-600 text-xs sm:text-sm">
-                        Featured article on accessibility in design.
-                    </p>
+        <motion.section 
+            className={`
+                relative min-h-screen w-full
+                bg-cream transition-colors duration-300
+                scroll-snap-start overflow-hidden
+                ${className}
+            `}
+            id={id}
+            style={{ 
+                paddingTop: `${navbarHeight}px`,
+                height: '100vh'
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+        >
+            <div className="
+                container mx-auto
+                h-full
+                px-6 sm:px-8 lg:px-12
+                flex flex-col lg:flex-row
+                items-center
+                gap-8 lg:gap-16
+                py-12
+            ">
+                {/* Left Content */}
+                <div className="
+                    w-full lg:w-1/2
+                    flex flex-col
+                    gap-6
+                ">
+                    <h1 className="
+                        text-4xl sm:text-5xl lg:text-6xl
+                        font-bold
+                        text-gray-800
+                    ">
+                        Cześć!
+                    </h1>
+                    
+                    <div className="space-y-6 text-gray-600">
+                        <p className="text-lg sm:text-xl">
+                            My name is Dominik and I'm a bilingual Web Developer located in Germany, originally from Poland.
+                        </p>
+                        
+                        <p className="text-lg sm:text-xl">
+                            With a combined decade of experience in web development, I always focus on creating products with the end user in mind. My unique background helped me develop a mindset of empathy and reflexivity.
+                        </p>
+                        
+                        <p className="text-lg sm:text-xl">
+                            I have a knack for creating and improving processes, simplifying the complex, solving problems and crafting seamless and enjoyable web experiences.
+                        </p>
+                        
+                        <p className="text-lg sm:text-xl">
+                            After hours, I'm an artist, surfer, and a concert enthusiast always on the lookout for new favorite music albums.
+                        </p>
+                    </div>
                 </div>
 
-                {/* Timeline Entry 2 */}
-                <div className="mb-6 relative">
-                    {/* Circular Marker */}
-                    <div className="absolute w-3 h-3 bg-blue-500 rounded-full -left-5 top-1"></div>
-                    <p className="text-sm sm:text-base font-semibold">2018 - Graduated from University of Technology</p>
-                    <p className="text-gray-600 text-xs sm:text-sm">
-                        Completed B.Sc. in Computer Science with honors.
-                    </p>
+                {/* Right Content - Image */}
+                <div className="
+                    w-full lg:w-1/2
+                    relative
+                ">
+                    <div className="
+                        aspect-square
+                        relative
+                        rounded-full
+                        overflow-hidden
+                        bg-pink-300
+                        max-w-[50vh]
+                        mx-auto
+                    ">
+                        <img 
+                            src={profileImage}
+                            alt="Profile picture"
+                            className="
+                                w-full h-full
+                                object-cover
+                                grayscale
+                                hover:grayscale-0
+                                transition-all duration-300
+                            "
+                        />
+                        
+                        {/* Decorative Shapes */}
+                        <div className="
+                            absolute -z-10
+                            w-[75%] aspect-square
+                            rounded-full
+                            bg-pink-200
+                            -top-[10%] -right-[10%]
+                        "/>
+                        <div className="
+                            absolute -z-10
+                            w-[50%] aspect-square
+                            rounded-full
+                            bg-blue-200
+                            bottom-[10%] -left-[10%]
+                        "/>
+                    </div>
                 </div>
             </div>
             {children}
-        </section>
-    )
-}
-
+        </motion.section>
+    );
+};
 
 export default AboutMe;
 
