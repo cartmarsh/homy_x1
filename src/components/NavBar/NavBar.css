@@ -1,5 +1,5 @@
 nav a {
-    color: black; /* Changes the default link color to black */
+    color: white; /* Change to white to match the theme */
     text-decoration: none; /* Removes the underline */
 }
 
@@ -14,25 +14,33 @@ nav a:hover {
     border: 1px solid rgba(255, 255, 255, 0.2);
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(to right, rgba(45, 27, 105, 0.9), rgba(224, 95, 32, 0.9));
+    background: linear-gradient(
+        135deg, 
+        rgba(45, 27, 105, 0.95) 0%, 
+        rgba(90, 40, 120, 0.9) 35%, 
+        rgba(160, 70, 80, 0.9) 65%, 
+        rgba(224, 95, 32, 0.95) 100%
+    );
+    border-radius: 8px;
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
 }
 
 /* Ensure the nav element itself is transparent */
 nav {
     background-color: transparent !important;
+    outline: none !important; /* Remove any outline */
 }
 
+/* Remove the nav-background class that might be causing the stripe */
 .nav-background {
-    position: absolute;
-    inset: -2px;
-    background-color: transparent;
-    border-radius: 8px;
+    display: none;
 }
 
 .retro-nav-card::before {
     content: '';
     position: absolute;
-    inset: -2px;
+    inset: -1px; /* Changed from -2px to -1px */
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     pointer-events: none;
@@ -58,22 +66,24 @@ nav {
     padding: 0 0.25rem;
 }
 
-/* Separator between items */
-.nav-item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: -5px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 40%;
-    width: 1px;
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(255, 255, 255, 0.1) 20%,
-        rgba(255, 255, 255, 0.1) 80%,
-        transparent
-    );
+/* Separator between items - only show on desktop */
+@media (min-width: 768px) {
+    .nav-item:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: -5px;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 40%;
+        width: 1px;
+        background: linear-gradient(
+            to bottom,
+            transparent,
+            rgba(255, 255, 255, 0.1) 20%,
+            rgba(255, 255, 255, 0.1) 80%,
+            transparent
+        );
+    }
 }
 
 .retro-nav-link {
@@ -87,10 +97,11 @@ nav {
     font-size: 0.875rem;
     text-decoration: none;
     transform-origin: center;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .retro-nav-link:hover {
-    color: white !important; /* Use !important to override any other styles */
+    color: white !important;
     transform: scale(1.1);
 }
 
@@ -126,21 +137,11 @@ nav {
     transition: transform 0.1s ease;
 }
 
-/* Add subtle pixel texture */
-.nav-background {
-    background-image: url("data:image/svg+xml,%3Csvg width='2' height='2' viewBox='0 0 2 2' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M1 0H0v1h1V0zm0 1H2v1H1V1z' fill='rgba(255, 255, 255, 0.03)'/%3E%3C/svg%3E");
-    background-size: 2px 2px;
-}
-
-/* Add these new styles to your existing NavBar.css */
+/* Mobile styles */
 @media (max-width: 768px) {
     .retro-nav-card {
         width: 90vw;
         max-width: 400px;
-    }
-
-    .nav-item:not(:last-child)::after {
-        display: none;
     }
 
     .retro-nav-link {
@@ -156,5 +157,18 @@ nav {
 
     .nav-item:last-child {
         border-bottom: none;
+    }
+}
+
+/* Add subtle animated gradient shift */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
     }
 }
