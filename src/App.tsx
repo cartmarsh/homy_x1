@@ -9,16 +9,16 @@ import NavBar from './components/NavBar/NavBar';
 
 function App() {
   return (
-    <>
-      <NavBar />
-      <div className="snap-container">
-        <Hero className="hero" />
-        <Portfolio className="portfolio" />
-        <AboutMe className="aboutMe" />
-        <Contact className="contact" />
-        <Footer className="footer" />
-      </div>
-    </>
+    <div className="h-screen w-screen overflow-hidden bg-[#2d1b69]">
+      <NavBar className="fixed top-0 left-0 right-0 z-50" />
+      <main className="snap-container w-full bg-[#2d1b69]">
+        <Hero id="home" />
+        <Portfolio id="portfolio" />
+        <AboutMe id="about" />
+        <Contact id="contact" />
+        <Footer />
+      </main>
+    </div>
   );
 }
 

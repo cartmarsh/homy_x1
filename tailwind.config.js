@@ -60,6 +60,9 @@ module.exports = {
       fontFamily: {
         sans: ["Inter", "sans-serif"], // Use Inter or replace with preferred font
       },
+      screens: {
+        'xs': '480px',
+      },
     },
   },
   plugins: [],
