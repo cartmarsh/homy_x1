@@ -1,60 +1,79 @@
-// implement Footer component
+'use client';
 
 import React from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
 import ContentSection from './layout/ContentSection';
 
 interface FooterProps {
-    className?: string;
-    children?: React.ReactNode; // Include children prop of type React.ReactNode
-  }
+  className?: string;
+  children?: React.ReactNode;
+}
 
 const Footer: React.FC<FooterProps> = ({ className, children }) => {
   return (
-    <ContentSection className={className}>
-      <div className="relative w-full h-full">
-        {/* Canvas as Background */}
-        <Canvas className="absolute inset-0 z-0" camera={{ position: [0, 0, 10], fov: 75 }}>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} />
-          <Sphere visible args={[1, 32, 32]} scale={1}>
-            <MeshDistortMaterial
-              color="#0077ff"
-              attach="material"
-              distort={0.1}
-              speed={2}
+    <ContentSection className={`relative min-h-[150px] overflow-hidden ${className}`}>
+      {/* Animated Gradient Background */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-purple-300/20 to-pink-300/20">
+        {/* Moving gradient overlay */}
+        <div className="absolute inset-0 animate-gradient-xy opacity-80">
+          <div className="absolute inset-0 bg-[size:400%_400%] bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300" />
+        </div>
+        
+        {/* Pulsating blobs with moving gradients */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="relative w-[500px] h-[500px] scale-150">
+            {/* Primary blob with moving gradient */}
+            <div className="absolute inset-0 animate-blob-pulse-intense 
+              mix-blend-multiply filter blur-md bg-[size:200%_200%]
+              bg-gradient-to-r from-violet-400 via-purple-300 to-indigo-400 rounded-full 
+              border border-white/10 animate-gradient-shift" 
             />
-          </Sphere>
-          <OrbitControls enableZoom={false} />
-        </Canvas>
+            {/* Secondary blob with different gradient */}
+            <div className="absolute inset-0 animate-blob-pulse-intense animation-delay-1000 
+              mix-blend-multiply filter blur-md bg-[size:200%_200%]
+              bg-gradient-to-r from-rose-300 via-pink-300 to-purple-400 rounded-full 
+              border border-white/10 animate-gradient-shift-reverse" 
+            />
+            {/* Tertiary blob */}
+            <div className="absolute inset-0 animate-blob-pulse-intense animation-delay-2000 
+              mix-blend-multiply filter blur-md bg-[size:200%_200%]
+              bg-gradient-to-r from-blue-300 via-teal-300 to-emerald-400 rounded-full 
+              border border-white/10 animate-gradient-shift" 
+            />
+          </div>
+        </div>
+      </div>
 
-        {/* Content Overlay */}
-        <div className="absolute inset-0 z-10 flex flex-col justify-center items-center">
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-4">
+        <div className="flex flex-col min-h-[150px]">
           {children}
-          <p className="text-sm mb-4 text-neutral-400">
-            © {new Date().getFullYear()} Dominik. All rights reserved.
-          </p>
-          <div className="flex justify-center space-x-4 text-neutral-400">
-            <a
-              href="/privacy-policy"
-              className="hover:underline transition duration-300 text-neutral-400" // Changed color to match "All rights reserved"
-            >
-              Privacy Policy
-            </a>
-            <span>|</span>
-            <a
-              href="/terms-of-service"
-              className="hover:underline transition duration-300 text-neutral-400" // Changed color to match "All rights reserved"
-            >
-              Terms of Service
-            </a>
+          
+          {/* Footer Links - Positioned bottom right */}
+          <div className="mt-auto ml-auto text-right pb-3 pr-3">
+            <p className="text-xs mb-1 text-neutral-700 font-medium">
+              © {new Date().getFullYear()} Dominik. All rights reserved.
+            </p>
+            <div className="flex justify-end space-x-3 text-neutral-700">
+              <a
+                href="/privacy-policy"
+                className="text-xs hover:text-neutral-900 transition duration-300"
+              >
+                Privacy Policy
+              </a>
+              <span className="text-xs">|</span>
+              <a
+                href="/terms-of-service"
+                className="text-xs hover:text-neutral-900 transition duration-300"
+              >
+                Terms of Service
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </ContentSection>
   );
-}
+};
 
 export default Footer;
 

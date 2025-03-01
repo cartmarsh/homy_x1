@@ -4,14 +4,17 @@ interface ContentSectionProps {
     className?: string;
     children: React.ReactNode;
     id?: string;
+    isHero?: boolean;
 }
 
 const ContentSection: React.FC<ContentSectionProps> = ({ 
     className = '', 
     children,
-    id 
+    id,
+    isHero = false
 }) => {
     const [navbarHeight, setNavbarHeight] = useState(0);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
         const updateDimensions = () => {
@@ -31,6 +34,17 @@ const ContentSection: React.FC<ContentSectionProps> = ({
         };
     }, []);
 
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        setMousePosition({ x, y });
+    };
+
+    // Calculate subtle shift based on mouse position
+    const shiftX = (mousePosition.x - 0.5) * 5; // Max 2.5px shift
+    const shiftY = (mousePosition.y - 0.5) * 5; // Max 2.5px shift
+
     return (
         <section 
             id={id}
@@ -41,24 +55,34 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                 ${className}
             `}
             style={{ 
-                height: `calc(100vh - ${navbarHeight}px)`,
+                minHeight: `calc(100vh - ${navbarHeight}px)`,
                 marginTop: `${navbarHeight}px`,
             }}
         >
-            <div className={`
-                w-[90%] h-[90%]
-                retro-card
-                overflow-hidden
-            `}>
-                <div className="
+            <div 
+                className={`
+                    w-[90%] h-[75%]
+                    retro-card
+                    overflow-hidden
+                    top-[5%]
+                    rounded-lg
+                    transition-transform duration-300 ease-out
+                `}
+                onMouseMove={handleMouseMove}
+                style={{
+                    transform: `translate(${shiftX}px, ${shiftY}px)`,
+                }}
+            >
+                <div className={`
                     w-full h-full
                     flex flex-col
-                    px-[5%]
                     mx-auto
                     max-w-[1920px]
                     overflow-y-auto
                     retro-scroll
-                ">
+                    rounded-lg
+                    ${isHero ? 'px-[8%] py-[15%] md:py-[12%]' : 'px-[5%] py-[6%]'}
+                `}>
                     {children}
                 </div>
             </div>
