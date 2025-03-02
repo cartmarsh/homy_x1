@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import "./NavBar.css";
+
+interface Section {
+  id: string;
+  label: string;
+}
 
 const NavBar: React.FC = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState("home");
+
+    const sections: Section[] = [
+        { id: "home", label: "HOME" },
+        { id: "about", label: "ABOUT ME" },
+        { id: "portfolio", label: "PORTFOLIO" },
+        { id: "contact", label: "CONTACT" }
+    ];
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -19,8 +31,42 @@ const NavBar: React.FC = () => {
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+    // Observer to update active section based on scroll position
+    useEffect(() => {
+        const observerOptions = {
+            root: null,
+            rootMargin: '-10% 0px -70% 0px',
+            threshold: [0.1, 0.5]
+        };
+
+        const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+            const visibleEntries = entries.filter(entry => entry.isIntersecting);
+            
+            if (visibleEntries.length > 0) {
+                const mostVisible = visibleEntries.reduce((prev, current) => {
+                    return (prev.intersectionRatio > current.intersectionRatio) ? prev : current;
+                });
+                
+                setActiveSection(mostVisible.target.id);
+            }
+        };
+
+        const observer = new IntersectionObserver(handleIntersect, observerOptions);
+        
+        sections.forEach(section => {
+            let element = document.getElementById(section.id);
+            if (element) {
+                observer.observe(element);
+            } else {
+                console.warn(`Section with id "${section.id}" not found in the DOM`);
+            }
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto md:w-auto bg-transparent z-50">
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto md:w-auto bg-transparent">
             <div 
                 className="retro-nav-card px-6 py-2 backdrop-blur-sm transition-transform duration-300 ease-out"
                 onMouseMove={handleMouseMove}
@@ -44,10 +90,15 @@ const NavBar: React.FC = () => {
                         ${isMenuOpen ? 'flex' : 'hidden md:flex'}
                         ${isMenuOpen ? 'absolute top-full left-0 w-full bg-gradient-to-r from-[#2d1b69]/90 to-[#e05f20]/90 mt-2 p-4' : ''}
                     `}>
-                        <NavItem to="/" label="HOME" />
-                        <NavItem to="/about" label="ABOUT ME" />
-                        <NavItem to="/portfolio" label="PORTFOLIO" />
-                        <NavItem to="/contact" label="CONTACT" />
+                        {sections.map(section => (
+                            <NavItem 
+                                key={section.id}
+                                id={section.id} 
+                                label={section.label} 
+                                isActive={activeSection === section.id}
+                                onClick={() => isMenuOpen && toggleMenu()}
+                            />
+                        ))}
                     </ul>
                 </div>
             </div>
@@ -56,34 +107,48 @@ const NavBar: React.FC = () => {
 };
 
 interface NavItemProps {
-    to: string;
+    id: string;
     label: string;
+    isActive: boolean;
+    onClick: () => void;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ to, label }) => (
-    <li className="nav-item w-full md:w-auto">
-        <NavLink 
-            to={to} 
-            className={({ isActive }) => `
-                retro-nav-link relative
-                font-['Space_Grotesk'] text-sm tracking-wider
-                block w-full md:w-auto text-center
-                ${isActive ? 'text-white font-semibold scale-110' : 'text-neutral-200'}
-            `}
-            onClick={() => {
-                const windowWidth = window.innerWidth;
-                if (windowWidth < 768) {
-                    setTimeout(() => {
-                        const button = document.querySelector('button[aria-label="Toggle menu"]') as HTMLElement;
-                        button?.click();
-                    }, 150);
-                }
-            }}
-        >
-            {label}
-        </NavLink>
-    </li>
-);
+const NavItem: React.FC<NavItemProps> = ({ id, label, isActive, onClick }) => {
+    const handleClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const element = document.getElementById(id);
+        
+        if (element) {
+            // Use the more direct scrollIntoView approach
+            element.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Call onClick after a short delay to close mobile menu if needed
+            setTimeout(onClick, 150);
+        } else {
+            console.warn(`Cannot scroll to #${id}: Element not found`);
+        }
+    };
+
+    return (
+        <li className="nav-item w-full md:w-auto">
+            <a 
+                href={`#${id}`}
+                className={`
+                    retro-nav-link relative
+                    font-['Space_Grotesk'] text-sm tracking-wider
+                    block w-full md:w-auto text-center
+                    ${isActive ? 'text-white font-semibold scale-110' : 'text-neutral-200'}
+                `}
+                onClick={handleClick}
+            >
+                {label}
+            </a>
+        </li>
+    );
+};
 
 export default NavBar;
 

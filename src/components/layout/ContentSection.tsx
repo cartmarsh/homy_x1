@@ -6,6 +6,7 @@ interface ContentSectionProps {
     id?: string;
     isHero?: boolean;
     bgColor?: 'bg-cream' | 'bg-peach' | 'bg-gray-100' | 'bg-mint' | 'bg-sky' | 'bg-lemon' | 'bg-coral' | 'bg-lilac';
+    noScroll?: boolean;
 }
 
 const ContentSection: React.FC<ContentSectionProps> = ({ 
@@ -13,7 +14,8 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     children,
     id,
     isHero = false,
-    bgColor = 'bg-cream'
+    bgColor = 'bg-cream',
+    noScroll = false
 }) => {
     const [navbarHeight, setNavbarHeight] = useState(0);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -80,7 +82,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                     flex flex-col
                     mx-auto
                     max-w-[1600px]
-                    overflow-y-auto
+                    ${noScroll ? 'overflow-hidden' : 'overflow-y-auto'}
                     retro-scroll
                     rounded-lg
                     ${isHero ? 'px-[12%] py-[18%] md:py-[15%]' : 'px-[8%] py-[8%]'}
