@@ -5,3 +5,44 @@
     transform: translateY(-50%);
     width: 34%;
 }
+
+.retro-button {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    background: #f0e9cb;
+    color: #333;
+    border: 3px solid #333;
+    font-weight: bold;
+    box-shadow: 5px 5px 0px #333;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.retro-button:hover {
+    box-shadow: 3px 3px 0px #333;
+}
+
+.retro-button:active, 
+.retro-button.clicked {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px #333;
+}
+
+.retro-button-glow {
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    filter: blur(5px);
+}
+
+/* Pulse animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+.retro-button:not(:hover):not(.clicked) {
+    animation: pulse 3s infinite ease-in-out;
+}
+
+/* Existing lightning animations should remain the same */

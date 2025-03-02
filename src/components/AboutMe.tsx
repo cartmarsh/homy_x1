@@ -11,7 +11,7 @@ interface AboutMeProps {
 
 const AboutMe: React.FC<AboutMeProps> = ({ className, children, id }) => {
     return (
-        <ContentSection id={id} className={className}>
+        <ContentSection id={id} bgColor='bg-lemon' className={className}>
             <motion.div 
                 className="w-full h-full flex flex-col lg:flex-row items-center gap-8 lg:gap-16"
                 initial={{ opacity: 0 }}
@@ -20,19 +20,9 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, children, id }) => {
             >
                 {/* Left Content */}
                 <div className="w-full lg:w-1/2 flex flex-col gap-6">
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800">
-                        Cześć!
-                    </h1>
+                    
                     
                     <div className="space-y-6 text-gray-600">
-                        <p className="text-lg sm:text-xl">
-                            My name is Dominik and I'm a bilingual Web Developer located in Germany, originally from Poland.
-                        </p>
-                        
-                        <p className="text-lg sm:text-xl">
-                            With a combined decade of experience in web development, I always focus on creating products with the end user in mind. My unique background helped me develop a mindset of empathy and reflexivity.
-                        </p>
-                        
                         <p className="text-lg sm:text-xl">
                             I have a knack for creating and improving processes, simplifying the complex, solving problems and crafting seamless and enjoyable web experiences.
                         </p>

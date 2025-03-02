@@ -9,7 +9,7 @@ interface PortfolioProps {
 
 const Portfolio: React.FC<PortfolioProps> = ({ className, id }) => {
     return (
-        <ContentSection id={id} className={className}>
+        <ContentSection id={id} bgColor='bg-lemon' className={className}>
             <div className="w-full h-full flex flex-col items-center justify-start py-4">
                 <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Portfolio</h2>
                 
@@ -25,32 +25,6 @@ const Portfolio: React.FC<PortfolioProps> = ({ className, id }) => {
                         <div className="p-3">
                             <h3 className="text-lg font-semibold text-gray-800">SoundRoom</h3>
                             <p className="text-sm text-gray-600">A collaborative music sharing platform.</p>
-                        </div>
-                    </article>
-
-                    {/* Project Item 2 */}
-                    <article className="bg-white shadow-md rounded-lg overflow-hidden transform transition-transform hover:scale-105">
-                        <img 
-                            src="https://via.placeholder.com/300" 
-                            alt="Project 2" 
-                            className="w-full h-36 object-cover"
-                        />
-                        <div className="p-3">
-                            <h3 className="text-lg font-semibold text-gray-800">Project Title 2</h3>
-                            <p className="text-sm text-gray-600">Brief description of the project goes here.</p>
-                        </div>
-                    </article>
-
-                    {/* Project Item 3 */}
-                    <article className="bg-white shadow-md rounded-lg overflow-hidden transform transition-transform hover:scale-105">
-                        <img 
-                            src="https://via.placeholder.com/300" 
-                            alt="Project 3" 
-                            className="w-full h-36 object-cover"
-                        />
-                        <div className="p-3">
-                            <h3 className="text-lg font-semibold text-gray-800">Project Title 2</h3>
-                            <p className="text-sm text-gray-600">Brief description of the project goes here.</p>
                         </div>
                     </article>
                 </div>

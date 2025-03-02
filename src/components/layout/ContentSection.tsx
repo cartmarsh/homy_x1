@@ -5,13 +5,15 @@ interface ContentSectionProps {
     children: React.ReactNode;
     id?: string;
     isHero?: boolean;
+    bgColor?: 'bg-cream' | 'bg-peach' | 'bg-gray-100' | 'bg-mint' | 'bg-sky' | 'bg-lemon' | 'bg-coral' | 'bg-lilac';
 }
 
 const ContentSection: React.FC<ContentSectionProps> = ({ 
     className = '', 
     children,
     id,
-    isHero = false
+    isHero = false,
+    bgColor = 'bg-cream'
 }) => {
     const [navbarHeight, setNavbarHeight] = useState(0);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -62,7 +64,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             <div 
                 className={`
                     w-[90%] h-[75%]
-                    retro-card
+                    ${bgColor} retro-card
                     overflow-hidden
                     top-[5%]
                     rounded-lg
@@ -74,14 +76,14 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                 }}
             >
                 <div className={`
-                    w-full h-full
+                    w-[90%] h-[90%]
                     flex flex-col
                     mx-auto
-                    max-w-[1920px]
+                    max-w-[1600px]
                     overflow-y-auto
                     retro-scroll
                     rounded-lg
-                    ${isHero ? 'px-[8%] py-[15%] md:py-[12%]' : 'px-[5%] py-[6%]'}
+                    ${isHero ? 'px-[12%] py-[18%] md:py-[15%]' : 'px-[8%] py-[8%]'}
                 `}>
                     {children}
                 </div>

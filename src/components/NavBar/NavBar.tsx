@@ -20,7 +20,7 @@ const NavBar: React.FC = () => {
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     return (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto md:w-auto bg-transparent">
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto md:w-auto bg-transparent z-50">
             <div 
                 className="retro-nav-card px-6 py-2 backdrop-blur-sm transition-transform duration-300 ease-out"
                 onMouseMove={handleMouseMove}
