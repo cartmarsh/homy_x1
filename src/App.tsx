@@ -25,7 +25,7 @@ function App() {
         <Portfolio id="portfolio" />
         <AboutMe id="about" />
         <Contact id="contact" />
-        <Footer />
+        <Footer isLastSection={true} />
       </main>  
       
     </div>

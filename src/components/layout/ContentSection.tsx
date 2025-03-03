@@ -7,6 +7,7 @@ interface ContentSectionProps {
     isHero?: boolean;
     bgColor?: 'bg-cream' | 'bg-peach' | 'bg-gray-100' | 'bg-mint' | 'bg-sky' | 'bg-lemon' | 'bg-coral' | 'bg-lilac';
     noScroll?: boolean;
+    isLastSection?: boolean;
 }
 
 const ContentSection: React.FC<ContentSectionProps> = ({ 
@@ -15,7 +16,8 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     id,
     isHero = false,
     bgColor = 'bg-cream',
-    noScroll = false
+    noScroll = false,
+    isLastSection = false
 }) => {
     const [navbarHeight, setNavbarHeight] = useState(0);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -48,6 +50,13 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     // Calculate subtle shift based on mouse position
     const shiftX = (mousePosition.x - 0.5) * 5; // Max 2.5px shift
     const shiftY = (mousePosition.y - 0.5) * 5; // Max 2.5px shift
+
+    const handleScrollClick = () => {
+        const nextSection = document.getElementById(id || '')?.nextElementSibling;
+        if (nextSection) {
+            nextSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <section 
@@ -93,6 +102,14 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                     {children}
                 </div>
             </div>
+
+            {!isLastSection && (
+                <button 
+                    className="scroll-down-arrow"
+                    onClick={handleScrollClick}
+                    aria-label="Scroll to next section"
+                />
+            )}
         </section>
     );
 };
