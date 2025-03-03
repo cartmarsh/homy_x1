@@ -296,7 +296,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
 
                             {/* Title with glass effect */}
                             <div 
-                                className="glass-box relative mx-auto md:mx-0 inline-block px-5 py-0 backdrop-blur-sm bg-white/15 shadow-md border border-white/25"
+                                className="glass-box relative mx-auto md:mx-0 inline-block px-5 py-1 backdrop-blur-sm bg-white/15 shadow-md border border-white/25"
                                 style={{ 
                                     transform: `perspective(1000px) rotateX(${offsetY * 0.1}deg) rotateY(${offsetX * -0.1}deg) translate3d(${offsetX * 0.6}px, ${offsetY * 0.6}px, 0px)`,
                                     transformStyle: 'preserve-3d'
@@ -309,7 +309,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
 
                             {/* Subtitle with glass effect */}
                             <div 
-                                className="glass-box relative mx-auto md:mx-0 inline-block px-3 py-1 backdrop-blur-sm bg-white/10 shadow-sm border border-white/20"
+                                className="glass-box relative mx-auto md:mx-0 inline-block px-4 py-1 backdrop-blur-sm bg-white/10 shadow-sm border border-white/20"
                                 style={{ 
                                     transform: `perspective(1000px) rotateX(${offsetY * 0.05}deg) rotateY(${offsetX * -0.05}deg) translate3d(${offsetX * 0.4}px, ${offsetY * 0.4}px, 0px)`,
                                     transformStyle: 'preserve-3d'
