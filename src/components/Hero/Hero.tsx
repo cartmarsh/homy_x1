@@ -42,11 +42,11 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
     // Random glitch effect
     useEffect(() => {
         const glitchInterval = setInterval(() => {
-            if (Math.random() > 0.95) {
-                setGlitchIntensity(Math.random() * 10);
+            if (Math.random() > 0.75) {
+                setGlitchIntensity(Math.random() * 15);
                 setTimeout(() => setGlitchIntensity(0), 200);
             }
-        }, 500);
+        }, 400);
         
         return () => clearInterval(glitchInterval);
     }, []);
@@ -178,12 +178,6 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                 style={{ transform: `translate3d(${offsetX * 0.8}px, ${offsetY * 0.8}px, 0px)` }}
                             >
                                 Dominik Hauger
-                                {glitchIntensity > 0 && (
-                                    <>
-                                        <span className="glitch-offset-1">Dominik Hauger</span>
-                                        <span className="glitch-offset-2">Dominik Hauger</span>
-                                    </>
-                                )}
                             </h1>
 
                             <h2 
