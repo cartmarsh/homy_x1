@@ -148,7 +148,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title }) => {
   return (
     <div 
       ref={headerRef}
-      className="w-full relative mb-2 cursor-pointer" 
+      className="w-full relative mb-1 cursor-pointer flex justify-center" 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -157,32 +157,32 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title }) => {
         className="absolute inset-0 pointer-events-none z-0"
       />
       
-      <div className="relative z-10 flex flex-col items-center justify-center h-[50px]">
-        {/* Scanline effect - reduced number */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-[40px] sm:h-[45px] md:h-[50px] w-auto">
+        {/* Scanline effect - reduced number and spacing */}
         <div className={`absolute inset-0 overflow-hidden pointer-events-none ${isHovered ? 'opacity-20' : 'opacity-10'}`}>
-          {Array.from({ length: 5 }).map((_, i) => (
+          {Array.from({ length: 3 }).map((_, i) => (
             <div 
               key={i} 
-              className="h-[5px] w-full bg-black opacity-30"
-              style={{ marginTop: `${i * 10}px` }}
+              className="h-[4px] w-full bg-black opacity-30"
+              style={{ marginTop: `${i * 12}px` }}
             />
           ))}
         </div>
         
-        {/* Simpler title */}
-        <h2 
-          className="text-lg sm:text-2xl font-bold tracking-wider uppercase text-center text-gray-800"
+        {/* Title */}
+        <h1 
+          className="text-base sm:text-lg md:text-xl font-bold tracking-wider uppercase text-center text-gray-800"
           style={{
             fontFamily: "'Press Start 2P', 'VT323', monospace",
-            WebkitTextStroke: "0.5px rgba(0,0,0,0.3)",
+            WebkitTextStroke: "0.7px rgba(0,0,0,0.3)",
             ...getGlitchStyle()
           }}
         >
           {title}
-        </h2>
+        </h1>
         
-        {/* Smaller decorative line */}
-        <div className="w-32 h-[2px] bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-1"></div>
+        {/* Decorative line */}
+        <div className="w-24 sm:w-28 md:w-32 h-[2px] bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-0"></div>
       </div>
     </div>
   );

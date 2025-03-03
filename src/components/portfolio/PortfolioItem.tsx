@@ -189,26 +189,26 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
   return (
     <div 
       ref={containerRef}
-      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl h-auto"
+      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl w-[280px] sm:w-[320px] md:w-[350px]"
     >
       <div 
         ref={p5ContainerRef} 
         className="absolute inset-0 pointer-events-none z-0"
       />
-      <div className="relative z-10">
+      <div className="relative z-10 p-3">
         <div className="relative">
           <img 
             src={image} 
             alt={title} 
-            className="w-full h-40 object-cover"
+            className="w-full h-24 sm:h-28 md:h-32 object-cover rounded-t-lg"
           />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-1">
             {tags.length > 0 && (
-              <div className="flex flex-wrap gap-1 mb-1">
+              <div className="flex flex-wrap gap-1">
                 {tags.map((tag, index) => (
                   <span 
                     key={index} 
-                    className="text-xs bg-blue-500/80 text-white px-2 py-0 rounded-full"
+                    className="text-[10px] bg-blue-500/80 text-white px-1.5 rounded-full"
                   >
                     {tag}
                   </span>
@@ -217,15 +217,15 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
             )}
           </div>
         </div>
-        <div className="p-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-1">{title}</h3>
-          <p className="text-sm text-gray-600 mb-3 line-clamp-3">{description}</p>
+        <div className="pt-2">
+          <h3 className="text-sm font-semibold text-gray-800 mb-1">{title}</h3>
+          <p className="text-xs text-gray-600 mb-2 line-clamp-2">{description}</p>
           {link && (
             <a 
               href={link} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="inline-block text-sm text-blue-600 hover:text-blue-800 transition-colors"
+              className="inline-block text-xs text-blue-600 hover:text-blue-800 transition-colors"
             >
               View Project →
             </a>

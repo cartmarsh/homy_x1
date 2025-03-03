@@ -55,7 +55,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             className={`
                 relative
                 w-full
-                flex items-center justify-center
+                flex justify-center
                 ${className}
             `}
             style={{ 
@@ -65,10 +65,11 @@ const ContentSection: React.FC<ContentSectionProps> = ({
         >
             <div 
                 className={`
-                    w-[90%] h-[75%]
+                    w-[90%] xs:w-[88%] sm:w-[90%] h-[85%] sm:h-[85%] md:h-[85%]
                     ${bgColor} retro-card
                     overflow-hidden
                     top-[5%]
+                    flex justify-center items-center
                     rounded-lg
                     transition-transform duration-300 ease-out
                 `}
@@ -78,14 +79,16 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                 }}
             >
                 <div className={`
-                    w-[90%] h-[90%]
+                    w-[91%] xs:w-[89%] sm:w-[83%] h-[91%] xs:h-[89%] sm:h-[90%]
                     flex flex-col
                     mx-auto
                     max-w-[1600px]
-                    ${noScroll ? 'overflow-hidden' : 'overflow-y-auto'}
+                    overflow-hidden
                     retro-scroll
                     rounded-lg
-                    ${isHero ? 'px-[12%] py-[18%] md:py-[15%]' : 'px-[8%] py-[8%]'}
+                    ${isHero 
+                      ? 'px-[0%] py-[6%] xs:px-[2%] xs:py-[8%] sm:px-[8%] sm:py-[12%] md:px-[10%] md:py-[15%]' 
+                      : 'px-[0%] py-[2%] xs:px-[2%] xs:py-[3%] sm:px-[6%] sm:py-[4%] md:px-[8%] md:py-[5%]'}
                 `}>
                     {children}
                 </div>

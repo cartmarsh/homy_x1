@@ -36,22 +36,18 @@ const Portfolio: React.FC<PortfolioProps> = ({ className, id }) => {
             className={`${className} overflow-hidden`}
             noScroll={true}
         >
-            <div className="w-full flex flex-col items-center max-h-full overflow-hidden">
-                {/* Replace standard header with RetroHeader */}
-                <div onClick={handleHeaderClick} className="w-full">
+            <div className="w-full h-full flex flex-col items-center justify-center px-4 sm:px-8 md:px-12">
+                {/* Center header with consistent padding */}
+                <div onClick={handleHeaderClick} className="w-full flex justify-center mb-4">
                     <RetroHeader title="PORTFOLIO" />
                 </div>
                 
-                {/* Project Display - Center a single project */}
-                <div 
-                    className={`w-full max-w-5xl mx-auto px-4 transition-all duration-300 overflow-hidden ${
-                        isHeaderClicked ? 'animate-pulse scale-105' : ''
-                    }`}
-                >
+                {/* Project Display */}
+                <div className="w-full h-[85%] flex items-center justify-center">
                     {projects.length === 1 ? (
                         // Single project centered
-                        <div className="flex justify-center">
-                            <div className="w-full max-w-md">
+                        <div className="h-full flex items-center justify-start">
+                            <div className="w-[90%] sm:w-[80%] md:w-[70%] h-[90%]">
                                 <PortfolioItem 
                                     title={projects[0].title}
                                     description={projects[0].description}
@@ -63,7 +59,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ className, id }) => {
                         </div>
                     ) : (
                         // Grid for multiple projects
-                        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid gap-3 sm:gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 h-full items-center justify-items-center">
                             {projects.map((project, index) => (
                                 <PortfolioItem 
                                     key={index}
