@@ -338,7 +338,9 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                     </div>
 
                     {/* Right Side - Button */}
-                    <div className="w-full md:w-auto flex justify-center md:justify-end items-center pt-16 md:pt-0 md:absolute md:right-6 md:top-8 z-20">
+                    <div 
+                        className="w-full md:w-auto flex justify-center md:justify-end items-center pt-16 md:pt-0 md:absolute md:right-6 md:top-8 z-20"
+                    >
                         <div 
                             className="relative inline-block px-2 py-2 rounded-lg backdrop-blur-sm bg-transparent"
                             style={{ 
@@ -354,27 +356,28 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                     whitespace-nowrap
                                     text-sm xs:text-base
                                     relative
-                                    overflow-hidden
                                     group
-                                    transition-all
+                                    transition-transform
                                     hover:scale-105
                                     active:scale-95
                                     flex items-center gap-2
+                                    pointer-events-auto
                                 `}
                                 onClick={handleClick}
+                                style={{ pointerEvents: 'auto' }}
                             >
-                                <span className="retro-button-glow absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity"></span>
+                                <span className="retro-button-glow absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity pointer-events-none"></span>
                                 <svg 
                                     xmlns="http://www.w3.org/2000/svg" 
-                                    className="h-4 w-4 xs:h-5 xs:w-5 transition-transform group-hover:rotate-12" 
+                                    className="h-4 w-4 xs:h-5 xs:w-5 transition-transform group-hover:rotate-12 pointer-events-none" 
                                     fill="none" 
                                     viewBox="0 0 24 24" 
                                     stroke="currentColor"
                                 >
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
-                                Get in Touch
-                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-current group-hover:w-full transition-all duration-300"></span>
+                                <span className="pointer-events-none">Get in Touch</span>
+                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-current group-hover:w-full transition-all duration-300 pointer-events-none"></span>
                             </button>
                         </div>
                     </div>

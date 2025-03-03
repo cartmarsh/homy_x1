@@ -104,11 +104,13 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             </div>
 
             {!isLastSection && (
-                <button 
-                    className="scroll-down-arrow"
-                    onClick={handleScrollClick}
-                    aria-label="Scroll to next section"
-                />
+                <div className="scroll-down-container">
+                    <button 
+                        className="scroll-down-arrow"
+                        onClick={handleScrollClick}
+                        aria-label="Scroll to next section"
+                    />
+                </div>
             )}
         </section>
     );

@@ -69,9 +69,14 @@
     border: 3px solid #333;
     font-weight: bold;
     box-shadow: 5px 5px 0px #333;
-    transition: all 0.2s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .retro-button:hover {
@@ -82,6 +87,10 @@
 .retro-button.clicked {
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0px #333;
+}
+
+.retro-button * {
+    pointer-events: none;
 }
 
 .retro-button-glow {
@@ -97,7 +106,7 @@
 }
 
 .retro-button:not(:hover):not(.clicked) {
-    animation: pulse 3s infinite ease-in-out;
+    animation: none;
 }
 
 /* Existing lightning animations should remain the same */
