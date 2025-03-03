@@ -6,11 +6,19 @@ import ContentSection from './layout/ContentSection';
 interface FooterProps {
   className?: string;
   children?: React.ReactNode;
+  isLastSection?: boolean;
 }
 
-const Footer: React.FC<FooterProps> = ({ className, children }) => {
+const Footer: React.FC<FooterProps> = ({
+  className,
+  children,
+  isLastSection = false
+}) => {
   return (
-    <ContentSection className={`relative min-h-[150px] overflow-hidden ${className}`}>
+    <ContentSection 
+      className={`relative min-h-[150px] overflow-hidden ${className}`}
+      isLastSection={isLastSection}
+    >
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 z-0 bg-gradient-to-br from-purple-300/20 to-pink-300/20">
         {/* Moving gradient overlay */}
