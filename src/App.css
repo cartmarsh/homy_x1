@@ -1,8 +1,37 @@
+html, body {
+  overscroll-behavior: none;
+  overflow-x: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #2d1b69; /* Set the base background color to purple */
+}
+
+body {
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #2d1b69; /* Match the purple background */
+  z-index: -1;
+}
+
 #root {
   max-width: 100%;
   margin: 0;
   text-align: center;
   overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .logo {
@@ -41,7 +70,6 @@
   color: #888;
 }
 
-
 /* App.css or wherever your styles are defined */
 .snap-container {
   height: 100vh;
@@ -54,6 +82,7 @@
   -ms-overflow-style: none;
   padding-top: var(--navbar-height, 0px);
   background-color: transparent;
+  margin-top: var(--navbar-height, 0px); /* Add margin to account for fixed navbar */
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -61,11 +90,11 @@
   display: none;
 }
 
-/* Each section should take full viewport height and snap */
+/* Each section should take full viewport height minus navbar height and snap */
 section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  height: 100vh;
+  height: calc(100vh - var(--navbar-height, 0px));
   width: 100%;
   overflow: hidden;
   background-color: transparent;
@@ -322,10 +351,21 @@ section {
 .lightning-3::after { transform-origin: 100% 0%; }
 .lightning-4::after { transform-origin: 0% 0%; }
 
-/* Navbar styling */
+/* Navbar styling - fixed position to ensure it stays at the top */
 nav {
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 50; /* Ensure navbar is above other elements */
+  position: fixed; /* Change to fixed position */
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: auto !important; /* Force pointer events */
+}
+
+/* Ensure canvas and background elements don't block pointer events */
+canvas, .pointer-events-none {
+  pointer-events: none !important;
 }
