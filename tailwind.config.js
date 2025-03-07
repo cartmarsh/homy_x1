@@ -1,16 +1,21 @@
 /** @type {import('tailwindcss').Config} */
-
-
-// tailwind.config.js
-
-module.exports = {
+export default {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./public/index.html",
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
+      fontFamily: {
+        pixel: ['Press\\ Start\\ 2P', 'cursive'],
+        mono: ['Space\\ Mono', 'monospace'],
+      },
       colors: {
+        background: {
+          start: '#FFD700',  // yellow gradient start
+          middle: '#FFE55C', // yellow gradient middle
+          end: '#9370DB',    // purple gradient end
+        },
         //2 red
         deepRed: 'rgb(116, 9, 56)', // new color
         brightRed: 'rgb(175, 23, 64)', // new color
@@ -57,8 +62,14 @@ module.exports = {
         paleTurquoise: 'rgb(189, 232, 202)', // new color
         lavenderMist: 'rgb(215, 195, 241)', // new color
       },
-      fontFamily: {
-        sans: ["Inter", "sans-serif"], // Use Inter or replace with preferred font
+      backgroundImage: {
+        'gradient-main': 'linear-gradient(135deg, var(--tw-gradient-stops))',
+      },
+      spacing: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+        'safe-left': 'env(safe-area-inset-left)',
+        'safe-right': 'env(safe-area-inset-right)',
       },
       screens: {
         'xs': '480px',
@@ -66,6 +77,6 @@ module.exports = {
     },
   },
   plugins: [],
-};
+}
 
 
