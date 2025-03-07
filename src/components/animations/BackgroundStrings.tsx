@@ -1,8 +1,8 @@
-import p5Types from 'p5';
-import dynamic from 'next/dynamic';
+import React, { Suspense } from 'react';
+import type p5Types from 'p5';
 
-// Dynamically import p5 with no SSR to avoid window undefined errors
-const P5 = dynamic(() => import('react-p5'), { ssr: false });
+// Import p5 dynamically using React.lazy
+const Sketch = React.lazy(() => import('react-p5'));
 
 interface BackgroundStringsProps {
   className?: string;
@@ -205,12 +205,14 @@ export function BackgroundStrings({ className = '' }: BackgroundStringsProps) {
   };
 
   return (
-    <P5
-      setup={setup}
-      draw={draw}
-      windowResized={windowResized}
-      className={`fixed top-0 left-0 w-full h-full pointer-events-none ${className}`}
-    />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Sketch
+        setup={setup}
+        draw={draw}
+        windowResized={windowResized}
+        className={`fixed top-0 left-0 w-full h-full pointer-events-none ${className}`}
+      />
+    </Suspense>
   );
 }
 

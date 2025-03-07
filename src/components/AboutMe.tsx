@@ -1,15 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import ContentSection from './layout/ContentSection';
 import profileImage from '../assets/Profilbild.jpg';
 import styles from './AboutMe.module.css';
 import type p5Types from 'p5';
 
-// Import p5 dynamically to avoid SSR issues
-const Sketch = dynamic(() => import('react-p5').then((mod) => mod.default), {
-    ssr: false,
-});
+// Import p5 dynamically using React.lazy
+const Sketch = React.lazy(() => import('react-p5'));
 
 interface AboutMeProps {
     className?: string;
@@ -91,12 +88,14 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, id }) => {
             <div ref={containerRef} className="relative w-full h-full">
                 {/* P5.js Canvas Container */}
                 <div className="absolute inset-0 pointer-events-none">
-                    <Sketch 
-                        setup={setup}
-                        draw={draw}
-                        windowResized={windowResized}
-                        preload={() => {}}
-                    />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Sketch 
+                            setup={setup}
+                            draw={draw}
+                            windowResized={windowResized}
+                            preload={() => {}}
+                        />
+                    </Suspense>
                 </div>
                 
                 <motion.div 

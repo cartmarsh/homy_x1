@@ -1,14 +1,11 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
-import dynamic from 'next/dynamic';
+import React, { useRef, useState, useCallback, useEffect, Suspense } from 'react';
 import ContentSection from '../layout/ContentSection';
 import profilePic from './../../assets/Profilbild.jpg';
 import './Hero.css';
 import { throttle } from 'lodash';
 
-// Import p5 dynamically to avoid SSR issues
-const Sketch = dynamic(() => import('react-p5').then((mod) => mod.default), {
-  ssr: false,
-});
+// Import p5 dynamically using React.lazy
+const Sketch = React.lazy(() => import('react-p5'));
 
 interface HeroProps {
     className?: string;
@@ -311,7 +308,9 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                     style={{ pointerEvents: 'none' }}
                 >
                     {dimensions.width > 0 && (
-                        <Sketch setup={setup} draw={draw} />
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <Sketch setup={setup} draw={draw} />
+                        </Suspense>
                     )}
                 </div>
                 

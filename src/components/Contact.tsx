@@ -1,15 +1,12 @@
-import React, { useRef } from 'react';
-import dynamic from 'next/dynamic';
-import ContentSection from './layout/ContentSection';
+import React, { useRef, Suspense } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import type p5Types from 'p5';
+import ContentSection from './layout/ContentSection';
 
-// Import p5 dynamically to avoid SSR issues
-const Sketch = dynamic(() => import('react-p5').then((mod) => mod.default), {
-    ssr: false,
-});
+// Import p5 dynamically using React.lazy
+const Sketch = React.lazy(() => import('react-p5'));
 
 interface ContactProps {
     className?: string;
@@ -100,12 +97,14 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
             <div ref={containerRef} className="relative w-full h-full">
                 {/* P5.js Canvas Container */}
                 <div className="absolute inset-0 pointer-events-none">
-                    <Sketch 
-                        setup={setup}
-                        draw={draw}
-                        windowResized={windowResized}
-                        preload={() => {}}
-                    />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Sketch 
+                            setup={setup}
+                            draw={draw}
+                            windowResized={windowResized}
+                            preload={() => {}}
+                        />
+                    </Suspense>
                 </div>
 
                 <div className="w-full h-full flex flex-col justify-center items-center relative z-10">
