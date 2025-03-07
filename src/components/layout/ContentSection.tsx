@@ -104,12 +104,26 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             </div>
 
             {!isLastSection && (
-                <div className="scroll-down-container">
+                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer">
                     <button 
-                        className="scroll-down-arrow"
                         onClick={handleScrollClick}
+                        className="p-2 transition-transform hover:translate-y-1 bg-white/30 rounded-full"
                         aria-label="Scroll to next section"
-                    />
+                    >
+                        <svg 
+                            width="40" 
+                            height="40" 
+                            viewBox="2 2 20 20" 
+                            className="fill-current text-gray-600 hover:text-gray-800 transition-colors"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="M6 9l6 6 6-6" />
+                        </svg>
+                    </button>
                 </div>
             )}
         </section>
