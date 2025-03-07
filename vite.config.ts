@@ -10,8 +10,8 @@ const __dirname = dirname(__filename)
 export default defineConfig({
   plugins: [react()],
   build: {
-    cssMinify: true,
-    minify: 'terser',
+    cssMinify: 'esbuild',
+    minify: 'esbuild',
     assetsDir: 'assets',
     rollupOptions: {
       output: {
