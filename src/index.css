@@ -22,15 +22,11 @@
 }
 
 html, body {
-  zoom: 1.008;
-  -ms-zoom: 1;
-  -webkit-zoom: 1;
   font-size: 16px;
 }
 
 #root {
-  transform: scale(1);
-  transform-origin: top left;
+  /* Remove transform properties */
 }
 
 a {

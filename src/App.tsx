@@ -8,7 +8,7 @@ import BackgroundStrings from './components/animations/BackgroundStrings';
 
 function App() {
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[#2d1b69]">
+    <div className="min-h-screen w-full overflow-hidden bg-[#2d1b69]">
       {/* Background animation */}
       <BackgroundStrings />
       
