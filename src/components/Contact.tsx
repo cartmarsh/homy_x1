@@ -4,6 +4,7 @@ import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import type p5 from 'p5';
 import ContentSection from './layout/ContentSection';
+import { setupCanvas, prepareDrawing, drawMultipleBorders } from '../utils/p5Setup';
 
 // Import p5 dynamically using React.lazy
 const Sketch = React.lazy(() => import('react-p5'));
@@ -77,10 +78,11 @@ const Contact: React.FC<ContactProps> = ({ className, id, isLastSection = false 
         p5InstanceRef.current = p5;
         const canvas = p5.createCanvas(dimensions.width || containerRef.current.offsetWidth, dimensions.height || containerRef.current.offsetHeight);
         canvas.parent(canvasParentRef);
+        setupCanvas(p5, canvas, canvasParentRef);
     };
 
     const draw = (p5: p5) => {
-        p5.clear(0, 0, 0, 0);
+        prepareDrawing(p5);
         time += 0.02;
 
         // Check if canvas needs resizing and parent dimensions have changed
@@ -90,67 +92,12 @@ const Contact: React.FC<ContactProps> = ({ className, id, isLastSection = false 
             
             if (newWidth > 0 && newHeight > 0) {
                 p5.resizeCanvas(newWidth, newHeight, true);
+                p5.pixelDensity(window.devicePixelRatio);
             }
         }
 
-        // Draw animated borders
-        p5.push();
-        p5.noFill();
-        
-        // Draw outer border in deeper purple
-        p5.strokeWeight(2);
-        p5.stroke(126, 34, 206, 100); // Main border
-        drawAnimatedBorder(p5, time, 0.8); // Larger outer border
-        
-        // Draw middle border with different timing and more transparency
-        p5.strokeWeight(1.5);
-        p5.stroke(126, 34, 206, 60); // More transparent purple
-        drawAnimatedBorder(p5, time * 1.5, 0.5); // Much smaller middle border
-        
-        // Draw inner border with different timing and most transparency
-        p5.strokeWeight(1);
-        p5.stroke(126, 34, 206, 30); // Most transparent purple
-        drawAnimatedBorder(p5, time * 0.8, 0.25); // Tiny inner border
-        
+        drawMultipleBorders(p5, time);
         p5.pop();
-    };
-
-    const drawAnimatedBorder = (p5: p5, time: number, scale: number) => {
-        const padding = 20 * scale;
-        const numPoints = 50;
-        
-        p5.beginShape();
-        
-        for (let i = 0; i <= numPoints; i++) {
-            const t = i / numPoints;
-            let x, y;
-            
-            if (t < 0.25) {
-                // Top edge
-                x = p5.lerp(padding, p5.width - padding, t * 4);
-                y = padding + Math.sin(time + t * 10) * 5;
-            } else if (t < 0.5) {
-                // Right edge
-                x = p5.width - padding + Math.sin(time + t * 10) * 5;
-                y = p5.lerp(padding, p5.height - padding, (t - 0.25) * 4);
-            } else if (t < 0.75) {
-                // Bottom edge
-                x = p5.lerp(p5.width - padding, padding, (t - 0.5) * 4);
-                y = p5.height - padding + Math.sin(time + t * 10) * 5;
-            } else {
-                // Left edge
-                x = padding + Math.sin(time + t * 10) * 5;
-                y = p5.lerp(p5.height - padding, padding, (t - 0.75) * 4);
-            }
-            
-            // Add extra vertices at corners for smoother curves
-            if (i === 0 || i === numPoints) {
-                p5.curveVertex(x, y);
-            }
-            p5.curveVertex(x, y);
-        }
-        
-        p5.endShape(); // Remove CLOSE parameter to keep the border open
     };
 
     return (

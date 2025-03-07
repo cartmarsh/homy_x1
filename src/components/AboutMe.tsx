@@ -4,6 +4,7 @@ import ContentSection from './layout/ContentSection';
 import profileImage from '../assets/Profilbild.jpg';
 import styles from './AboutMe.module.css';
 import type p5Types from 'p5';
+import { setupCanvas, prepareDrawing, drawMultipleBorders } from '../utils/p5Setup';
 
 // Import p5 dynamically using React.lazy
 const Sketch = React.lazy(() => import('react-p5'));
@@ -21,66 +22,20 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, id }) => {
         if (!containerRef.current) return;
         const canvas = p5.createCanvas(containerRef.current.offsetWidth, containerRef.current.offsetHeight);
         canvas.parent(canvasParentRef);
+        setupCanvas(p5, canvas, canvasParentRef);
     };
 
     const draw = (p5: p5Types) => {
-        p5.clear(0, 0, 0, 0);
+        prepareDrawing(p5);
         time += 0.02;
-
-        // Draw animated border
-        p5.push();
-        p5.noFill();
-        p5.strokeWeight(2);
-        
-       
-        
-        // Draw main border in deeper purple
-        p5.stroke(126, 34, 206, 100); // Darker purple for main border
-        drawAnimatedBorder(p5, time, 0.5);
-        
+        drawMultipleBorders(p5, time);
         p5.pop();
-    };
-
-    const drawAnimatedBorder = (p5: p5Types, time: number, scale: number) => {
-        const padding = 20 * scale;
-        const numPoints = 50;
-        
-        p5.beginShape();
-        for (let i = 0; i <= numPoints; i++) {
-            const t = i / numPoints;
-            let x, y;
-            
-            if (t < 0.25) {
-                // Top edge
-                x = p5.lerp(padding, p5.width - padding, t * 4);
-                y = padding + Math.sin(time + t * 10) * 5;
-            } else if (t < 0.5) {
-                // Right edge
-                x = p5.width - padding + Math.sin(time + t * 10) * 5;
-                y = p5.lerp(padding, p5.height - padding, (t - 0.25) * 4);
-            } else if (t < 0.75) {
-                // Bottom edge
-                x = p5.lerp(p5.width - padding, padding, (t - 0.5) * 4);
-                y = p5.height - padding + Math.sin(time + t * 10) * 5;
-            } else {
-                // Left edge
-                x = padding + Math.sin(time + t * 10) * 5;
-                y = p5.lerp(p5.height - padding, padding, (t - 0.75) * 4);
-            }
-            
-            p5.curveVertex(x, y);
-            
-            // Add extra vertices at corners for smoother curves
-            if (i === 0 || i === numPoints) {
-                p5.curveVertex(x, y);
-            }
-        }
-        p5.endShape();
     };
 
     const windowResized = (p5: p5Types) => {
         if (!containerRef.current) return;
         p5.resizeCanvas(containerRef.current.offsetWidth, containerRef.current.offsetHeight);
+        p5.pixelDensity(window.devicePixelRatio);
     };
 
     return (
