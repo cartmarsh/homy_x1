@@ -18,27 +18,63 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ className, id }) => {
     const divRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLDivElement>(null);
+    const p5InstanceRef = useRef<any>(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isClicked, setIsClicked] = useState(false);
     const [lightningClass, setLightningClass] = useState('');
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [glitchIntensity, setGlitchIntensity] = useState(0);
 
-    // Update dimensions on resize
+    // Update dimensions on resize and visibility change
     useEffect(() => {
         const updateDimensions = () => {
             if (divRef.current) {
-                setDimensions({
-                    width: divRef.current.offsetWidth,
-                    height: divRef.current.offsetHeight,
-                });
+                const newWidth = divRef.current.offsetWidth;
+                const newHeight = divRef.current.offsetHeight;
+                
+                // Only update if dimensions actually changed
+                if (newWidth !== dimensions.width || newHeight !== dimensions.height) {
+                    setDimensions({
+                        width: newWidth,
+                        height: newHeight,
+                    });
+                    
+                    // Cleanup and recreate canvas if dimensions changed
+                    if (p5InstanceRef.current) {
+                        p5InstanceRef.current.remove();
+                        p5InstanceRef.current = null;
+                    }
+                }
             }
         };
 
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                // Reset canvas when tab becomes visible
+                if (p5InstanceRef.current) {
+                    p5InstanceRef.current.remove();
+                    p5InstanceRef.current = null;
+                }
+                updateDimensions();
+            }
+        };
+
+        // Initial update
         updateDimensions();
+
+        // Add event listeners
         window.addEventListener('resize', updateDimensions);
-        return () => window.removeEventListener('resize', updateDimensions);
-    }, []);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        
+        // Cleanup
+        return () => {
+            window.removeEventListener('resize', updateDimensions);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            if (p5InstanceRef.current) {
+                p5InstanceRef.current.remove();
+            }
+        };
+    }, [dimensions.width, dimensions.height]);
 
     // Throttled glitch effect
     useEffect(() => {
@@ -92,7 +128,9 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
 
     // p5.js sketch setup
     const setup = (p5: any, canvasParentRef: Element) => {
-        p5.createCanvas(dimensions.width || 300, dimensions.height || 200).parent(canvasParentRef);
+        p5InstanceRef.current = p5;
+        const canvas = p5.createCanvas(dimensions.width || 300, dimensions.height || 200);
+        canvas.parent(canvasParentRef);
         p5.pixelDensity(1);
     };
 
@@ -259,16 +297,16 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
     }, []);
 
     return (
-        <ContentSection id={id} bgColor='bg-lemon' className={className}>
+        <ContentSection id={id} bgColor='bg-lemon' className={`${className} overflow-hidden`}>
             <div 
                 ref={divRef}
-                className="w-full h-full flex items-center justify-center relative"
+                className="w-full h-full flex items-center justify-center relative overflow-hidden"
                 onMouseMove={handleMouseMove}
             >
                 {/* P5 Canvas - Ensure pointer-events-none is applied */}
                 <div 
                     ref={canvasRef} 
-                    className="absolute inset-0 z-0 pointer-events-none"
+                    className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
                     style={{ pointerEvents: 'none' }}
                 >
                     {dimensions.width > 0 && (
