@@ -16,6 +16,21 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+html, body {
+  zoom: 1.008;
+  -ms-zoom: 1;
+  -webkit-zoom: 1;
+  font-size: 16px;
+}
+
+#root {
+  transform: scale(1);
+  transform-origin: top left;
 }
 
 a {

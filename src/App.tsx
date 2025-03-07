@@ -3,7 +3,6 @@ import Hero from './components/Hero/Hero';
 import Portfolio from './components/Portfolio';
 import AboutMe from './components/AboutMe';
 import Contact from './components/Contact';
-import Footer from './components/Footer';
 import NavBar from './components/NavBar/NavBar';
 import BackgroundStrings from './components/animations/BackgroundStrings';
 
@@ -23,8 +22,7 @@ function App() {
         <Hero id="home" />
         <Portfolio id="portfolio" />
         <AboutMe id="about" />
-        <Contact id="contact" />
-        <Footer isLastSection={true} />
+        <Contact id="contact" className="bg-transparent" isLastSection={true} />
       </main>  
       
     </div>

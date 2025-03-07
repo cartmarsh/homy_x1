@@ -21,6 +21,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
     const [lightningClass, setLightningClass] = useState('');
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [glitchIntensity, setGlitchIntensity] = useState(0);
+    const resizeTimeoutRef = useRef<NodeJS.Timeout>();
 
     // Update dimensions on resize and visibility change
     useEffect(() => {
@@ -28,30 +29,27 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
             if (divRef.current) {
                 const newWidth = divRef.current.offsetWidth;
                 const newHeight = divRef.current.offsetHeight;
-                
-                // Only update if dimensions actually changed
-                if (newWidth !== dimensions.width || newHeight !== dimensions.height) {
-                    setDimensions({
-                        width: newWidth,
-                        height: newHeight,
-                    });
-                    
-                    // Cleanup and recreate canvas if dimensions changed
-                    if (p5InstanceRef.current) {
-                        p5InstanceRef.current.remove();
-                        p5InstanceRef.current = null;
-                    }
-                }
+                setDimensions({
+                    width: newWidth,
+                    height: newHeight,
+                });
             }
+        };
+
+        const handleResize = () => {
+            // Clear the previous timeout
+            if (resizeTimeoutRef.current) {
+                clearTimeout(resizeTimeoutRef.current);
+            }
+            
+            // Set a new timeout to update dimensions after resize ends
+            resizeTimeoutRef.current = setTimeout(() => {
+                updateDimensions();
+            }, 100);
         };
 
         const handleVisibilityChange = () => {
             if (document.visibilityState === 'visible') {
-                // Reset canvas when tab becomes visible
-                if (p5InstanceRef.current) {
-                    p5InstanceRef.current.remove();
-                    p5InstanceRef.current = null;
-                }
                 updateDimensions();
             }
         };
@@ -60,18 +58,21 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
         updateDimensions();
 
         // Add event listeners
-        window.addEventListener('resize', updateDimensions);
+        window.addEventListener('resize', handleResize);
         document.addEventListener('visibilitychange', handleVisibilityChange);
         
         // Cleanup
         return () => {
-            window.removeEventListener('resize', updateDimensions);
+            if (resizeTimeoutRef.current) {
+                clearTimeout(resizeTimeoutRef.current);
+            }
+            window.removeEventListener('resize', handleResize);
             document.removeEventListener('visibilitychange', handleVisibilityChange);
             if (p5InstanceRef.current) {
                 p5InstanceRef.current.remove();
             }
         };
-    }, [dimensions.width, dimensions.height]);
+    }, []); // Remove dimensions dependency
 
     // Throttled glitch effect
     useEffect(() => {
@@ -126,14 +127,28 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
     // p5.js sketch setup
     const setup = (p5: any, canvasParentRef: Element) => {
         p5InstanceRef.current = p5;
-        const canvas = p5.createCanvas(dimensions.width || 300, dimensions.height || 200);
+        const canvas = p5.createCanvas(dimensions.width || window.innerWidth, dimensions.height || window.innerHeight);
         canvas.parent(canvasParentRef);
-        p5.pixelDensity(1);
+        p5.pixelDensity(window.devicePixelRatio);
+        canvas.style('display', 'block');
+        canvas.style('position', 'absolute');
+        canvas.style('top', '0');
+        canvas.style('left', '0');
     };
 
     // p5.js draw function
     const draw = (p5: any) => {
         p5.clear();
+        
+        // Check if canvas needs resizing and parent dimensions have changed
+        if (divRef.current && (p5.width !== dimensions.width || p5.height !== dimensions.height)) {
+            const newWidth = dimensions.width || divRef.current.offsetWidth;
+            const newHeight = dimensions.height || divRef.current.offsetHeight;
+            
+            if (newWidth > 0 && newHeight > 0) {
+                p5.resizeCanvas(newWidth, newHeight, true);
+            }
+        }
         
         // Retro grid background
         drawRetroGrid(p5);
@@ -300,12 +315,18 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                 ref={divRef}
                 className="w-full h-full flex items-center justify-center relative overflow-hidden"
                 onMouseMove={handleMouseMove}
+                style={{ position: 'relative', minHeight: '100%' }}
             >
                 {/* P5 Canvas - Ensure pointer-events-none is applied */}
                 <div 
                     ref={canvasRef} 
                     className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
-                    style={{ pointerEvents: 'none' }}
+                    style={{ 
+                        pointerEvents: 'none',
+                        position: 'absolute',
+                        width: '100%',
+                        height: '100%'
+                    }}
                 >
                     {dimensions.width > 0 && (
                         <Suspense fallback={<div>Loading...</div>}>
