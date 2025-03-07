@@ -3,7 +3,7 @@ import type p5 from 'p5';
 export function setupCanvas(p5: p5, canvas: p5.Renderer, canvasParentRef: Element) {
     // Set pixel density to device pixel ratio for consistent rendering
     p5.pixelDensity(window.devicePixelRatio);
-    
+    canvas.parent(canvasParentRef);
     // Apply hardware acceleration and improve canvas rendering
     const canvasElt = canvas.elt;
     canvasElt.style.transform = 'translateZ(0)';
