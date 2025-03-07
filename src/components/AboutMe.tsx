@@ -27,7 +27,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, id }) => {
     };
 
     const draw = (p5: p5Types) => {
-        p5.clear();
+        p5.clear(0, 0, 0, 0);
         time += 0.02;
 
         // Draw animated border

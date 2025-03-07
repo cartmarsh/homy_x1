@@ -114,7 +114,7 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
                     {/* Social Icons */}
                     <div className="flex justify-center space-x-8 mb-8">
                         <a 
-                            href="https://linkedin.com" 
+                            href="https://www.linkedin.com/in/dominik-hauger-148315205/" 
                             target="_blank" 
                             rel="noopener noreferrer" 
                             className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
@@ -122,7 +122,7 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
                             <FontAwesomeIcon icon={faLinkedin} size="3x" />
                         </a>
                         <a 
-                            href="https://github.com" 
+                            href="https://github.com/cartmarsh" 
                             target="_blank" 
                             rel="noopener noreferrer" 
                             className="text-gray-800 hover:text-gray-600 transition-colors duration-300"
@@ -130,7 +130,7 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
                             <FontAwesomeIcon icon={faGithub} size="3x" />
                         </a>
                         <a 
-                            href="mailto:dominik@example.com" 
+                            href="mailto:domi.hauger@gmail.com" 
                             className="text-gray-800 hover:text-red-600 transition-colors duration-300"
                         >
                             <FontAwesomeIcon icon={faEnvelope} size="3x" />

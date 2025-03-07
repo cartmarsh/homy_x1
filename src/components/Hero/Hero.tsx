@@ -268,7 +268,8 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
             
             // If we're close to a section but not exactly on it, snap to it
             if (targetSection && minDistance < viewportHeight / 3) {
-                const targetPosition = targetSection.getBoundingClientRect().top + window.scrollY - navbarHeight;
+                const element = targetSection as HTMLElement;
+                const targetPosition = element.getBoundingClientRect().top + window.scrollY - navbarHeight;
                 
                 // Only snap if we're not already in a smooth scroll operation
                 if (!document.body.classList.contains('scrolling')) {

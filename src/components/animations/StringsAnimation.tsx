@@ -18,7 +18,6 @@ interface String {
 const StringsAnimation: React.FC<StringsAnimationProps> = ({ className }) => {
   const strings: String[] = [];
   const numStrings = 50;
-  const noiseScale = 0.002;
   const noiseSpeed = 0.003;
   
   const setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -51,7 +50,7 @@ const StringsAnimation: React.FC<StringsAnimationProps> = ({ className }) => {
   };
 
   const draw = (p5: p5Types) => {
-    p5.clear();
+    p5.clear(0, 0, 0, 0);
     p5.stroke(255, 255, 255, 30); // White with low opacity
     p5.strokeWeight(1);
     

@@ -69,7 +69,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title }) => {
       };
 
       p.draw = () => {
-        p.clear();
+        p.clear(0, 0, 0, 0);
         
         // Draw grid
         p.stroke(255, 255, 255, 30);

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import ContentSection from './layout/ContentSection';
 import PortfolioItem from './portfolio/PortfolioItem';
 import RetroHeader from './portfolio/RetroHeader';
@@ -9,9 +8,7 @@ interface PortfolioProps {
     id?: string;
 }
 
-const Portfolio: React.FC<PortfolioProps> = ({ className, id }) => {
-    const [isHeaderClicked, setIsHeaderClicked] = useState(false);
-    
+export const Portfolio = ({ className, id }: PortfolioProps) => {
     // Portfolio project data
     const projects = [
         {
@@ -23,22 +20,15 @@ const Portfolio: React.FC<PortfolioProps> = ({ className, id }) => {
         }
     ];
 
-    // Trigger a fun animation when header is clicked
-    const handleHeaderClick = () => {
-        setIsHeaderClicked(true);
-        setTimeout(() => setIsHeaderClicked(false), 1000);
-    };
-
     return (
         <ContentSection 
             id={id} 
             bgColor='bg-lemon' 
             className={`${className} overflow-hidden`}
-            noScroll={true}
         >
             <div className="w-full h-full flex flex-col items-center justify-center px-4 sm:px-8 md:px-12">
                 {/* Center header with consistent padding */}
-                <div onClick={handleHeaderClick} className="w-full flex justify-center mb-4">
+                <div className="w-full flex justify-center mb-4">
                     <RetroHeader title="PORTFOLIO" />
                 </div>
                 

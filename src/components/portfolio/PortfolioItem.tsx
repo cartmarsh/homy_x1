@@ -89,7 +89,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
       };
 
       p.draw = () => {
-        p.clear();
+        p.clear(0, 0, 0, 0);
         
         // Draw border glow
         p.stroke(255, 240, 100, 50);

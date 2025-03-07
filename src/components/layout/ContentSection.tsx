@@ -6,7 +6,6 @@ interface ContentSectionProps {
     id?: string;
     isHero?: boolean;
     bgColor?: 'bg-cream' | 'bg-peach' | 'bg-gray-100' | 'bg-mint' | 'bg-sky' | 'bg-lemon' | 'bg-coral' | 'bg-lilac';
-    noScroll?: boolean;
     isLastSection?: boolean;
 }
 
@@ -16,7 +15,6 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     id,
     isHero = false,
     bgColor = 'bg-cream',
-    noScroll = false,
     isLastSection = false
 }) => {
     const [navbarHeight, setNavbarHeight] = useState(0);

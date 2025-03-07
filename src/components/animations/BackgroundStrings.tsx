@@ -1,4 +1,3 @@
-import React from 'react';
 import p5Types from 'p5';
 import dynamic from 'next/dynamic';
 
