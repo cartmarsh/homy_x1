@@ -13,11 +13,10 @@ const Sketch = dynamic(() => import('react-p5').then((mod) => mod.default), {
 
 interface AboutMeProps {
     className?: string;
-    children?: React.ReactNode;
     id?: string;
 }
 
-const AboutMe: React.FC<AboutMeProps> = ({ className, children, id }) => {
+const AboutMe: React.FC<AboutMeProps> = ({ className, id }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     let time = 0;
 
@@ -111,7 +110,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, children, id }) => {
                         <div className="space-y-6 text-gray-600">
                             <p className={`text-lg sm:text-xl ${styles['retro-text']}`}>
                                 I have a <span>knack</span> for creating and improving processes, {' '}
-                                <span>simplifying the complex</span>, solving problems and {' '}
+                                <span>simplifying the complex</span>, solving <span>problems</span> and {' '}
                                 crafting <span>seamless</span> and {' '}
                                 <span>enjoyable</span> web experiences.
                             </p>
@@ -140,7 +139,6 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, children, id }) => {
                         </div>
                     </div>
                 </motion.div>
-                {children}
             </div>
         </ContentSection>
     );
