@@ -350,7 +350,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                 </div>
                 
                 {/* Ensure content has higher z-index */}
-                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 z-20 relative px-4">
+                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 z-20 relative px-4 hero-stacking-fix">
                     {/* Text content */}
                     <div className="w-full md:w-1/2 lg:w-2/5 space-y-6 md:space-y-8 text-center md:text-left">
                         <div className="space-y-4 md:space-y-5">
@@ -385,7 +385,9 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                 className="glass-box relative mx-auto md:mx-0 inline-block px-4 py-1 backdrop-blur-sm bg-white/10 shadow-sm border border-white/20"
                                 style={{ 
                                     transform: `perspective(1000px) rotateX(${offsetY * 0.05}deg) rotateY(${offsetX * -0.05}deg) translate3d(${offsetX * 0.4}px, ${offsetY * 0.4}px, 0px)`,
-                                    transformStyle: 'preserve-3d'
+                                    transformStyle: 'preserve-3d',
+                                    display: 'block', /* Force block display */
+                                    width: 'fit-content' /* Ensure width fits content */
                                 }}
                             >
                                 <p className="text-lg xs:text-xl sm:text-2xl text-gray-500 retro-text-small">
@@ -395,8 +397,8 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                         </div>
                     </div>
 
-                    {/* Profile image - with fixed positioning and sizing */}
-                    <div className="w-full flex justify-center md:w-auto md:absolute md:right-[10%] md:top-1/2 md:-translate-y-1/2 relative">
+                    {/* Profile image - with fixed, consistent positioning */}
+                    <div className="w-full md:w-auto md:absolute md:right-[12%] md:bottom-[20%] relative order-1 md:order-none profile-positioning">
                         <div className="relative retro-image-container mt-12 md:mt-0">
                             <img
                                 src={profilePic}
@@ -412,7 +414,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
 
                     {/* Right Side - Button */}
                     <div 
-                        className="w-full md:w-auto flex justify-center md:justify-end items-center pt-16 md:pt-0 md:absolute md:right-6 md:top-8 z-20"
+                        className="w-full md:w-auto flex justify-center md:justify-end items-center pt-16 md:pt-0 md:absolute md:right-[12%] md:top-[35%] z-20 button-positioning"
                     >
                         <div 
                             className="relative inline-block px-2 py-2 rounded-lg backdrop-blur-sm bg-transparent"

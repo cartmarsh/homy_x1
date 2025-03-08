@@ -103,7 +103,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                     rounded-lg
                     transition-transform duration-300 ease-out
                     max-w-[1800px]
-                    max-h-[85vh]
+                    max-h-[90vh]
                     relative
                     my-8
                 `}
@@ -120,7 +120,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                     retro-scroll
                     rounded-lg
                     ${isHero 
-                      ? 'p-2 xs:p-3 sm:p-5 md:p-8 lg:p-12 xl:p-16 2xl:p-24' 
+                      ? 'p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16' 
                       : 'p-2 xs:p-3 sm:p-4 md:p-6 lg:p-10 xl:p-14 2xl:p-20'}
                     max-w-[1600px]
                     overflow-x-hidden

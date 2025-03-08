@@ -29,9 +29,11 @@ body {
   width: 100%;
 }
 
+/* Ensure consistent rendering of elements */
 img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
+  height: auto; /* Ensure aspect ratio is maintained */
 }
 
 input, button, textarea, select {
@@ -40,6 +42,44 @@ input, button, textarea, select {
 
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
+}
+
+/* Ensure elements stack properly in all environments */
+@media screen and (max-width: 767px) {
+  .hero-stacking-fix > div {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .retro-image-container {
+    transform: rotate(-2deg) scale(0.95);
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Force specific layout for md screens (critical for consistent layout) */
+@media screen and (min-width: 768px) {
+  .glass-box {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    clear: both !important;
+  }
+  
+  /* Ensure the profile image is positioned correctly */
+  .profile-positioning {
+    position: absolute !important;
+    right: 12% !important;
+    bottom: 5% !important;
+  }
+  
+  /* Ensure the button is positioned correctly */
+  .button-positioning {
+    position: absolute !important;
+    right: 12% !important;
+    top: 15% !important;
+  }
 }
 
 :root {
@@ -111,13 +151,6 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 0.25rem auto -webkit-focus-ring-color;
-}
-
-/* Define consistent breakpoints */
-@media (max-width: 768px) {
-  .retro-image-container {
-    transform: rotate(-2deg) scale(0.95);
-  }
 }
 
 @media (prefers-color-scheme: light) {
