@@ -106,8 +106,8 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                     retro-scroll
                     rounded-lg
                     ${isHero 
-                      ? 'p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12' 
-                      : 'p-3 xs:p-4 sm:p-6 md:p-8 lg:p-10'}
+                      ? 'p-2 xs:p-3 sm:p-5 md:p-8 lg:p-12 xl:p-16 2xl:p-24' 
+                      : 'p-2 xs:p-3 sm:p-4 md:p-6 lg:p-10 xl:p-14 2xl:p-20'}
                     max-w-[1600px]
                     overflow-x-hidden
                     overflow-y-auto

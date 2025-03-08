@@ -348,7 +348,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                     transformStyle: 'preserve-3d'
                                 }}
                             >
-                                <h1 className={`text-3xl xs:text-4xl sm:text-5xl lg:text-6xl text-gray-800 tracking-tight relative retro-text ${glitchIntensity > 0 ? 'glitch' : ''}`}>
+                                <h1 className={`text-2xl xs:text-3xl sm:text-4xl lg:text-5xl text-gray-800 tracking-tight relative retro-text ${glitchIntensity > 0 ? 'glitch' : ''}`}>
                                     Dominik Hauger
                                 </h1>
                             </div>
@@ -361,7 +361,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                     transformStyle: 'preserve-3d'
                                 }}
                             >
-                                <h2 className={`text-xl xs:text-2xl sm:text-3xl text-gray-700 tracking-wide retro-subtitle ${glitchIntensity > 0 ? 'glitch-subtle' : ''}`}>
+                                <h2 className={`text-xl xs:text-2xl sm:text-3xl md:text-4xl text-gray-700 tracking-wide retro-subtitle ${glitchIntensity > 0 ? 'glitch-subtle' : ''}`}>
                                     Web Developer & Designer
                                 </h2>
                             </div>
@@ -374,7 +374,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                     transformStyle: 'preserve-3d'
                                 }}
                             >
-                                <p className="text-base xs:text-lg sm:text-xl text-gray-500 retro-text-small">
+                                <p className="text-lg xs:text-xl sm:text-2xl text-gray-500 retro-text-small">
                                     Crafting Interactive Experiences
                                 </p>
                             </div>
