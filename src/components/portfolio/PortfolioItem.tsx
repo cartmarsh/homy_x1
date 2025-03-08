@@ -189,7 +189,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
   return (
     <div 
       ref={containerRef}
-      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl w-[280px] sm:w-[320px] md:w-[350px]"
+      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl w-[17.5rem] sm:w-[20rem] md:w-[21.875rem]"
     >
       <div 
         ref={p5ContainerRef} 
@@ -208,7 +208,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
                 {tags.map((tag, index) => (
                   <span 
                     key={index} 
-                    className="text-[10px] bg-blue-500/80 text-white px-1.5 rounded-full"
+                    className="text-[0.625rem] bg-blue-500/80 text-white px-1.5 rounded-full"
                   >
                     {tag}
                   </span>

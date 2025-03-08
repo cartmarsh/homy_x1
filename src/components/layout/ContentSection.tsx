@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface ContentSectionProps {
     className?: string;
@@ -9,6 +9,9 @@ interface ContentSectionProps {
     isLastSection?: boolean;
 }
 
+// Maximum distance the card can shift on mouse movement in px
+const MAX_SHIFT = 8;
+
 const ContentSection: React.FC<ContentSectionProps> = ({ 
     className = '', 
     children,
@@ -17,37 +20,43 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     bgColor = 'bg-cream',
     isLastSection = false
 }) => {
+    const [shiftX, setShiftX] = useState(0);
+    const [shiftY, setShiftY] = useState(0);
     const [navbarHeight, setNavbarHeight] = useState(0);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const sectionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const updateDimensions = () => {
+        // Calculate navbar height on mount and window resize
+        const calculateNavbarHeight = () => {
             const navbar = document.querySelector('nav');
             if (navbar) {
-                setNavbarHeight(navbar.offsetHeight);
+                setNavbarHeight(navbar.getBoundingClientRect().height);
             }
         };
 
-        updateDimensions();
-        window.addEventListener('resize', updateDimensions);
-        window.addEventListener('scroll', updateDimensions);
+        calculateNavbarHeight();
+        window.addEventListener('resize', calculateNavbarHeight);
 
         return () => {
-            window.removeEventListener('resize', updateDimensions);
-            window.removeEventListener('scroll', updateDimensions);
+            window.removeEventListener('resize', calculateNavbarHeight);
         };
     }, []);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
-        setMousePosition({ x, y });
+        if (!sectionRef.current) return;
+        
+        const rect = sectionRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // Calculate distance from center
+        const distanceX = (e.clientX - centerX) / (rect.width / 2);
+        const distanceY = (e.clientY - centerY) / (rect.height / 2);
+        
+        // Apply shift with a maximum limit
+        setShiftX(distanceX * MAX_SHIFT);
+        setShiftY(distanceY * MAX_SHIFT);
     };
-
-    // Calculate subtle shift based on mouse position
-    const shiftX = (mousePosition.x - 0.5) * 5; // Max 2.5px shift
-    const shiftY = (mousePosition.y - 0.5) * 5; // Max 2.5px shift
 
     const handleScrollClick = () => {
         const nextSection = document.getElementById(id || '')?.nextElementSibling;
@@ -66,8 +75,8 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                 ${className}
             `}
             style={{ 
-                minHeight: `calc(100vh - ${navbarHeight}px)`,
-                marginTop: `${navbarHeight}px`,
+                minHeight: `calc(100vh - ${navbarHeight / 16}rem)`, /* Convert to rem by dividing by 16 */
+                marginTop: `${navbarHeight / 16}rem`, /* Convert to rem by dividing by 16 */
             }}
         >
             <div 

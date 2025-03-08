@@ -36,8 +36,8 @@ body::before {
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  height: 6rem;
+  padding: 1.5rem;
   will-change: filter;
   transition: filter 300ms;
 }
@@ -64,7 +64,7 @@ body::before {
 }
 
 .card {
-  padding: 2em;
+  padding: 2rem;
 }
 
 .read-the-docs {
@@ -103,40 +103,42 @@ section {
 
 /* Retro Card Styling */
 .retro-card {
-    background-color: var(--bg-color, #ffffff);
-    border: 3px solid #916445;
-    box-shadow: 
-        6px 6px 0 rgba(76, 72, 88, 0.9),
-        8px 8px 0 rgba(135, 125, 167, 0.2),
-        10px 10px 0 rgba(124, 117, 145, 0.1),
-        inset 2px 2px 0 rgba(255, 255, 255, 0.5),
-        inset -2px -2px 0 rgba(104, 86, 161, 0.2);
-    position: relative;
-    padding: 1.5rem 3rem; /* Increased horizontal padding */
-    font-size: 0.95rem; /* Slightly smaller font size */
+  background-color: white;
+  box-shadow: 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.2); /* Changed from 4px 4px */
+  border: 0.125rem solid #000; /* Changed from 2px */
+  border-radius: 0.5rem; /* Changed from 8px */
+  padding: 1.25rem; /* Changed from 20px */
+  max-width: 90%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform-style: preserve-3d;
 }
 
 .retro-card h1, .retro-card h2, .retro-card h3 {
-    font-size: 1.6rem; /* Smaller heading sizes */
+  margin-bottom: 0.75rem; /* Changed from 12px */
 }
 
 .retro-card h4, .retro-card h5, .retro-card h6 {
-    font-size: 1.2rem; /* Smaller sub-heading sizes */
+  margin-bottom: 0.5rem; /* Changed from 8px */
 }
 
 .retro-card p, .retro-card li, .retro-card span {
-    font-size: 0.95rem; /* Smaller text */
+  margin-bottom: 0.75rem; /* Changed from 12px */
 }
 
 .retro-card::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    border: 2px solid #60577c;
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.05) 100%);
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 0.375rem; /* Changed from 6px */
 }
 
 /* Section-specific background colors with soft pastel tints */
@@ -194,122 +196,79 @@ section {
 
 /* Retro Scrollbar Styling */
 .retro-scroll {
-  scrollbar-width: none;
-  scrollbar-color: #E5D2BA #2d1b69;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
 }
 
 .retro-scroll::-webkit-scrollbar {
-  width: 15px; /* 5x wider than the previous 24px */
-  border-radius: 25%;
+  width: 0.75rem; /* Changed from 12px */
+  height: 0.75rem; /* Changed from 12px */
 }
 
 .retro-scroll::-webkit-scrollbar-track {
-  background: #2d1b69; /* Dark background matching the site theme */
-  border: 2px solid #916445;
-  border-radius: 25%;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  background: repeating-linear-gradient(
+    45deg,
+    #f1f1f1,
+    #f1f1f1 0.3125rem, /* Changed from 5px */
+    #e0e0e0 0.3125rem, /* Changed from 5px */
+    #e0e0e0 0.625rem /* Changed from 10px */
+  );
+  border-radius: 0.625rem; /* Changed from 10px */
 }
 
 .retro-scroll::-webkit-scrollbar-thumb {
-  background-color: #E5D2BA;
-  border: 2px solid #916445;
-  border-radius: 0;
-  box-shadow: 
-    inset -2px -2px 0 rgba(0, 0, 0, 0.15),
-    inset 2px 2px 0 rgba(255, 255, 255, 0.5);
+  background: #888;
+  border-radius: 0.625rem; /* Changed from 10px */
   position: relative;
-  overflow: hidden;
-  animation: scrollbar-pulse 3s ease-in-out infinite;
+  border: 0.125rem solid transparent; /* Changed from 2px */
+  background-clip: content-box;
+  box-shadow: inset 0 0 0.375rem rgba(0,0,0,0.2); /* Changed from 6px */
+  animation: scrollbar-pulse 2s infinite alternate;
 }
 
 .retro-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: #f0e2d3;
+  background-color: #555;
 }
 
 .retro-scroll::-webkit-scrollbar-thumb::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: scrollbar-shine 2.5s ease-in-out infinite;
-}
-
-/* Add decorative elements to the scrollbar */
-.retro-scroll::-webkit-scrollbar-button {
-  background-color: #2d1b69;
-  border: 2px solid #916445;
-  height: 20px;
-  background-image: linear-gradient(45deg, #916445 25%, transparent 25%, transparent 75%, #916445 75%, #916445),
-                    linear-gradient(45deg, #916445 25%, transparent 25%, transparent 75%, #916445 75%, #916445);
-  background-size: 10px 10px;
-  background-position: 0 0, 5px 5px;
-}
-
-@keyframes scrollbar-pulse {
-  0% {
-    box-shadow: 
-      inset -2px -2px 0 rgba(0, 0, 0, 0.15),
-      inset 2px 2px 0 rgba(255, 255, 255, 0.5);
-  }
-  50% {
-    box-shadow: 
-      inset -2px -2px 0 rgba(0, 0, 0, 0.15),
-      inset 2px 2px 0 rgba(255, 255, 255, 0.5),
-      0 0 8px rgba(229, 210, 186, 0.6);
-  }
-  100% {
-    box-shadow: 
-      inset -2px -2px 0 rgba(0, 0, 0, 0.15),
-      inset 2px 2px 0 rgba(255, 255, 255, 0.5);
-  }
-}
-
-@keyframes scrollbar-shine {
-  0% {
-    left: -100%;
-  }
-  50%, 100% {
-    left: 100%;
-  }
+  top: 0.25rem; /* Changed from 4px */
+  left: 0.25rem; /* Changed from 4px */
+  right: 0.25rem; /* Changed from 4px */
+  bottom: 0.25rem; /* Changed from 4px */
+  background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 60%);
+  border-radius: 0.375rem; /* Changed from 6px */
+  z-index: 1;
+  animation: scrollbar-shine 2s infinite alternate;
 }
 
 /* Retro Button Styling */
 .retro-button {
-    background-color: #2ecc71;
-    color: #ffffff;
-    border: 3px solid #27ae60;
-    padding: 0.8em 1.6em;
-    font-family: 'Press Start 2P', system-ui, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 
-        3px 3px 0 #27ae60,
-        6px 6px 0 rgba(39, 174, 96, 0.2),
-        inset 2px 2px 0 rgba(255, 255, 255, 0.3),
-        inset -2px -2px 0 rgba(0, 0, 0, 0.2);
+  padding: 0.75rem 1.25rem; /* Changed from 12px 20px */
+  background-color: #f1f1f1;
+  border: 0.1875rem solid #000; /* Changed from 3px */
+  border-radius: 0.5rem; /* Changed from 8px */
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.875rem; /* Changed from 14px */
+  color: #000;
+  box-shadow: 0 0.25rem 0 #000; /* Changed from 4px */
+  transform: translateY(-0.25rem); /* Changed from 4px */
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .retro-button:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 
-        5px 5px 0 #27ae60,
-        8px 8px 0 rgba(39, 174, 96, 0.2),
-        12px 12px 20px rgba(46, 204, 113, 0.4),
-        inset 2px 2px 0 rgba(255, 255, 255, 0.3),
-        inset -2px -2px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(-0.125rem); /* Changed from 2px */
+  box-shadow: 0 0.125rem 0 #000; /* Changed from 2px */
 }
 
 .retro-button:active {
-    transform: translate(2px, 2px);
-    box-shadow: 
-        1px 1px 0 #27ae60,
-        inset 2px 2px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+  box-shadow: 0 0 0 #000;
+  box-shadow: inset 0 0.25rem 0.5rem rgba(0,0,0,0.2); /* Changed from 4px 8px */
 }
 
 /* Lightning effect */
@@ -354,88 +313,72 @@ section {
 
 /* Navbar styling - fixed position to ensure it stays at the top */
 nav {
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  z-index: 50; /* Ensure navbar is above other elements */
-  position: fixed; /* Change to fixed position */
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  pointer-events: auto !important; /* Force pointer events */
+  width: 100%;
+  padding: 1rem; /* Changed from 16px */
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  backdrop-filter: blur(0.25rem); /* Changed from 4px */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Ensure canvas and background elements don't block pointer events */
 canvas, .pointer-events-none {
-  pointer-events: none !important;
+  pointer-events: none;
 }
 
 /* Scroll down arrow container */
 .scroll-down-container {
   position: absolute;
-  bottom: 2rem;
+  bottom: 2rem; /* Changed from 32px */
   left: 50%;
   transform: translateX(-50%);
-  width: 40px;
-  height: 40px;
-  z-index: 20;
-  animation: float 2s ease-in-out infinite;
-  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 }
 
 /* Scroll down arrow styling */
 .scroll-down-arrow {
-  position: absolute;
-  inset: 0;
-  cursor: pointer !important;
-  opacity: 0.7;
-  pointer-events: auto !important;
-  transition: opacity 0.3s ease;
+  display: inline-block;
+  width: 3rem; /* Changed from 48px */
+  height: 3rem; /* Changed from 48px */
+  position: relative;
+  transition: transform 0.3s;
 }
 
 .scroll-down-arrow:hover {
-  opacity: 1;
+  transform: translateY(0.3125rem); /* Changed from 5px */
 }
 
 .scroll-down-arrow::before,
 .scroll-down-arrow::after {
   content: '';
   position: absolute;
-  top: 60%;
-  left: 50%;
-  width: 20px;
-  height: 3px;
-  background: #916445;
-  border-radius: 2px;
-  box-shadow: 
-    0 0 5px rgba(145, 100, 69, 0.3),
-    inset 0 0 3px rgba(255, 255, 255, 0.5);
-  transition: all 0.3s ease;
+  top: 50%;
+  width: 1.5rem; /* Changed from 24px */
+  height: 0.25rem; /* Changed from 4px */
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 0.125rem; /* Changed from 2px */
+  transition: background-color 0.3s;
 }
 
 .scroll-down-arrow::before {
-  transform: translate(-50%, -50%) rotate(45deg) translateX(-12px);
+  left: 0.5rem; /* Changed from 8px */
+  transform: rotate(45deg);
 }
 
 .scroll-down-arrow::after {
-  transform: translate(-50%, -50%) rotate(-45deg) translateX(12px);
+  right: 0.5rem; /* Changed from 8px */
+  transform: rotate(-45deg);
 }
 
-/* Hover effects */
 .scroll-down-arrow:hover::after,
 .scroll-down-arrow:hover::before {
-  background: #916445;
-  box-shadow: 
-    0 0 8px rgba(145, 100, 69, 0.5),
-    inset 0 0 5px rgba(255, 255, 255, 0.7);
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  50% {
-    transform: translateX(-50%) translateY(-10px);
-  }
+  background-color: rgba(255, 255, 255, 1);
 }

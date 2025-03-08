@@ -71,11 +71,11 @@ nav {
     .nav-item:not(:last-child)::after {
         content: '';
         position: absolute;
-        right: -5px;
+        right: -0.3125rem; /* Changed from -5px */
         top: 50%;
         transform: translateY(-50%);
         height: 40%;
-        width: 1px;
+        width: 0.0625rem; /* Changed from 1px */
         background: linear-gradient(
             to bottom,
             transparent,
@@ -109,10 +109,10 @@ nav {
 .retro-nav-link::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: -0.125rem; /* Changed from -2px */
     left: 0;
     width: 100%;
-    height: 1px;
+    height: 0.0625rem; /* Changed from 1px */
     background: white;
     transform: scaleX(0);
     transform-origin: right;
@@ -141,7 +141,7 @@ nav {
 @media (max-width: 768px) {
     .retro-nav-card {
         width: 90vw;
-        max-width: 400px;
+        max-width: 25rem; /* Changed from 400px */
     }
 
     .retro-nav-link {
@@ -152,7 +152,7 @@ nav {
     .nav-item {
         width: 100%;
         text-align: center;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.1); /* Changed from 1px */
     }
 
     .nav-item:last-child {

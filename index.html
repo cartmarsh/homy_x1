@@ -5,6 +5,22 @@
     <link rel="icon" type="image/svg+xml" href="/D.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <meta name="theme-color" content="#FFD700" />
+    <!-- Ensure consistent font sizing across devices -->
+    <style>
+      html {
+        font-size: 16px !important;
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      @media screen and (max-width: 480px) {
+        html {
+          /* Slightly smaller base font size on mobile */
+          font-size: 14px !important;
+        }
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">

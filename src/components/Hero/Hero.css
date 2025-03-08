@@ -85,8 +85,8 @@
 
 .retro-button:active, 
 .retro-button.clicked {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0px #333;
+    transform: translate(0.125rem, 0.125rem);
+    box-shadow: 0.0625rem 0.0625rem 0 #333;
 }
 
 .retro-button * {
@@ -95,7 +95,7 @@
 
 .retro-button-glow {
     background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
-    filter: blur(5px);
+    filter: blur(0.3125rem);
 }
 
 /* Pulse animation */
@@ -155,18 +155,18 @@
 /* Add a subtle border glow */
 .glass-box {
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(255, 255, 255, 0.2),
-    inset 0 0 32px rgba(255, 255, 255, 0.1);
+    0 0.5rem 2rem rgba(0, 0, 0, 0.1),
+    0 0 0 0.0625rem rgba(255, 255, 255, 0.2),
+    inset 0 0 2rem rgba(255, 255, 255, 0.1);
 }
 
 /* Add Polaroid-style retro image wrapper */
 .retro-image-border {
     background: #fff;
-    border: 3px solid #333;
-    box-shadow: 5px 5px 0px #333;
-    padding: 10px;
-    padding-bottom: 30px;
+    border: 0.1875rem solid #333;
+    box-shadow: 0.3125rem 0.3125rem 0 #333;
+    padding: 0.625rem;
+    padding-bottom: 1.875rem;
     display: inline-block;
     transform: rotate(-2deg);
 }
