@@ -23,7 +23,13 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     const [shiftX, setShiftX] = useState(0);
     const [shiftY, setShiftY] = useState(0);
     const [navbarHeight, setNavbarHeight] = useState(0);
+    const [isClient, setIsClient] = useState(false);
     const sectionRef = useRef<HTMLDivElement>(null);
+
+    // Set isClient to true when component mounts on client
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     useEffect(() => {
         // Calculate navbar height on mount and window resize
@@ -34,13 +40,20 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             }
         };
 
-        calculateNavbarHeight();
-        window.addEventListener('resize', calculateNavbarHeight);
-
-        return () => {
-            window.removeEventListener('resize', calculateNavbarHeight);
-        };
-    }, []);
+        // Only run on client-side
+        if (isClient) {
+            // Use requestAnimationFrame to ensure DOM is fully rendered
+            requestAnimationFrame(() => {
+                calculateNavbarHeight();
+            });
+            
+            window.addEventListener('resize', calculateNavbarHeight);
+            
+            return () => {
+                window.removeEventListener('resize', calculateNavbarHeight);
+            };
+        }
+    }, [isClient]);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!sectionRef.current) return;
@@ -68,6 +81,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     return (
         <section 
             id={id}
+            ref={sectionRef}
             className={`
                 relative
                 w-full
@@ -75,8 +89,8 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                 ${className}
             `}
             style={{ 
-                minHeight: `calc(100vh - ${navbarHeight / 16}rem)`, /* Convert to rem by dividing by 16 */
-                marginTop: `${navbarHeight / 16}rem`, /* Convert to rem by dividing by 16 */
+                minHeight: isClient ? `calc(100vh - ${navbarHeight / 16}rem)` : '100vh', 
+                marginTop: isClient ? `${navbarHeight / 16}rem` : '0',
             }}
         >
             <div 
@@ -99,7 +113,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                 }}
             >
                 <div className={`
-                    w-[95%] sm:w-[92%] md:w-[90%]
+                    w-full
                     h-full
                     flex flex-col
                     mx-auto

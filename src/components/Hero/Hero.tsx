@@ -22,6 +22,12 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [glitchIntensity, setGlitchIntensity] = useState(0);
     const resizeTimeoutRef = useRef<NodeJS.Timeout>();
+    const [isClient, setIsClient] = useState(false);
+
+    // Set isClient to true when component mounts on client
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     // Update dimensions on resize and visibility change
     useEffect(() => {
@@ -54,8 +60,13 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
             }
         };
 
-        // Initial update
-        updateDimensions();
+        // Initial update - only run when in client environment
+        if (isClient) {
+            // Use requestAnimationFrame to ensure the DOM is fully rendered
+            requestAnimationFrame(() => {
+                updateDimensions();
+            });
+        }
 
         // Add event listeners
         window.addEventListener('resize', handleResize);
@@ -72,7 +83,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                 p5InstanceRef.current.remove();
             }
         };
-    }, []); // Remove dimensions dependency
+    }, [isClient]); // Run when isClient changes
 
     // Throttled glitch effect
     useEffect(() => {
@@ -127,7 +138,10 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
     // p5.js sketch setup
     const setup = (p5: any, canvasParentRef: Element) => {
         p5InstanceRef.current = p5;
-        const canvas = p5.createCanvas(dimensions.width || window.innerWidth, dimensions.height || window.innerHeight);
+        // Use a more reliable approach to set initial canvas dimensions
+        const width = dimensions.width || (divRef.current?.offsetWidth || window.innerWidth);
+        const height = dimensions.height || (divRef.current?.offsetHeight || window.innerHeight);
+        const canvas = p5.createCanvas(width, height);
         canvas.parent(canvasParentRef);
         p5.pixelDensity(window.devicePixelRatio);
         canvas.style('display', 'block');
@@ -328,7 +342,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                         height: '100%'
                     }}
                 >
-                    {dimensions.width > 0 && (
+                    {isClient && dimensions.width > 0 && (
                         <Suspense fallback={<div>Loading...</div>}>
                             <Sketch setup={setup} draw={draw} />
                         </Suspense>
@@ -381,8 +395,8 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                         </div>
                     </div>
 
-                    {/* Profile image - positioned at ~20% from left on desktop */}
-                    <div className="w-full flex justify-center md:justify-start md:absolute md:left-[110%] md:top-[90%] md:transform md:-translate-x-1/2 md:-translate-y-1/2 relative">
+                    {/* Profile image - with fixed positioning and sizing */}
+                    <div className="w-full flex justify-center md:w-auto md:absolute md:right-[10%] md:top-1/2 md:-translate-y-1/2 relative">
                         <div className="relative retro-image-container mt-12 md:mt-0">
                             <img
                                 src={profilePic}
