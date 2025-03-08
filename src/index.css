@@ -57,6 +57,11 @@ p, h1, h2, h3, h4, h5, h6 {
     margin-left: auto !important;
     margin-right: auto !important;
   }
+  
+  .text-box-width {
+    width: auto !important;
+    max-width: 95% !important;
+  }
 }
 
 /* Force specific layout for md screens (critical for consistent layout) */
@@ -69,20 +74,26 @@ p, h1, h2, h3, h4, h5, h6 {
     width: fit-content !important;
   }
   
-  /* Ensure the profile image is positioned correctly */
-  .profile-positioning {
-    position: absolute !important;
-    right: 12% !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    bottom: auto !important;
+  .text-box-width {
+    width: auto !important;
+    max-width: 90% !important;
   }
   
-  /* Ensure the button is positioned correctly */
-  .button-positioning {
-    position: absolute !important;
-    right: 12% !important;
-    top: 25% !important;
+  /* Remove absolute positioning for hero elements */
+  .profile-positioning {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    bottom: auto !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Make button part of the left column */
+  .button-container {
+    margin-top: 1rem !important;
   }
 }
 

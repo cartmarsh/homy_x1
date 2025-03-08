@@ -354,9 +354,9 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                     {/* Text content - make it take up more space */}
                     <div className="w-full md:w-2/3 lg:w-1/2 space-y-6 md:space-y-8 text-center md:text-left">
                         <div className="space-y-4 md:space-y-5">
-                            {/* Name with glass effect */}
+                            {/* Name with glass effect - reduced width */}
                             <div 
-                                className="glass-box relative mx-auto md:mx-0 inline-block px-6 py-3 backdrop-blur-sm bg-white/20 shadow-lg border border-white/30"
+                                className="glass-box relative mx-auto md:mx-0 inline-block px-4 py-3 backdrop-blur-sm bg-white/20 shadow-lg border border-white/30 text-box-width"
                                 style={{ 
                                     transform: `perspective(1000px) rotateX(${offsetY * 0.15}deg) rotateY(${offsetX * -0.15}deg) translate3d(${offsetX * 0.8}px, ${offsetY * 0.8}px, 0px)`,
                                     transformStyle: 'preserve-3d'
@@ -369,7 +369,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
 
                             {/* Title with glass effect */}
                             <div 
-                                className="glass-box relative mx-auto md:mx-0 inline-block px-5 py-1 backdrop-blur-sm bg-white/15 shadow-md border border-white/25"
+                                className="glass-box relative mx-auto md:mx-0 inline-block px-4 py-1 backdrop-blur-sm bg-white/15 shadow-md border border-white/25"
                                 style={{ 
                                     transform: `perspective(1000px) rotateX(${offsetY * 0.1}deg) rotateY(${offsetX * -0.1}deg) translate3d(${offsetX * 0.6}px, ${offsetY * 0.6}px, 0px)`,
                                     transformStyle: 'preserve-3d'
@@ -395,10 +395,54 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                 </p>
                             </div>
                         </div>
+                        
+                        {/* Move button to be part of the left content side */}
+                        <div className="w-full flex justify-center md:justify-start items-center pt-6 md:pt-2">
+                            <div 
+                                className="relative inline-block px-2 py-2 rounded-lg backdrop-blur-sm bg-transparent button-container"
+                                style={{ 
+                                    transform: `perspective(1000px) rotateX(${offsetY * -0.05}deg) rotateY(${offsetX * 0.05}deg) translate3d(${offsetX * -0.2}px, ${offsetY * -0.2}px, 0px)`,
+                                    transformStyle: 'preserve-3d'
+                                }}
+                            >
+                                <button
+                                    className={`
+                                        retro-button
+                                        ${isClicked ? 'clicked' : ''}
+                                        ${lightningClass}
+                                        whitespace-nowrap
+                                        text-base xs:text-lg
+                                        relative
+                                        group
+                                        transition-transform
+                                        hover:scale-105
+                                        active:scale-95
+                                        flex items-center gap-2
+                                        pointer-events-auto
+                                        px-6 py-3
+                                    `}
+                                    onClick={handleClick}
+                                    style={{ pointerEvents: 'auto' }}
+                                >
+                                    <span className="retro-button-glow absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity pointer-events-none"></span>
+                                    <svg 
+                                        xmlns="http://www.w3.org/2000/svg" 
+                                        className="h-5 w-5 xs:h-6 xs:w-6 transition-transform group-hover:rotate-12 pointer-events-none" 
+                                        fill="none" 
+                                        viewBox="0 0 24 24" 
+                                        stroke="currentColor"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    <span className="pointer-events-none">GET IN TOUCH</span>
+                                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-current group-hover:w-full transition-all duration-300 pointer-events-none"></span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Profile image - with fixed, consistent positioning */}
-                    <div className="w-full md:w-auto md:absolute md:right-[12%] md:top-[50%] md:transform md:-translate-y-1/2 relative order-1 md:order-none profile-positioning">
+                    {/* Profile image - positioned on the right side */}
+                    <div className="w-full md:w-1/3 lg:w-1/4 flex justify-center md:justify-end relative order-1 md:order-none profile-positioning">
                         <div className="relative retro-image-container mt-12 md:mt-0">
                             <img
                                 src={profilePic}
@@ -409,52 +453,6 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                 }}
                             />
                             <div className="absolute inset-0 crt-overlay rounded-lg pointer-events-none"></div>
-                        </div>
-                    </div>
-
-                    {/* Right Side - Button */}
-                    <div 
-                        className="w-full md:w-auto flex justify-center md:justify-end items-center pt-16 md:pt-0 md:absolute md:right-[12%] md:top-[25%] z-20 button-positioning"
-                    >
-                        <div 
-                            className="relative inline-block px-2 py-2 rounded-lg backdrop-blur-sm bg-transparent"
-                            style={{ 
-                                transform: `perspective(1000px) rotateX(${offsetY * -0.05}deg) rotateY(${offsetX * 0.05}deg) translate3d(${offsetX * -0.2}px, ${offsetY * -0.2}px, 0px)`,
-                                transformStyle: 'preserve-3d'
-                            }}
-                        >
-                            <button
-                                className={`
-                                    retro-button
-                                    ${isClicked ? 'clicked' : ''}
-                                    ${lightningClass}
-                                    whitespace-nowrap
-                                    text-base xs:text-lg
-                                    relative
-                                    group
-                                    transition-transform
-                                    hover:scale-105
-                                    active:scale-95
-                                    flex items-center gap-2
-                                    pointer-events-auto
-                                    px-6 py-3
-                                `}
-                                onClick={handleClick}
-                                style={{ pointerEvents: 'auto' }}
-                            >
-                                <span className="retro-button-glow absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity pointer-events-none"></span>
-                                <svg 
-                                    xmlns="http://www.w3.org/2000/svg" 
-                                    className="h-5 w-5 xs:h-6 xs:w-6 transition-transform group-hover:rotate-12 pointer-events-none" 
-                                    fill="none" 
-                                    viewBox="0 0 24 24" 
-                                    stroke="currentColor"
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                <span className="pointer-events-none">GET IN TOUCH</span>
-                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-current group-hover:w-full transition-all duration-300 pointer-events-none"></span>
-                            </button>
                         </div>
                     </div>
                 </div>

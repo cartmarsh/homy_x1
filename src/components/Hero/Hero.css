@@ -32,6 +32,8 @@
     transform: rotate(-3deg);
     transition: all 0.3s ease;
     z-index: 10;
+    width: fit-content;
+    margin-left: auto;
 }
 
 .retro-image-container::after {
@@ -48,19 +50,6 @@
 .retro-image-container:hover {
     transform: rotate(-1deg) scale(1.05);
     box-shadow: 9px 9px 0px #333;
-}
-
-.hero-image {
-    position: fixed;
-    top: 50%;
-    left: 20%;
-    transform: translateY(-50%);
-    width: 34%;
-    border: 3px solid #333;
-    box-shadow: 8px 8px 0px #333;
-    padding: 10px;
-    background-color: #f0e9cb;
-    transition: all 0.2s ease;
 }
 
 .retro-button {
@@ -121,6 +110,7 @@
   display: block !important;
   width: fit-content !important;
   margin-bottom: 0.75rem !important;
+  max-width: 95%;
 }
 
 .glass-box::before {
@@ -186,6 +176,15 @@
 @media (min-width: 769px) {
     .glass-box {
         margin-left: 0 !important;
-        margin-right: 0 !important;
+        margin-right: auto !important;
+    }
+    
+    /* Make profile picture slightly tilt in the other direction on bigger screens */
+    .retro-image-container {
+        transform: rotate(3deg);
+    }
+    
+    .retro-image-container:hover {
+        transform: rotate(1deg) scale(1.05);
     }
 }
