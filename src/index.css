@@ -65,20 +65,24 @@ p, h1, h2, h3, h4, h5, h6 {
     margin-left: 0 !important;
     margin-right: auto !important;
     clear: both !important;
+    transform: none !important;
+    width: fit-content !important;
   }
   
   /* Ensure the profile image is positioned correctly */
   .profile-positioning {
     position: absolute !important;
     right: 12% !important;
-    bottom: 5% !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    bottom: auto !important;
   }
   
   /* Ensure the button is positioned correctly */
   .button-positioning {
     position: absolute !important;
     right: 12% !important;
-    top: 15% !important;
+    top: 25% !important;
   }
 }
 

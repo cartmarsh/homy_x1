@@ -350,9 +350,9 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                 </div>
                 
                 {/* Ensure content has higher z-index */}
-                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 z-20 relative px-4 hero-stacking-fix">
-                    {/* Text content */}
-                    <div className="w-full md:w-1/2 lg:w-2/5 space-y-6 md:space-y-8 text-center md:text-left">
+                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-6 z-20 relative px-4 hero-stacking-fix">
+                    {/* Text content - make it take up more space */}
+                    <div className="w-full md:w-2/3 lg:w-1/2 space-y-6 md:space-y-8 text-center md:text-left">
                         <div className="space-y-4 md:space-y-5">
                             {/* Name with glass effect */}
                             <div 
@@ -362,7 +362,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                     transformStyle: 'preserve-3d'
                                 }}
                             >
-                                <h1 className={`text-2xl xs:text-3xl sm:text-4xl lg:text-5xl text-gray-800 tracking-tight relative retro-text ${glitchIntensity > 0 ? 'glitch' : ''}`}>
+                                <h1 className={`text-3xl xs:text-4xl sm:text-5xl lg:text-6xl text-gray-800 tracking-tight relative retro-text ${glitchIntensity > 0 ? 'glitch' : ''}`}>
                                     Dominik Hauger
                                 </h1>
                             </div>
@@ -375,7 +375,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                     transformStyle: 'preserve-3d'
                                 }}
                             >
-                                <h2 className={`text-xl xs:text-2xl sm:text-3xl md:text-4xl text-gray-700 tracking-wide retro-subtitle ${glitchIntensity > 0 ? 'glitch-subtle' : ''}`}>
+                                <h2 className={`text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-gray-700 tracking-wide retro-subtitle ${glitchIntensity > 0 ? 'glitch-subtle' : ''}`}>
                                     Web Developer & Designer
                                 </h2>
                             </div>
@@ -386,11 +386,11 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                 style={{ 
                                     transform: `perspective(1000px) rotateX(${offsetY * 0.05}deg) rotateY(${offsetX * -0.05}deg) translate3d(${offsetX * 0.4}px, ${offsetY * 0.4}px, 0px)`,
                                     transformStyle: 'preserve-3d',
-                                    display: 'block', /* Force block display */
-                                    width: 'fit-content' /* Ensure width fits content */
+                                    display: 'block',
+                                    width: 'fit-content'
                                 }}
                             >
-                                <p className="text-lg xs:text-xl sm:text-2xl text-gray-500 retro-text-small">
+                                <p className="text-xl xs:text-2xl sm:text-3xl text-gray-500 retro-text-small">
                                     Crafting Interactive Experiences
                                 </p>
                             </div>
@@ -398,12 +398,12 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                     </div>
 
                     {/* Profile image - with fixed, consistent positioning */}
-                    <div className="w-full md:w-auto md:absolute md:right-[12%] md:bottom-[20%] relative order-1 md:order-none profile-positioning">
+                    <div className="w-full md:w-auto md:absolute md:right-[12%] md:top-[50%] md:transform md:-translate-y-1/2 relative order-1 md:order-none profile-positioning">
                         <div className="relative retro-image-container mt-12 md:mt-0">
                             <img
                                 src={profilePic}
                                 alt="Dominik's Profile"
-                                className={`w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-lg shadow-xl object-cover ${glitchIntensity > 2 ? 'profile-glitch' : ''}`}
+                                className={`w-24 h-24 xs:w-32 xs:h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 rounded-lg shadow-xl object-cover ${glitchIntensity > 2 ? 'profile-glitch' : ''}`}
                                 style={{
                                     transform: `perspective(1000px) rotateX(${offsetY * 0.08}deg) rotateY(${offsetX * -0.08}deg) translate3d(${offsetX * 0.5}px, ${offsetY * 0.5}px, 0px)`
                                 }}
@@ -414,7 +414,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
 
                     {/* Right Side - Button */}
                     <div 
-                        className="w-full md:w-auto flex justify-center md:justify-end items-center pt-16 md:pt-0 md:absolute md:right-[12%] md:top-[35%] z-20 button-positioning"
+                        className="w-full md:w-auto flex justify-center md:justify-end items-center pt-16 md:pt-0 md:absolute md:right-[12%] md:top-[25%] z-20 button-positioning"
                     >
                         <div 
                             className="relative inline-block px-2 py-2 rounded-lg backdrop-blur-sm bg-transparent"
@@ -429,7 +429,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                     ${isClicked ? 'clicked' : ''}
                                     ${lightningClass}
                                     whitespace-nowrap
-                                    text-sm xs:text-base
+                                    text-base xs:text-lg
                                     relative
                                     group
                                     transition-transform
@@ -437,6 +437,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                     active:scale-95
                                     flex items-center gap-2
                                     pointer-events-auto
+                                    px-6 py-3
                                 `}
                                 onClick={handleClick}
                                 style={{ pointerEvents: 'auto' }}
@@ -444,14 +445,14 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                 <span className="retro-button-glow absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity pointer-events-none"></span>
                                 <svg 
                                     xmlns="http://www.w3.org/2000/svg" 
-                                    className="h-4 w-4 xs:h-5 xs:w-5 transition-transform group-hover:rotate-12 pointer-events-none" 
+                                    className="h-5 w-5 xs:h-6 xs:w-6 transition-transform group-hover:rotate-12 pointer-events-none" 
                                     fill="none" 
                                     viewBox="0 0 24 24" 
                                     stroke="currentColor"
                                 >
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
-                                <span className="pointer-events-none">Get in Touch</span>
+                                <span className="pointer-events-none">GET IN TOUCH</span>
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-current group-hover:w-full transition-all duration-300 pointer-events-none"></span>
                             </button>
                         </div>

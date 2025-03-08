@@ -95,7 +95,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
         >
             <div 
                 className={`
-                    w-[95%] sm:w-[92%] md:w-[90%]
+                    w-[98%] sm:w-[96%] md:w-[94%]
                     min-h-[500px] xs:min-h-[550px] sm:min-h-[600px]
                     ${bgColor} retro-card
                     top-[5%]
@@ -103,9 +103,9 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                     rounded-lg
                     transition-transform duration-300 ease-out
                     max-w-[1800px]
-                    max-h-[90vh]
+                    max-h-[92vh]
                     relative
-                    my-8
+                    my-6
                 `}
                 onMouseMove={handleMouseMove}
                 style={{
@@ -121,8 +121,8 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                     rounded-lg
                     ${isHero 
                       ? 'p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16' 
-                      : 'p-2 xs:p-3 sm:p-4 md:p-6 lg:p-10 xl:p-14 2xl:p-20'}
-                    max-w-[1600px]
+                      : 'p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16'}
+                    max-w-[1800px]
                     overflow-x-hidden
                     overflow-y-auto
                 `}>

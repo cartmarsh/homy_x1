@@ -3,9 +3,10 @@ import p5 from 'p5';
 
 interface RetroHeaderProps {
   title: string;
+  className?: string;
 }
 
-const RetroHeader: React.FC<RetroHeaderProps> = ({ title }) => {
+const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const p5ContainerRef = useRef<HTMLDivElement>(null);
   const p5Instance = useRef<p5 | null>(null);
@@ -157,7 +158,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title }) => {
         className="absolute inset-0 pointer-events-none z-0"
       />
       
-      <div className="relative z-10 flex flex-col items-center justify-center h-[40px] sm:h-[45px] md:h-[50px] w-auto">
+      <div className="relative z-10 flex flex-col items-center justify-center h-[50px] sm:h-[60px] md:h-[70px] w-auto">
         {/* Scanline effect - reduced number and spacing */}
         <div className={`absolute inset-0 overflow-hidden pointer-events-none ${isHovered ? 'opacity-20' : 'opacity-10'}`}>
           {Array.from({ length: 3 }).map((_, i) => (
@@ -171,7 +172,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title }) => {
         
         {/* Title */}
         <h1 
-          className="text-base sm:text-lg md:text-xl font-bold tracking-wider uppercase text-center text-gray-800"
+          className={`text-2xl sm:text-3xl md:text-4xl font-bold tracking-wider uppercase text-center text-gray-800 ${className}`}
           style={{
             fontFamily: "'Press Start 2P', 'VT323', monospace",
             WebkitTextStroke: "0.7px rgba(0,0,0,0.3)",
@@ -182,7 +183,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title }) => {
         </h1>
         
         {/* Decorative line */}
-        <div className="w-24 sm:w-28 md:w-32 h-[2px] bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-0"></div>
+        <div className="w-32 sm:w-40 md:w-48 h-[3px] bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-2"></div>
       </div>
     </div>
   );

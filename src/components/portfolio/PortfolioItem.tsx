@@ -189,26 +189,26 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
   return (
     <div 
       ref={containerRef}
-      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl w-[17.5rem] sm:w-[20rem] md:w-[21.875rem]"
+      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl w-full max-w-[35rem] h-auto"
     >
       <div 
         ref={p5ContainerRef} 
         className="absolute inset-0 pointer-events-none z-0"
       />
-      <div className="relative z-10 p-3">
+      <div className="relative z-10 p-5">
         <div className="relative">
           <img 
             src={image} 
             alt={title} 
-            className="w-full h-24 sm:h-28 md:h-32 object-cover rounded-t-lg"
+            className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover rounded-lg"
           />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-1">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
             {tags.length > 0 && (
-              <div className="flex flex-wrap gap-1">
+              <div className="flex flex-wrap gap-2">
                 {tags.map((tag, index) => (
                   <span 
                     key={index} 
-                    className="text-[0.625rem] bg-blue-500/80 text-white px-1.5 rounded-full"
+                    className="text-sm bg-blue-500/80 text-white px-3 py-1 rounded-full"
                   >
                     {tag}
                   </span>
@@ -217,15 +217,15 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
             )}
           </div>
         </div>
-        <div className="pt-2">
-          <h3 className="text-sm font-semibold text-gray-800 mb-1">{title}</h3>
-          <p className="text-xs text-gray-600 mb-2 line-clamp-2">{description}</p>
+        <div className="pt-4">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-3">{title}</h3>
+          <p className="text-base text-gray-600 mb-4">{description}</p>
           {link && (
             <a 
               href={link} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="inline-block text-xs text-blue-600 hover:text-blue-800 transition-colors"
+              className="inline-block text-lg text-blue-600 hover:text-blue-800 transition-colors font-medium"
             >
               View Project →
             </a>
