@@ -158,7 +158,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
         className="absolute inset-0 pointer-events-none z-0"
       />
       
-      <div className="relative z-10 flex flex-col items-center justify-center h-[50px] sm:h-[60px] md:h-[70px] w-auto">
+      <div className="relative z-10 flex flex-col items-center justify-center h-[70px] sm:h-[80px] md:h-[100px] lg:h-[140px] w-auto">
         {/* Scanline effect - reduced number and spacing */}
         <div className={`absolute inset-0 overflow-hidden pointer-events-none ${isHovered ? 'opacity-20' : 'opacity-10'}`}>
           {Array.from({ length: 3 }).map((_, i) => (
