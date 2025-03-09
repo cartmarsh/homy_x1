@@ -189,14 +189,14 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
   return (
     <div 
       ref={containerRef}
-      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl w-full max-w-[35rem] h-auto"
+      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl w-full max-w-[35rem] h-auto mx-auto"
     >
       <div 
         ref={p5ContainerRef} 
         className="absolute inset-0 pointer-events-none z-0"
       />
-      <div className="relative z-10 p-5">
-        <div className="relative">
+      <div className="relative z-10 p-5 flex flex-col items-center">
+        <div className="relative w-full">
           <img 
             src={image} 
             alt={title} 
@@ -204,7 +204,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
           />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
             {tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 justify-center">
                 {tags.map((tag, index) => (
                   <span 
                     key={index} 
@@ -217,7 +217,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
             )}
           </div>
         </div>
-        <div className="pt-4">
+        <div className="pt-4 text-center w-full">
           <h3 className="text-2xl font-semibold text-gray-800 mb-3">{title}</h3>
           <p className="text-base text-gray-600 mb-4">{description}</p>
           {link && (

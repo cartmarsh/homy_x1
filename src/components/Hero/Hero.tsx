@@ -417,7 +417,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                         transition-transform
                                         hover:scale-105
                                         active:scale-95
-                                        flex items-center gap-2
+                                        flex items-center justify-center gap-2
                                         pointer-events-auto
                                         px-6 py-3
                                     `}
@@ -427,14 +427,14 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                                     <span className="retro-button-glow absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity pointer-events-none"></span>
                                     <svg 
                                         xmlns="http://www.w3.org/2000/svg" 
-                                        className="h-5 w-5 xs:h-6 xs:w-6 transition-transform group-hover:rotate-12 pointer-events-none" 
+                                        className="h-5 w-5 xs:h-6 xs:w-6 transition-transform group-hover:rotate-12 pointer-events-none flex-shrink-0 self-center -mt-3" 
                                         fill="none" 
                                         viewBox="0 0 24 24" 
                                         stroke="currentColor"
                                     >
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
-                                    <span className="pointer-events-none">GET IN TOUCH</span>
+                                    <span className="pointer-events-none self-center leading-none">GET IN TOUCH</span>
                                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-current group-hover:w-full transition-all duration-300 pointer-events-none"></span>
                                 </button>
                             </div>
@@ -447,7 +447,9 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                             <img
                                 src={profilePic}
                                 alt="Dominik's Profile"
-                                className={`w-24 h-24 xs:w-32 xs:h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 rounded-lg shadow-xl object-cover ${glitchIntensity > 2 ? 'profile-glitch' : ''}`}
+                                className={`
+                                    w-36 h-36 xs:w-48 xs:h-48 sm:w-54 sm:h-54 md:w-60 md:h-60 lg:w-66 lg:h-66 
+                                    rounded-lg shadow-xl object-cover ${glitchIntensity > 2 ? 'profile-glitch' : ''}`}
                                 style={{
                                     transform: `perspective(1000px) rotateX(${offsetY * 0.08}deg) rotateY(${offsetX * -0.08}deg) translate3d(${offsetX * 0.5}px, ${offsetY * 0.5}px, 0px)`
                                 }}

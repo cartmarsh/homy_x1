@@ -26,7 +26,7 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
             bgColor='bg-lemon' 
             className={`${className} overflow-hidden`}
         >
-            <div className="w-full h-full flex flex-col items-center justify-start py-8 px-4 sm:px-8 md:px-12">
+            <div className="w-full h-full flex flex-col items-center justify-center py-8 px-4 sm:px-8 md:px-12">
                 {/* Center header with consistent padding */}
                 <div className="w-full flex justify-center mb-8 md:mb-12">
                     <RetroHeader title="PORTFOLIO" className="text-4xl md:text-5xl lg:text-6xl" />
