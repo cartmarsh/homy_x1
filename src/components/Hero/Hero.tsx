@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect, Suspense } from 'react';
 import ContentSection from '../layout/ContentSection';
-import profilePic from './../../assets/Profilbild.jpg';
+import profilePic from './../../assets/Hauger.png';
 import './Hero.css';
 import { throttle } from 'lodash';
 

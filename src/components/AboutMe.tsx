@@ -1,7 +1,7 @@
 import React, { useRef, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import ContentSection from './layout/ContentSection';
-import profileImage from '../assets/Profilbild.jpg';
+import profileImage from '../assets/Hauger2.png';
 import styles from './AboutMe.module.css';
 import type p5Types from 'p5';
 import { setupCanvas, prepareDrawing, drawMultipleBorders } from '../utils/p5Setup';
@@ -63,33 +63,31 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, id }) => {
                     <div className="w-full lg:w-1/2 flex flex-col gap-6">
                         <div className="space-y-6 text-gray-600">
                             <p className={`text-lg sm:text-xl ${styles['retro-text']}`}>
-                                I have a <span>knack</span> for creating and improving processes, {' '}
-                                <span>simplifying the complex</span>, solving <span>problems</span> and {' '}
-                                crafting <span>seamless</span> and {' '}
-                                <span>enjoyable</span> web experiences.
+                                Born in <span>1993</span> in Munich, Dominik did a <span>gap year</span> in Australia and went to study {' '}
+                                <span>Medical Informatics</span> at the Technical University Vienna (TU Vienna).
                             </p>
                             
                             <p className={`text-lg sm:text-xl ${styles['retro-text']}`}>
-                                After hours, I'm an <span>artist</span>, {' '}
-                                <span>surfer</span>, and a {' '}
-                                <span>concert enthusiast</span> always on the lookout for new favorite music albums.
+                                During that time <span>Web Development</span> became an interest and {' '}
+                                <span>User Experience</span> a passion.
+                            </p>
+                            
+                            <p className={`text-lg sm:text-xl ${styles['retro-text']}`}>
+                                After working hours he loves <span>organizing musical events</span> with his friends.
                             </p>
                         </div>
                     </div>
 
                     {/* Right Content - Image */}
                     <div className="w-full lg:w-1/2 relative">
-                        <div className="aspect-square relative rounded-full overflow-hidden bg-pink-300 max-w-[50vh] mx-auto 
+                        <div className="aspect-square relative overflow-hidden bg-transparent max-w-[50vh] mx-auto 
                                     hover:shadow-[0_0_30px_rgba(147,51,234,0.5)] transition-all duration-300">
                             <img 
                                 src={profileImage}
                                 alt="Profile picture"
-                                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                                className="w-full h-full object-cover scale-[0.85] hover:scale-110 transition-all duration-300"
                             />
-                            
-                            {/* Decorative Shapes */}
-                            <div className="absolute -z-10 w-[75%] aspect-square rounded-full bg-purple-200 -top-[10%] -right-[10%]"/>
-                            <div className="absolute -z-10 w-[50%] aspect-square rounded-full bg-purple-100 bottom-[10%] -left-[10%]"/>
+           
                         </div>
                     </div>
                 </motion.div>
