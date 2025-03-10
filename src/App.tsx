@@ -5,10 +5,18 @@ import AboutMe from './components/AboutMe';
 import Contact from './components/Contact';
 import NavBar from './components/NavBar/NavBar';
 import BackgroundStrings from './components/animations/BackgroundStrings';
+import RetroLoader from './components/animations/RetroLoader';
 
 function App() {
   return (
     <div className="min-h-screen w-full overflow-hidden bg-[#2d1b69]">
+      {/* Retro Loader */}
+      <RetroLoader 
+        duration={1500} 
+        primaryText="WELCOME" 
+        accentText="LOADING PORTFOLIO..." 
+      />
+      
       {/* Background animation */}
       <BackgroundStrings />
       
