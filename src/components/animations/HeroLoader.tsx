@@ -21,7 +21,7 @@ const HeroLoader: React.FC<HeroLoaderProps> = ({
 
   // Update progress and assembly stages
   useEffect(() => {
-    const totalSteps = 5; // Number of assembly stages
+     //const totalSteps = 5; // Number of assembly stages
     const interval = (duration * 1000) / 100; // Time for each 1% progress
     
     const progressTimer = setInterval(() => {
