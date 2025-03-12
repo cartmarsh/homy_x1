@@ -13,10 +13,10 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
     const projects = [
         {
             title: "SoundRoom",
-            description: "A collaborative music sharing platform where users can create virtual rooms and share music in real-time.",
+            description: "A visual sound creation tool that lets users design custom audio by drawing waveforms, applying effects, and collaborating in a shared sound environment.",
             image: SoundRoomImage,
-            link: "#",
-            tags: ["React", "Node.js", "WebSockets", "WebAudio API"]
+            link: "https://sound-room-bio9.vercel.app/",
+            tags: ["React", "Node.js", "Tone.js", "TypeScript"]
         }
     ];
 
