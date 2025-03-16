@@ -26,17 +26,17 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
             bgColor='bg-lemon' 
             className={`${className} overflow-hidden`}
         >
-            <div className="w-full h-full flex flex-col items-center justify-center py-8 px-4 sm:px-8 md:px-12">
-                {/* Center header with consistent padding */}
-                <div className="w-full flex justify-center mb-8 md:mb-12 py-6 md:py-8">
+            <div className="w-full h-full flex flex-col items-center justify-center py-4 sm:py-6 px-4 sm:px-8 md:px-12">
+                {/* Center header with reduced padding */}
+                <div className="w-full flex justify-center mb-4 md:mb-8 py-2 md:py-4">
                     <RetroHeader title="PORTFOLIO" className="text-3xl md:text-4xl lg:text-5xl" />
                 </div>
                 
                 {/* Project Display - Make it prominent */}
-                <div className="w-full flex-1 flex items-center justify-center">
+                <div className="w-full flex-1 flex items-start justify-center">
                     {projects.length === 1 ? (
                         // Single project centered with more space
-                        <div className="w-full max-w-5xl mx-auto">
+                        <div className="w-full max-w-4xl mx-auto">
                             <PortfolioItem 
                                 title={projects[0].title}
                                 description={projects[0].description}

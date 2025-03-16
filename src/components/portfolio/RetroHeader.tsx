@@ -149,7 +149,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
   return (
     <div 
       ref={headerRef}
-      className="w-full relative mb-1 cursor-pointer flex justify-center" 
+      className="w-full relative mb-0 cursor-pointer flex justify-center" 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
