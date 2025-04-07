@@ -1,13 +1,27 @@
-import React, { useRef, useEffect } from 'react';
-import p5 from 'p5';
+import React, { useRef, useState } from 'react';
+import { PortfolioItemProps } from '../../types/portfolioTypes';
+import useExpandableCard from '../../hooks/useExpandableCard';
+import useDimensionCalculation from '../../hooks/useDimensionCalculation';
+import useScrollPrevention from '../../hooks/useScrollPrevention';
+import useExpandedHeight from '../../hooks/useExpandedHeight';
+import useAccessibilityProps from '../../hooks/useAccessibilityProps';
+import useAnimationStyles from '../../hooks/useAnimationStyles';
+import PortfolioItemImage from './PortfolioItemImage';
+import PortfolioItemDetails from './PortfolioItemDetails';
+import PortfolioItemButton from './PortfolioItemButton';
+import PortfolioItemContainer from './PortfolioItemContainer';
+import { DEFAULT_PORTFOLIO_VALUES } from '../../constants/portfolioConstants';
+import { getMainContentStyles, getDetailButtonContainerStyles } from '../../utils/portfolioStyles';
+import { cx } from '../../utils/classUtils';
 
-interface PortfolioItemProps {
-  title: string;
-  description: string;
-  image: string;
-  link?: string;
-  tags?: string[];
-}
+// CSS utility to hide scrollbars across browsers
+const HIDE_SCROLLBAR_STYLE = {
+  '-ms-overflow-style': 'none',  // IE and Edge
+  'scrollbarWidth': 'none',      // Firefox
+  '&::-webkit-scrollbar': {      // Chrome, Safari and Opera
+    display: 'none'
+  }
+};
 
 const PortfolioItem: React.FC<PortfolioItemProps> = ({
   title,
@@ -15,224 +29,141 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
   image,
   link,
   tags = [],
+  functionality = [],
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const p5ContainerRef = useRef<HTMLDivElement>(null);
-  const p5Instance = useRef<p5 | null>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  
+  // Generate control ID for accessibility
+  const detailsId = `details-${title.replace(/\s+/g, '-').toLowerCase()}`;
+  
+  // Use custom hooks
+  const { 
+    showDetails, 
+    isAnimating, 
+    toggleDetails, 
+    handleItemClick 
+  } = useExpandableCard({ 
+    link,
+    onToggle: () => {
+      setIsTransitioning(true);
+      // Mark end of transition to allow final image position adjustment
+      setTimeout(() => setIsTransitioning(false), 600);
+    }
+  });
 
-  useEffect(() => {
-    if (!p5ContainerRef.current) return;
+  const {
+    imageHeight,
+    containerHeight,
+    hasCalculatedHeights
+  } = useDimensionCalculation({
+    containerRef,
+    detailsRef,
+    showDetails
+  });
 
-    // Initialize P5 sketch
-    const sketch = (p: p5) => {
-      const notes: Note[] = [];
-      const noteCount = 12;
-      
-      interface Note {
-        x: number;
-        y: number;
-        size: number;
-        angle: number;
-        speed: number;
-        opacity: number;
-        isQuarterNote: boolean;
-      }
+  // Use the expanded height hook
+  const { expandedHeight } = useExpandedHeight({
+    containerRef,
+    detailsRef,
+    showDetails
+  });
 
-      p.setup = () => {
-        const container = containerRef.current;
-        if (!container) return;
-        
-        const width = container.offsetWidth;
-        const height = container.offsetHeight;
-        
-        p.createCanvas(width, height);
-        p.noFill();
-        
-        // Initialize notes
-        for (let i = 0; i < noteCount; i++) {
-          const side = Math.floor(p.random(4)); // 0: top, 1: right, 2: bottom, 3: left
-          let x, y;
-          
-          // Position notes along the border
-          switch (side) {
-            case 0: // top
-              x = p.random(width);
-              y = 0;
-              break;
-            case 1: // right
-              x = width;
-              y = p.random(height);
-              break;
-            case 2: // bottom
-              x = p.random(width);
-              y = height;
-              break;
-            case 3: // left
-              x = 0;
-              y = p.random(height);
-              break;
-            default:
-              x = p.random(width);
-              y = p.random(height);
-          }
-          
-          notes.push({
-            x,
-            y,
-            size: p.random(10, 20),
-            angle: p.random(p.TWO_PI),
-            speed: p.random(0.5, 1.5),
-            opacity: p.random(50, 200),
-            isQuarterNote: p.random() > 0.5,
-          });
-        }
-      };
+  // Use accessibility props hook
+  const accessibilityProps = useAccessibilityProps({
+    hasLink: !!link,
+    isExpanded: showDetails,
+    title,
+    controlsId: detailsId,
+    onActivate: handleItemClick
+  });
 
-      p.draw = () => {
-        p.clear(0, 0, 0, 0);
-        
-        // Draw border glow
-        p.stroke(255, 240, 100, 50);
-        p.strokeWeight(2);
-        const container = containerRef.current;
-        if (container) {
-          const padding = 10;
-          p.rect(padding, padding, container.offsetWidth - padding * 2, container.offsetHeight - padding * 2, 8);
-        }
-        
-        // Draw and update notes
-        for (const note of notes) {
-          p.push();
-          p.translate(note.x, note.y);
-          p.rotate(note.angle);
-          p.stroke(0, 0, 0, note.opacity);
-          p.strokeWeight(1.5);
-          
-          if (note.isQuarterNote) {
-            // Draw quarter note
-            p.fill(0, 0, 0, note.opacity);
-            p.ellipse(0, 0, note.size, note.size * 0.8);
-            p.line(note.size / 2, 0, note.size / 2, -note.size * 1.8);
-          } else {
-            // Draw eighth note
-            p.fill(0, 0, 0, note.opacity);
-            p.ellipse(0, 0, note.size, note.size * 0.8);
-            p.line(note.size / 2, 0, note.size / 2, -note.size * 1.8);
-            p.beginShape();
-            p.vertex(note.size / 2, -note.size * 1.8);
-            p.bezierVertex(
-              note.size * 1.2, -note.size * 1.8,
-              note.size * 1.2, -note.size * 1.2,
-              note.size / 2, -note.size * 1.2
-            );
-            p.endShape();
-          }
-          p.pop();
-          
-          // Move notes
-          note.x += p.cos(note.angle) * note.speed;
-          note.y += p.sin(note.angle) * note.speed;
-          note.opacity -= 0.5;
-          
-          // Reset notes that fade out or move out of bounds
-          if (note.opacity <= 0 || 
-              note.x < -note.size * 2 || 
-              note.x > p.width + note.size * 2 || 
-              note.y < -note.size * 2 || 
-              note.y > p.height + note.size * 2) {
-            const side = Math.floor(p.random(4));
-            
-            switch (side) {
-              case 0: // top
-                note.x = p.random(p.width);
-                note.y = 0;
-                break;
-              case 1: // right
-                note.x = p.width;
-                note.y = p.random(p.height);
-                break;
-              case 2: // bottom
-                note.x = p.random(p.width);
-                note.y = p.height;
-                break;
-              case 3: // left
-                note.x = 0;
-                note.y = p.random(p.height);
-                break;
-            }
-            
-            note.angle = p.random(p.TWO_PI);
-            note.speed = p.random(0.5, 1.5);
-            note.opacity = p.random(50, 200);
-            note.isQuarterNote = p.random() > 0.5;
-          }
-        }
-      };
+  // Get animation styles
+  const animationStyles = useAnimationStyles();
+  const buttonContainerStyles = animationStyles.getButtonContainerStyles(showDetails);
+  const detailsSectionStyles = animationStyles.getDetailsSectionStyles(showDetails);
+  
+  // Prevent scrolling when expanded
+  useScrollPrevention({ containerRef });
 
-      p.windowResized = () => {
-        const container = containerRef.current;
-        if (container) {
-          p.resizeCanvas(container.offsetWidth, container.offsetHeight);
-        }
-      };
-    };
+  // Add example functionality if none provided
+  if (functionality.length === 0) {
+    functionality = DEFAULT_PORTFOLIO_VALUES.DEFAULT_FUNCTIONALITY;
+  }
 
-    p5Instance.current = new p5(sketch, p5ContainerRef.current);
-
-    return () => {
-      if (p5Instance.current) {
-        p5Instance.current.remove();
-      }
-    };
-  }, []);
+  // Main content styles
+  const mainContentStyles = getMainContentStyles();
 
   return (
-    <div 
-      ref={containerRef}
-      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl w-full max-w-[35rem] h-auto mx-auto"
+    <PortfolioItemContainer
+      containerRef={containerRef}
+      showDetails={showDetails}
+      expandedHeight={expandedHeight}
+      containerHeight={containerHeight}
+      imageHeight={imageHeight}
+      link={link}
+      title={title}
+      detailsId={detailsId}
+      onClick={handleItemClick}
+      accessibilityProps={accessibilityProps}
     >
+      {/* Main content */}
       <div 
-        ref={p5ContainerRef} 
-        className="absolute inset-0 pointer-events-none z-0"
-      />
-      <div className="relative z-10 p-5 flex flex-col items-center">
-        <div className="relative w-full">
-          <img 
-            src={image} 
-            alt={title} 
-            className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover rounded-lg"
+        className="relative z-10 flex flex-col h-full no-scrollbar hide-scrollbar" 
+        style={mainContentStyles}
+      >
+        {/* Prominent image section */}
+        <div 
+          className="w-full portfolio-image-container"
+          style={{
+            position: 'relative',
+            zIndex: 10
+          }}
+        >
+          <PortfolioItemImage 
+            image={image} 
+            title={title} 
+            tags={tags} 
+            className="w-full h-auto object-cover rounded-t-lg"
           />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-            {tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 justify-center">
-                {tags.map((tag, index) => (
-                  <span 
-                    key={index} 
-                    className="text-sm bg-blue-500/80 text-white px-3 py-1 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
-        <div className="pt-4 text-center w-full">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-3">{title}</h3>
-          <p className="text-base text-gray-600 mb-4">{description}</p>
-          {link && (
-            <a 
-              href={link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-block text-lg text-blue-600 hover:text-blue-800 transition-colors font-medium"
-            >
-              View Project →
-            </a>
+        
+        {/* Button area */}
+        <div 
+          className="p-16 flex justify-center items-center relative z-20"
+          style={buttonContainerStyles}
+        >
+          <PortfolioItemButton
+            showDetails={showDetails}
+            isAnimating={isAnimating}
+            detailsId={detailsId}
+            onClick={toggleDetails}
+          />
+        </div>
+        
+        {/* Details section */}
+        <div 
+          ref={detailsRef}
+          id={detailsId}
+          className={cx(
+            'w-full no-scrollbar hide-scrollbar',
+            showDetails ? 'block' : 'hidden'
           )}
+          style={detailsSectionStyles}
+        >
+          <PortfolioItemDetails
+            title={title}
+            description={description}
+            functionality={functionality}
+            tags={tags}
+            link={link}
+            isVisible={showDetails}
+            onClose={toggleDetails}
+          />
         </div>
       </div>
-    </div>
+    </PortfolioItemContainer>
   );
 };
 
