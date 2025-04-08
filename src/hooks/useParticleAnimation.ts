@@ -35,20 +35,30 @@ export function useParticleAnimation({
   // Create color references
   const startColor = useRef(new THREE.Color('#ff9d00')); // Orange
   const endColor = useRef(new THREE.Color('#ff4400')); // Warmer orange-red
+  const timeRef = useRef(0);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!particlesRef.current) return;
     
+    // Update time reference
+    timeRef.current += delta;
+    
+    const time = timeRef.current;
     const positions = particlesRef.current.geometry.attributes.position.array as Float32Array;
     const sizes = particlesRef.current.geometry.attributes.size.array as Float32Array;
     
     // Calculate smooth color transition based on time
-    const colorProgress = (Math.sin(state.clock.elapsedTime * 0.5) + 1) * 0.5;
+    const colorProgress = (Math.sin(time * 0.5) + 1) * 0.5;
     const currentColor = lerpColor(startColor.current, endColor.current, colorProgress);
     
     // Update material color
     if (particlesRef.current.material instanceof THREE.PointsMaterial) {
       particlesRef.current.material.color = currentColor;
+      
+      // Increase point size during implosion for better visibility
+      if (isImploding) {
+        particlesRef.current.material.size = 0.04 * (1 + implodeProgress * 0.5);
+      }
     }
 
     let i = 0;
@@ -60,24 +70,39 @@ export function useParticleAnimation({
         particle.speed
       );
       
-      // Rotate particles around y-axis with accelerating implosion speed
-      const baseSpeed = speed * 2;
-      const implodingSpeedMultiplier = isImploding ? Math.pow(implodeProgress, 2) * 2 : 1; // Exponential acceleration
-      const angle = particle.initialAngle + state.clock.elapsedTime * baseSpeed * implodingSpeedMultiplier;
+      // Rotate particles around y-axis with variable speed
+      const baseSpeed = speed;
+      const angle = particle.initialAngle + time * baseSpeed;
+      
+      // Add vertical movement that slows down during implosion
+      const verticalOscillation = isImploding 
+        ? Math.sin(time * 0.3 + idx) * 0.1 * (1 - implodeProgress)
+        : Math.sin(time * 0.3 + idx) * 0.1;
+        
+      // Add radial oscillation that diminishes during implosion
+      const radialOscillation = isImploding
+        ? Math.sin(time * 0.5 + idx * 0.3) * 0.1 * (1 - implodeProgress)
+        : Math.sin(time * 0.5 + idx * 0.3) * 0.1;
       
       // Calculate new position with implosion effect
-      const currentRadius = radius + (isImploding ? 0 : Math.sin(state.clock.elapsedTime + idx) * 0.1);
+      const currentRadius = radius + radialOscillation;
       positions[i] = Math.cos(angle) * currentRadius;
-      positions[i+1] = height + (isImploding ? 0 : Math.sin(state.clock.elapsedTime * 0.5 + idx) * 0.1);
+      positions[i+1] = height + verticalOscillation;
       positions[i+2] = Math.sin(angle) * currentRadius;
       
-      // Enhanced size pulsing and implosion effect
+      // Enhanced size pulsing that converges during implosion
       const pulseFrequency = 1.5;
-      const pulseAmplitude = 0.15;
-      const basePulse = Math.sin(state.clock.elapsedTime * pulseFrequency + idx * 0.1) * pulseAmplitude + 1;
+      const pulseAmplitude = isImploding 
+        ? 0.15 * (1 - implodeProgress * 0.8) // Reduce pulsing during implosion
+        : 0.15;
+        
+      const basePulse = Math.sin(time * pulseFrequency + idx * 0.1) * pulseAmplitude + 1;
       
-      // During implosion, particles get much smaller
-      const implodingSizeMultiplier = isImploding ? Math.pow(1 - implodeProgress, 2) : 1;
+      // During implosion, particles get smaller toward the center
+      const implodingSizeMultiplier = isImploding 
+        ? Math.pow(1 - implodeProgress, 1.5) // Less aggressive size reduction
+        : 1;
+        
       const finalSize = particle.size * implodingSizeMultiplier * basePulse;
       
       sizes[idx] = finalSize;
@@ -88,8 +113,12 @@ export function useParticleAnimation({
     particlesRef.current.geometry.attributes.position.needsUpdate = true;
     particlesRef.current.geometry.attributes.size.needsUpdate = true;
     
-    // Rotate faster during implosion
-    const rotationSpeed = isImploding ? 0.05 + implodeProgress * 0.2 : 0.05;
-    particlesRef.current.rotation.y = state.clock.elapsedTime * rotationSpeed;
+    // Rotate faster during implosion with eased acceleration
+    const baseRotationSpeed = 0.05;
+    const rotationSpeedMultiplier = isImploding 
+      ? 1 + implodeProgress * implodeProgress * 2 // Quadratic acceleration
+      : 1;
+      
+    particlesRef.current.rotation.y = time * baseRotationSpeed * rotationSpeedMultiplier;
   });
 } 

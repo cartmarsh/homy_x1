@@ -12,7 +12,7 @@ interface UseImplodingWhirlwindProps {
  */
 const useImplodingWhirlwind = ({
   duration,
-  implodeDuration = 600,
+  implodeDuration = 1000, // Longer implosion duration for smoother effect
   onImplodeComplete
 }: UseImplodingWhirlwindProps) => {
   const [isImploding, setIsImploding] = useState(false);
@@ -24,7 +24,7 @@ const useImplodingWhirlwind = ({
     
     const implodeTimer = setTimeout(() => {
       setIsImploding(true);
-    }, implodeStartTime);
+    }, Math.max(0, implodeStartTime));
 
     return () => {
       clearTimeout(implodeTimer);
@@ -41,11 +41,14 @@ const useImplodingWhirlwind = ({
     const updateProgress = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
-      const progress = Math.min(elapsed / implodeDuration, 1);
       
-      setImplodeProgress(progress);
+      // Use easeInQuad for smoother acceleration
+      const linearProgress = Math.min(elapsed / implodeDuration, 1);
+      const easedProgress = linearProgress * linearProgress;
+      
+      setImplodeProgress(easedProgress);
 
-      if (progress < 1) {
+      if (linearProgress < 1) {
         animationFrame = requestAnimationFrame(updateProgress);
       } else {
         onImplodeComplete?.();
@@ -64,15 +67,18 @@ const useImplodingWhirlwind = ({
   // Calculate animation parameters based on implosion state
   const getAnimationParams = useCallback((
     initialRadius: number,
+    initialAngle: number,
     initialHeight: number,
     speed: number
   ) => {
     if (!isImploding) {
-      return { radius: initialRadius, height: initialHeight, speed };
+      // Slower initial movement
+      return { radius: initialRadius, height: initialHeight, speed: speed * 0.5 };
     }
 
     // During implosion, particles move towards center and speed up
-    const speedMultiplier = 1 + implodeProgress * 2; // Particles speed up during implosion
+    // Use a cubic function for more dramatic acceleration
+    const speedMultiplier = 1 + implodeProgress * implodeProgress * 4; 
 
     return {
       radius: initialRadius * (1 - implodeProgress),

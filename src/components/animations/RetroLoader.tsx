@@ -23,11 +23,13 @@ const RetroLoader: React.FC<RetroLoaderProps> = ({
   const byteElements = useByteElementsLoaderMemo(accentText);
   const [isImploding, setIsImploding] = useState(false);
 
-  // Start implosion effect when timeout is about to end
+  // Start implosion effect earlier to ensure it completes naturally
   useEffect(() => {
+    const implodeDelay = Math.max(0, duration - 1500); // Start implosion 1.5 seconds before the end
+    
     const implodeTimer = setTimeout(() => {
       setIsImploding(true);
-    }, Math.max(0, duration - 1000)); // Start implosion 1 second before the end
+    }, implodeDelay);
 
     return () => clearTimeout(implodeTimer);
   }, [duration]);

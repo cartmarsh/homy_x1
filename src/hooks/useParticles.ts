@@ -18,11 +18,11 @@ export interface ParticleConfig {
 }
 
 const defaultConfig: ParticleConfig = {
-  count: 800,
-  radiusRange: [1, 3], // min: 1, max: 3
-  sizeRange: [0.01, 0.06], // min: 0.01, max: 0.06
-  speedRange: [0.02, 0.07], // min: 0.02, max: 0.07
-  edgeParticleRatio: 0.5, // 20% of particles will be on edges
+  count: 1200,
+  radiusRange: [0.5, 3],
+  sizeRange: [0.01, 0.08],
+  speedRange: [0.015, 0.05],
+  edgeParticleRatio: 0.4,
 };
 
 export function useParticles(config: Partial<ParticleConfig> = {}): Particle[] {
