@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react';
 import { SiReact, SiNodedotjs, SiTypescript, SiJavascript, SiNextdotjs, SiTailwindcss, SiHtml5, SiCss3 } from 'react-icons/si';
+import useImageLoad from '../../hooks/useImageLoad';
 
 interface PortfolioItemImageProps {
   image: string;
@@ -29,22 +30,62 @@ const PortfolioItemImage: React.FC<PortfolioItemImageProps> = ({
   className = '',
   style = {}
 }) => {
+  // Use our custom image loading hook
+  const { isLoading, hasError, handleImageLoad, handleImageError } = useImageLoad({
+    src: image,
+    preload: true
+  });
+
   // Filter tags to only show those with icons
   const knownTags = tags.filter(tag => TECH_ICONS[tag]);
   
   return (
     <div className="relative overflow-hidden">
-      {/* Main image */}
+      {/* Loading placeholder */}
+      {isLoading && (
+        <div 
+          className="absolute inset-0 flex items-center justify-center bg-purple-900/20 backdrop-blur-sm animate-pulse"
+          style={{
+            minHeight: '55vh',
+          }}
+        >
+          <div className="text-center">
+            <div className="inline-block w-12 h-12 border-4 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
+            <div className="mt-3 text-sm text-white font-semibold">Loading...</div>
+          </div>
+        </div>
+      )}
+      
+      {/* Error state */}
+      {hasError && (
+        <div 
+          className="absolute inset-0 flex items-center justify-center bg-purple-900/40 backdrop-blur-sm"
+          style={{
+            minHeight: '55vh',
+          }}
+        >
+          <div className="text-center text-white p-4">
+            <svg className="w-12 h-12 mx-auto text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <p className="mt-2">Failed to load image</p>
+          </div>
+        </div>
+      )}
+      
+      {/* Main image - using onLoad event */}
       <img 
         src={image} 
         alt={`${title} project screenshot`}
-        className={`${className} w-full h-auto object-cover`}
+        className={`${className} w-full h-auto object-cover transition-opacity duration-300 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         style={{
           minHeight: '55vh', // Use relative units with increased height
           objectFit: 'cover',
           objectPosition: 'center top',
           ...style
         }}
+        onLoad={handleImageLoad}
+        onError={handleImageError}
       />
       
       {/* Technology icons overlay moved to top-right corner */}
