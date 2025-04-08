@@ -1,7 +1,16 @@
 import { useCallback } from 'react';
 
+interface GlitchEffectResult {
+  isActive: boolean;
+  glitchStyle: React.CSSProperties;
+  triggerClickEffect: () => void;
+  glitchIntensity: number;
+  isClicked: boolean;
+  lightningClass: string;
+}
+
 // Custom hook for scroll effect
-const useGlitchEffect = () => {
+const useGlitchEffect = (): GlitchEffectResult => {
     const triggerClickEffect = useCallback(() => {
         document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     }, []);
@@ -11,7 +20,9 @@ const useGlitchEffect = () => {
         glitchIntensity: 0, 
         isClicked: false, 
         lightningClass: '', 
-        triggerClickEffect 
+        triggerClickEffect,
+        isActive: false,
+        glitchStyle: {}
     };
 };
 

@@ -1,5 +1,3 @@
-import { motion } from 'framer-motion';
-
 interface TextAnimationConfig {
     delay?: number;
     duration?: number;

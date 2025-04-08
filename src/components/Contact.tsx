@@ -12,10 +12,9 @@ const Sketch = React.lazy(() => import('react-p5'));
 interface ContactProps {
     className?: string;
     id?: string;
-    isLastSection?: boolean;
 }
 
-const Contact: React.FC<ContactProps> = ({ className, id, isLastSection = false }) => {
+const Contact: React.FC<ContactProps> = ({ className, id }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const p5InstanceRef = useRef<any>(null);
     const resizeTimeoutRef = useRef<NodeJS.Timeout>();
@@ -105,7 +104,6 @@ const Contact: React.FC<ContactProps> = ({ className, id, isLastSection = false 
             id={id} 
             bgColor='bg-lemon' 
             className={`${className} relative`}
-            isLastSection={isLastSection}
         >
             <div ref={containerRef} className="relative w-full h-full">
                 {/* P5.js Canvas Container */}

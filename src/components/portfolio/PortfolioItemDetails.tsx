@@ -1,12 +1,10 @@
-import React, { CSSProperties, useEffect } from 'react';
+import React, { CSSProperties } from 'react';
 
 interface PortfolioItemDetailsProps {
   title: string;
   description: string;
   functionality: string[];
-  tags?: string[];
   link?: string;
-  isVisible: boolean;
   onClose: () => void;
 }
 
@@ -14,9 +12,7 @@ const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
   title,
   description,
   functionality,
-  tags = [],
   link,
-  isVisible,
   onClose
 }) => {
   // Define button styles for reuse

@@ -1,17 +1,11 @@
 import React, { ReactNode, RefObject, CSSProperties } from 'react';
-import { getPortfolioContainerStyles, HIDE_SCROLLBAR_STYLE, WEBKIT_SCROLLBAR_STYLE } from '../../utils/portfolioStyles';
-import { DEFAULT_PORTFOLIO_VALUES } from '../../constants/portfolioConstants';
+import { getPortfolioContainerStyles } from '../../utils/portfolioStyles';
 
 interface PortfolioItemContainerProps {
   containerRef: RefObject<HTMLDivElement>;
   showDetails: boolean;
-  expandedHeight: number | null;
-  containerHeight: number | null;
-  imageHeight: number | null;
-  link?: string | null;
   title: string;
   detailsId: string;
-  onClick?: (() => void) | undefined;
   accessibilityProps: Record<string, any>;
   children: ReactNode;
 }
@@ -19,20 +13,12 @@ interface PortfolioItemContainerProps {
 const PortfolioItemContainer: React.FC<PortfolioItemContainerProps> = ({
   containerRef,
   showDetails,
-  expandedHeight,
-  containerHeight,
-  imageHeight,
-  link,
-  onClick,
   accessibilityProps,
   children
 }) => {
   // Generate styles for the container
   const containerStyles = getPortfolioContainerStyles(
-    showDetails, 
-    expandedHeight, 
-    containerHeight, 
-    imageHeight
+    showDetails
   );
 
   // Remove any overflow hidden from container styles to enable scrolling

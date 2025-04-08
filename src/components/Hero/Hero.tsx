@@ -1,8 +1,7 @@
-import React, { useRef, useEffect, Suspense } from 'react';
+import React, { useRef, Suspense } from 'react';
 import ContentSection from '../layout/ContentSection';
 import profilePic from './../../assets/Hauger.png';
 import './Hero.css';
-import { AnimatePresence } from 'framer-motion';
 import useScrollSnapping from '../../hooks/useScrollSnapping';
 import useDimensions from '../../hooks/useDimensions';
 import useMouseTracking from '../../hooks/useMouseTracking';
@@ -19,13 +18,18 @@ interface HeroProps {
     id?: string;
 }
 
+interface GlitchEffect {
+    triggerClickEffect: () => void;
+}
+
 const Hero: React.FC<HeroProps> = ({ className, id }) => {
     const divRef = useRef<HTMLDivElement>(null);
     
     // Use custom hooks
     const { dimensions, isClient } = useDimensions(divRef);
     const { handleMouseMove, getOffsets } = useMouseTracking(divRef);
-    const { triggerClickEffect } = useGlitchEffect();
+    const glitchEffect = useGlitchEffect() as unknown as GlitchEffect;
+    const { triggerClickEffect } = glitchEffect;
     
     // Apply scroll snapping
     useScrollSnapping();
@@ -60,7 +64,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                             }}
                         >
                             <Suspense fallback={null}>
-                                <ThreeBackground glitchIntensity={0} />
+                                <ThreeBackground />
                             </Suspense>
                         </div>
                     </div>
@@ -71,7 +75,6 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                     <HeroContent 
                         offsetX={offsetX}
                         offsetY={offsetY}
-                        glitchIntensity={0}
                         triggerClickEffect={triggerClickEffect}
                         className="w-full md:w-3/4"
                     />

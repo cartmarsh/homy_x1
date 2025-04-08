@@ -64,7 +64,6 @@ const useImplodingWhirlwind = ({
   // Calculate animation parameters based on implosion state
   const getAnimationParams = useCallback((
     initialRadius: number,
-    initialAngle: number,
     initialHeight: number,
     speed: number
   ) => {
@@ -73,8 +72,6 @@ const useImplodingWhirlwind = ({
     }
 
     // During implosion, particles move towards center and speed up
-    const targetRadius = 0;
-    const targetHeight = 0;
     const speedMultiplier = 1 + implodeProgress * 2; // Particles speed up during implosion
 
     return {

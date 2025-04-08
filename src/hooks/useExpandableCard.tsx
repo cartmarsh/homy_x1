@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { UseExpandableCardProps, ExpandableCardState } from '../types/portfolioTypes';
-import { DEFAULT_PORTFOLIO_VALUES } from '../constants/portfolioConstants';
 
-const useExpandableCard = ({ link, onToggle }: UseExpandableCardProps = {}): ExpandableCardState => {
+const useExpandableCard = ({ onToggle }: UseExpandableCardProps = {}): ExpandableCardState => {
   const [showDetails, setShowDetails] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 

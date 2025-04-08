@@ -6,7 +6,6 @@ import useTextAnimation from '../../hooks/useTextAnimation';
 interface HeroContentProps {
     offsetX: number;
     offsetY: number;
-    glitchIntensity: number;
     triggerClickEffect: () => void;
     className?: string;
 }
@@ -14,7 +13,6 @@ interface HeroContentProps {
 const HeroContent: React.FC<HeroContentProps> = ({
     offsetX,
     offsetY,
-    glitchIntensity,
     triggerClickEffect,
     className = ''
 }) => {

@@ -1,10 +1,7 @@
 import React, { useRef, MouseEvent } from 'react';
 import { PortfolioItemProps } from '../../types/portfolioTypes';
 import useExpandableCard from '../../hooks/useExpandableCard';
-import useDimensionCalculation from '../../hooks/useDimensionCalculation';
-import useExpandedHeight from '../../hooks/useExpandedHeight';
 import useAccessibilityProps from '../../hooks/useAccessibilityProps';
-import useAnimationStyles from '../../hooks/useAnimationStyles';
 import usePortfolioItemHover from '../../hooks/usePortfolioItemHover';
 import useTransitionState from '../../hooks/useTransitionState';
 import usePortfolioImage from '../../hooks/usePortfolioImage';
@@ -15,10 +12,8 @@ import PortfolioItemContainer from './PortfolioItemContainer';
 import { DEFAULT_PORTFOLIO_VALUES } from '../../constants/portfolioConstants';
 import { 
   getDetailsButtonStyle,
-  getDetailsSectionStyles,
   getMainContentStyles,
-  getTitleOverlayStyle,
-  WEBKIT_SCROLLBAR_CSS
+  getTitleOverlayStyle
 } from '../../utils/portfolioItemStyles';
 
 const PortfolioItem: React.FC<PortfolioItemProps> = ({
@@ -60,23 +55,6 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
     isTransitioning
   });
 
-  const {
-    imageHeight,
-    containerHeight,
-    hasCalculatedHeights
-  } = useDimensionCalculation({
-    containerRef,
-    detailsRef,
-    showDetails
-  });
-
-  // Use the expanded height hook
-  const { expandedHeight } = useExpandedHeight({
-    containerRef,
-    detailsRef,
-    showDetails
-  });
-
   // Use accessibility props hook
   const accessibilityProps = useAccessibilityProps({
     hasLink: false, // No longer treating entire card as clickable
@@ -86,10 +64,6 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
     onActivate: () => {} // Empty function since we're not making the whole card clickable
   });
 
-  // Get animation styles
-  const animationStyles = useAnimationStyles();
-  const buttonContainerStyles = animationStyles.getButtonContainerStyles(showDetails);
-  
   // Add example functionality if none provided
   if (functionality.length === 0) {
     functionality = DEFAULT_PORTFOLIO_VALUES.DEFAULT_FUNCTIONALITY;
@@ -105,13 +79,8 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
     <PortfolioItemContainer
       containerRef={containerRef}
       showDetails={showDetails}
-      expandedHeight={expandedHeight}
-      containerHeight={containerHeight}
-      imageHeight={imageHeight}
-      link={null} // Remove link from container
       title={title}
       detailsId={detailsId}
-      onClick={undefined} // Remove click handler
       accessibilityProps={accessibilityProps}
     >
       {/* Main content with relative positioning and no gap */}
@@ -174,9 +143,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
             title={title}
             description={description}
             functionality={functionality}
-            tags={tags}
             link={link}
-            isVisible={showDetails}
             onClose={handleClose}
           />
         </div>

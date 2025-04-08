@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties } from 'react';
+import { useState, useEffect, CSSProperties } from 'react';
 import ContentSection from './layout/ContentSection';
 import PortfolioItem from './portfolio/PortfolioItem';
 import RetroHeader from './portfolio/RetroHeader';
@@ -59,17 +59,6 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
         }
     }, [isTransitioning, currentIndex]);
 
-    // Direct navigation
-    const goToIndex = (index: number) => {
-        if (isTransitioning || index === currentIndex) return;
-        
-        setSlideDirection(index > currentIndex ? "right" : "left");
-        setIsTransitioning(true);
-        setTimeout(() => {
-            setCurrentIndex(index);
-        }, 200);
-    };
-
     // Arrow button style with responsive sizing - made bigger with slower hover effect
     const arrowButtonStyle = "bg-gray-800 bg-opacity-70 hover:bg-opacity-90 text-white rounded-full p-3 sm:p-5 focus:outline-none transition-all duration-700 transform hover:scale-110 shadow-lg";
 
@@ -109,7 +98,6 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
             id={id} 
             bgColor='bg-lemon' 
             className={`${className}`}
-            isPortfolio={true}
         >
             <div className="w-full h-full flex flex-col" style={portfolioContainerStyle}>
                 {/* Header with responsive sizing */}

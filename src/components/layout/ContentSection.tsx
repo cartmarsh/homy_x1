@@ -5,9 +5,7 @@ interface ContentSectionProps {
     children: React.ReactNode;
     id?: string;
     isHero?: boolean;
-    isPortfolio?: boolean;
     bgColor?: 'bg-cream' | 'bg-peach' | 'bg-gray-100' | 'bg-mint' | 'bg-sky' | 'bg-lemon' | 'bg-coral' | 'bg-lilac' | 'bg-transparent';
-    isLastSection?: boolean;
 }
 
 // Maximum distance the card can shift on mouse movement in px
@@ -18,9 +16,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     children,
     id,
     isHero = false,
-    isPortfolio = false,
-    bgColor = 'bg-cream',
-    isLastSection = false
+    bgColor = 'bg-cream'
 }) => {
     const [shiftX, setShiftX] = useState(0);
     const [shiftY, setShiftY] = useState(0);

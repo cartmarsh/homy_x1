@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDetailsButtonStyles, getButtonHoverHandlers } from '../../utils/portfolioStyles';
+import { getDetailsButtonStyles } from '../../utils/portfolioStyles';
 
 interface PortfolioItemButtonProps {
   showDetails: boolean;
@@ -18,7 +18,6 @@ const PortfolioItemButton: React.FC<PortfolioItemButtonProps> = ({
 }) => {
   // Get style functions
   const buttonStyles = getDetailsButtonStyles();
-  const hoverHandlers = getButtonHoverHandlers();
 
   // Enhanced styles when parent container is hovered
   const enhancedButtonStyle = {
@@ -30,25 +29,6 @@ const PortfolioItemButton: React.FC<PortfolioItemButtonProps> = ({
     transition: 'all 0.4s ease-in-out',
     background: 'linear-gradient(135deg, #9333ea 0%, #7e22ce 100%)',
     border: '2px solid rgba(255, 255, 255, 0.3)'
-  };
-
-  // Remove hover handlers that cause movement
-  const staticHoverHandlers = {
-    onMouseOver: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(147, 51, 234, 0.4)';
-    },
-    onMouseOut: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2), 0 6px 10px rgba(147, 51, 234, 0.3)';
-    },
-    onMouseDown: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.2), 0 3px 5px rgba(147, 51, 234, 0.2)';
-    },
-    onMouseUp: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(147, 51, 234, 0.4)';
-    },
-    onMouseLeave: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2), 0 6px 10px rgba(147, 51, 234, 0.3)';
-    }
   };
 
   const buttonClasses = `

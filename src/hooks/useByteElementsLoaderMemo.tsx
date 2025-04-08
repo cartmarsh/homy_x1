@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import React from 'react';
 
 /**
  * Hook for creating memoized byte elements for loading animations

@@ -40,10 +40,7 @@ export const getContainerClasses = (showDetails: boolean, isLink: boolean): stri
  * Generate container styles for portfolio item
  */
 export const getPortfolioContainerStyles = (
-  showDetails: boolean, 
-  expandedHeight: number | null, 
-  containerHeight: number | null, 
-  imageHeight: number | null
+  showDetails: boolean
 ): CSSProperties => {
   return {
     height: 'auto', // Allow height to adjust based on content

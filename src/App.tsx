@@ -162,7 +162,7 @@ function App() {
           <Hero id="home" />
           <Portfolio id="portfolio" />
           <AboutMe id="about" />
-          <Contact id="contact" className="bg-transparent" isLastSection={true} />
+          <Contact id="contact" className="bg-transparent" />
         </main>
       </LoadingWrapper>
     </div>

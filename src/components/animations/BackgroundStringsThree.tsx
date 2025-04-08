@@ -10,18 +10,6 @@ interface BackgroundStringsThreeProps {
   animationSpeed?: number;
 }
 
-// Custom type for tube data
-interface TubeData {
-  originalPoints: THREE.Vector3[];
-  originalCurve: THREE.CatmullRomCurve3;
-  angle: number;
-  index: number;
-  maxDeflection: number;
-  originalColor: THREE.Color;
-  animationColor: THREE.Color;
-  thickness: number;
-}
-
 function BackgroundStringsThree({ 
   className = '',
   numStrings = 50,

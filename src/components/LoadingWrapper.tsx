@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LoadingScreen from './animations/RetroLoader';
 import { motion, AnimatePresence } from 'framer-motion';
 

@@ -2,10 +2,9 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import * as THREE from 'three';
 
 interface ThreeBackgroundProps {
-    glitchIntensity: number;
 }
 
-const ThreeBackground: React.FC<ThreeBackgroundProps> = ({ glitchIntensity }) => {
+const ThreeBackground: React.FC<ThreeBackgroundProps> = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const sceneRef = useRef<THREE.Scene | null>(null);
     const cameraRef = useRef<THREE.OrthographicCamera | null>(null);
