@@ -1,192 +1,88 @@
-import React, { useEffect, useRef, useState } from 'react';
-import p5 from 'p5';
+import React, { useRef, useState, memo } from 'react';
+import useGlitchEffect from '../../hooks/useGlitchEffect';
+import RetroCanvas from '../three/RetroCanvas';
+import RetroGrid from '../three/RetroGrid';
+import GridParticles from '../three/GridParticles';
 
 interface RetroHeaderProps {
   title: string;
   className?: string;
 }
 
+/**
+ * RetroHeader component with a retro grid effect, particles, and text glitch effect
+ */
 const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
   const headerRef = useRef<HTMLDivElement>(null);
-  const p5ContainerRef = useRef<HTMLDivElement>(null);
-  const p5Instance = useRef<p5 | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [glitchActive, setGlitchActive] = useState(false);
+  
+  // Use our custom glitch effect hook
+  const { glitchStyle } = useGlitchEffect({
+    probability: 0.3,
+    duration: 150,
+    interval: 2000
+  });
 
-  // Trigger random glitch effect
-  useEffect(() => {
-    const glitchInterval = setInterval(() => {
-      if (Math.random() > 0.7) {
-        setGlitchActive(true);
-        setTimeout(() => setGlitchActive(false), 150);
-      }
-    }, 2000);
-
-    return () => clearInterval(glitchInterval);
-  }, []);
-
-  // Initialize p5 sketch
-  useEffect(() => {
-    if (!p5ContainerRef.current) return;
-
-    const sketch = (p: p5) => {
-      const gridSize = 20;
-      const particles: Particle[] = [];
-      const particleCount = 15; // Further reduced particle count
-
-      interface Particle {
-        x: number;
-        y: number;
-        size: number;
-        speed: number;
-        color: string;
-        shape: 'square' | 'circle' | 'triangle';
-      }
-
-      p.setup = () => {
-        const container = headerRef.current;
-        if (!container) return;
-        
-        const width = container.offsetWidth;
-        const height = 50; // Match the container height
-        
-        p.createCanvas(width, height);
-        p.noStroke();
-        
-        // Create initial particles
-        const colors = ['#FF5E5B', '#D8D8F6', '#39CCCC', '#FFDC00', '#01FF70'];
-        const shapes = ['square', 'circle', 'triangle'];
-        
-        for (let i = 0; i < particleCount; i++) {
-          particles.push({
-            x: p.random(width),
-            y: p.random(height),
-            size: p.random(3, 10), // Even smaller particles
-            speed: p.random(0.5, 1.5),
-            color: colors[Math.floor(p.random(colors.length))],
-            shape: shapes[Math.floor(p.random(shapes.length))] as 'square' | 'circle' | 'triangle'
-          });
-        }
-      };
-
-      p.draw = () => {
-        p.clear(0, 0, 0, 0);
-        
-        // Draw grid
-        p.stroke(255, 255, 255, 30);
-        p.strokeWeight(1);
-        
-        for (let x = 0; x < p.width; x += gridSize) {
-          p.line(x, 0, x, p.height);
-        }
-        
-        for (let y = 0; y < p.height; y += gridSize) {
-          p.line(0, y, p.width, y);
-        }
-        
-        // Draw and update particles
-        p.noStroke();
-        particles.forEach(particle => {
-          p.fill(particle.color);
-          
-          switch (particle.shape) {
-            case 'square':
-              p.rect(particle.x, particle.y, particle.size, particle.size);
-              break;
-            case 'circle':
-              p.ellipse(particle.x, particle.y, particle.size);
-              break;
-            case 'triangle':
-              p.triangle(
-                particle.x, particle.y - particle.size/2,
-                particle.x - particle.size/2, particle.y + particle.size/2,
-                particle.x + particle.size/2, particle.y + particle.size/2
-              );
-              break;
-          }
-          
-          // Move particles
-          particle.y += particle.speed;
-          
-          // Reset particles when they go off-screen
-          if (particle.y > p.height) {
-            particle.y = -particle.size;
-            particle.x = p.random(p.width);
-          }
-        });
-      };
-
-      p.windowResized = () => {
-        const container = headerRef.current;
-        if (container) {
-          p.resizeCanvas(container.offsetWidth, 50); // Match the container height
-        }
-      };
-    };
-
-    p5Instance.current = new p5(sketch, p5ContainerRef.current);
-
-    return () => {
-      if (p5Instance.current) {
-        p5Instance.current.remove();
-      }
-    };
-  }, []);
-
-  // Generate random offsets for glitch effect
-  const getGlitchStyle = () => {
-    if (!glitchActive) return {};
-    
-    return {
-      transform: `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`,
-      textShadow: `
-        ${Math.random() * 4 - 2}px ${Math.random() * 4 - 2}px 0 rgba(255,0,0,0.7),
-        ${Math.random() * 4 - 2}px ${Math.random() * 4 - 2}px 0 rgba(0,255,255,0.7)
-      `
-    };
-  };
+  // Handler functions
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
 
   return (
     <div 
       ref={headerRef}
       className="w-full relative mb-0 cursor-pointer flex justify-center" 
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <div 
-        ref={p5ContainerRef} 
-        className="absolute inset-0 pointer-events-none z-0"
-      />
+      {/* 3D Canvas for retro grid and particles */}
+      <RetroCanvas height="60px">
+        <RetroGrid />
+        <GridParticles 
+          count={15}
+          speedRange={[0.005, 0.015]}
+          sizeRange={[0.03, 0.1]}
+        />
+      </RetroCanvas>
       
-      <div className="relative z-10 flex flex-col items-center justify-center h-[70px] sm:h-[80px] md:h-[100px] lg:h-[140px] w-auto">
-        {/* Scanline effect - reduced number and spacing */}
-        <div className={`absolute inset-0 overflow-hidden pointer-events-none ${isHovered ? 'opacity-20' : 'opacity-10'}`}>
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div 
-              key={i} 
-              className="h-[4px] w-full bg-black opacity-30"
-              style={{ marginTop: `${i * 12}px` }}
-            />
-          ))}
-        </div>
+      {/* Title Container */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-[50px] sm:h-[60px] md:h-[70px] lg:h-[90px] w-auto">
+        {/* Scanline effect */}
+        <ScanLines isHovered={isHovered} />
         
-        {/* Title */}
+        {/* Title with glitch effect */}
         <h1 
-          className={`text-2xl sm:text-3xl md:text-4xl font-bold tracking-wider uppercase text-center text-gray-800 ${className}`}
+          className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-wider uppercase text-center text-gray-800 ${className}`}
           style={{
             fontFamily: "'Press Start 2P', 'VT323', monospace",
             WebkitTextStroke: "0.7px rgba(0,0,0,0.3)",
-            ...getGlitchStyle()
+            ...glitchStyle
           }}
         >
           {title}
         </h1>
         
         {/* Decorative line */}
-        <div className="w-32 sm:w-40 md:w-48 h-[3px] bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-2"></div>
+        <div className="w-28 sm:w-36 md:w-44 h-[2px] bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-1"></div>
       </div>
     </div>
   );
 };
 
-export default RetroHeader; 
+/**
+ * ScanLines component for the retro effect
+ */
+const ScanLines = memo(({ isHovered }: { isHovered: boolean }) => (
+  <div className={`absolute inset-0 overflow-hidden pointer-events-none ${isHovered ? 'opacity-20' : 'opacity-10'}`}>
+    {Array.from({ length: 2 }).map((_, i) => (
+      <div 
+        key={i} 
+        className="h-[3px] w-full bg-black opacity-30"
+        style={{ marginTop: `${i * 10}px` }}
+      />
+    ))}
+  </div>
+));
+
+ScanLines.displayName = 'ScanLines';
+
+export default memo(RetroHeader); 

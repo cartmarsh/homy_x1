@@ -6,6 +6,7 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: #2d1b69; /* Set the base background color to purple */
+  scroll-behavior: smooth;
 }
 
 body {
@@ -78,12 +79,17 @@ body::before {
   overflow-y: auto;
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-top: var(--navbar-height, 0px);
   background-color: transparent;
-  margin-top: var(--navbar-height, 0px); /* Add margin to account for fixed navbar */
+  margin-top: var(--navbar-height, 0px);
+  overscroll-behavior-y: contain;
+  /* Smoother scrolling with updated duration */
+  transition: scroll-behavior 1s cubic-bezier(0.22, 1, 0.36, 1);
+  scroll-timeline: auto;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -99,21 +105,39 @@ section {
   width: 100%;
   overflow: hidden;
   background-color: transparent;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Animation for scrolling to smooth out the snap effect */
+@keyframes smoothScroll {
+  0% { scroll-snap-type: none; }
+  99% { scroll-snap-type: none; }
+  100% { scroll-snap-type: y mandatory; }
+}
+
+/* Class to apply during scroll */
+.smooth-scrolling {
+  animation: smoothScroll 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Retro Card Styling */
 .retro-card {
   background-color: white;
-  box-shadow: 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.2); /* Changed from 4px 4px */
-  border: 0.125rem solid #000; /* Changed from 2px */
-  border-radius: 0.5rem; /* Changed from 8px */
-  padding: 1.25rem; /* Changed from 20px */
-  max-width: 90%;
+  box-shadow: 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.2);
+  border: 0.125rem solid #000;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   transform-style: preserve-3d;
+  /* Set consistent proportional height */
+  height: 80vh;
+  max-height: 80vh;
 }
 
 .retro-card h1, .retro-card h2, .retro-card h3 {

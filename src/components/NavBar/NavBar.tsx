@@ -13,8 +13,8 @@ const NavBar: React.FC = () => {
 
     const sections: Section[] = [
         { id: "home", label: "HOME" },
-        { id: "about", label: "ABOUT ME" },
         { id: "portfolio", label: "PORTFOLIO" },
+        { id: "about", label: "ABOUT ME" },
         { id: "contact", label: "CONTACT" }
     ];
 

@@ -87,8 +87,9 @@ p, h1, h2, h3, h4, h5, h6 {
     transform: none !important;
     bottom: auto !important;
     display: flex !important;
-    justify-content: flex-end !important;
-    padding-right: 1rem !important;
+    justify-content: center !important;
+    padding-right: 0rem !important;
+    padding-left: 0rem !important;
   }
   
   /* Make button part of the left column */

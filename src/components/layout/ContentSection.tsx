@@ -5,8 +5,7 @@ interface ContentSectionProps {
     children: React.ReactNode;
     id?: string;
     isHero?: boolean;
-    bgColor?: 'bg-cream' | 'bg-peach' | 'bg-gray-100' | 'bg-mint' | 'bg-sky' | 'bg-lemon' | 'bg-coral' | 'bg-lilac';
-    isLastSection?: boolean;
+    bgColor?: 'bg-cream' | 'bg-peach' | 'bg-gray-100' | 'bg-mint' | 'bg-sky' | 'bg-lemon' | 'bg-coral' | 'bg-lilac' | 'bg-transparent';
 }
 
 // Maximum distance the card can shift on mouse movement in px
@@ -17,14 +16,14 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     children,
     id,
     isHero = false,
-    bgColor = 'bg-cream',
-    isLastSection = false
+    bgColor = 'bg-cream'
 }) => {
     const [shiftX, setShiftX] = useState(0);
     const [shiftY, setShiftY] = useState(0);
     const [navbarHeight, setNavbarHeight] = useState(0);
     const [isClient, setIsClient] = useState(false);
     const sectionRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
 
     // Set isClient to true when component mounts on client
     useEffect(() => {
@@ -71,13 +70,6 @@ const ContentSection: React.FC<ContentSectionProps> = ({
         setShiftY(distanceY * MAX_SHIFT);
     };
 
-    const handleScrollClick = () => {
-        const nextSection = document.getElementById(id || '')?.nextElementSibling;
-        if (nextSection) {
-            nextSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
     return (
         <section 
             id={id}
@@ -85,74 +77,79 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             className={`
                 relative
                 w-full
-                flex justify-center
+                flex justify-center items-center
+                snap-start
                 ${className}
             `}
             style={{ 
-                minHeight: isClient ? `calc(100vh - ${navbarHeight / 16}rem)` : '100vh', 
+                height: isClient ? `calc(100vh - ${navbarHeight / 16}rem)` : '100vh',
                 marginTop: isClient ? `${navbarHeight / 16}rem` : '0',
+                scrollMarginTop: `${navbarHeight}px`,
+                transition: 'opacity 0.5s ease-in-out',
             }}
         >
             <div 
                 className={`
                     w-[98%] sm:w-[96%] md:w-[94%]
-                    min-h-[500px] xs:min-h-[550px] sm:min-h-[600px]
+                    min-h-[440px] xs:min-h-[484px] sm:min-h-[528px]
                     ${bgColor} retro-card
-                    top-[5%]
                     flex justify-center items-center
                     rounded-lg
-                    transition-transform duration-300 ease-out
+                    transition-all duration-300 ease-out
                     max-w-[1800px]
-                    max-h-[92vh]
                     relative
                     my-6
                 `}
                 onMouseMove={handleMouseMove}
                 style={{
                     transform: `translate(${shiftX}px, ${shiftY}px)`,
+                    transition: 'transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
                 }}
             >
-                <div className={`
-                    w-full
-                    h-full
-                    flex flex-col
-                    mx-auto
-                    retro-scroll
-                    rounded-lg
-                    ${isHero 
-                      ? 'p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16' 
-                      : 'p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16'}
-                    max-w-[1800px]
-                    overflow-x-hidden
-                    overflow-y-auto
-                `}>
+                <div 
+                    ref={contentRef}
+                    className={`
+                        w-full
+                        h-full
+                        flex flex-col
+                        mx-auto
+                        retro-scroll
+                        rounded-lg
+                        ${isHero 
+                          ? 'p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16' 
+                          : 'p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16'}
+                        max-w-[1800px]
+                        overflow-x-hidden overflow-y-auto
+                        bg-transparent
+                    `}
+                >
                     {children}
                 </div>
+                
+                {/* Background gradient that covers entire card */}
+                {isHero && (
+                    <>
+                        <div className="absolute inset-0 z-0" style={{
+                            background: 'linear-gradient(135deg, #1a0f3c 0%, #2d1b69 50%, #1a0f3c 100%)',
+                            borderRadius: 'inherit'
+                        }}></div>
+                        
+                        {/* Grid pattern overlay - subtle version that doesn't compete with P5 animation */}
+                        <div 
+                            className="absolute inset-0 z-0 pointer-events-none"
+                            style={{
+                                backgroundImage: `
+                                    linear-gradient(rgba(30, 30, 80, 0.2) 1px, transparent 1px),
+                                    linear-gradient(90deg, rgba(30, 30, 80, 0.2) 1px, transparent 1px)
+                                `,
+                                backgroundSize: '40px 40px',
+                                opacity: 0.4,
+                                borderRadius: 'inherit'
+                            }}
+                        />
+                    </>
+                )}
             </div>
-
-            {!isLastSection && (
-                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer">
-                    <button 
-                        onClick={handleScrollClick}
-                        className="p-2 transition-transform hover:translate-y-1 bg-white/30 rounded-full"
-                        aria-label="Scroll to next section"
-                    >
-                        <svg 
-                            width="40" 
-                            height="40" 
-                            viewBox="2 2 20 20" 
-                            className="fill-current text-gray-600 hover:text-gray-800 transition-colors"
-                            strokeWidth="2"
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path d="M6 9l6 6 6-6" />
-                        </svg>
-                    </button>
-                </div>
-            )}
         </section>
     );
 };

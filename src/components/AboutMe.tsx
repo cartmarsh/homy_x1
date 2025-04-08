@@ -1,7 +1,7 @@
 import React, { useRef, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import ContentSection from './layout/ContentSection';
-import profileImage from '../assets/Hauger2.png';
+import profileImage from '../assets/Hauger3.png';
 import styles from './AboutMe.module.css';
 import type p5Types from 'p5';
 import { setupCanvas, prepareDrawing, drawMultipleBorders } from '../utils/p5Setup';
@@ -73,7 +73,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, id }) => {
                             </p>
                             
                             <p className={`text-lg sm:text-xl ${styles['retro-text']}`}>
-                                After working hours he loves <span>organizing musical events</span> with his friends.
+                                After working hours he loves <span>organizing music events</span> with his friends.
                             </p>
                         </div>
                     </div>

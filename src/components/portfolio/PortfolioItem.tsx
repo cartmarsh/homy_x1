@@ -1,13 +1,20 @@
-import React, { useRef, useEffect } from 'react';
-import p5 from 'p5';
-
-interface PortfolioItemProps {
-  title: string;
-  description: string;
-  image: string;
-  link?: string;
-  tags?: string[];
-}
+import React, { useRef, MouseEvent } from 'react';
+import { PortfolioItemProps } from '../../types/portfolioTypes';
+import useExpandableCard from '../../hooks/useExpandableCard';
+import useAccessibilityProps from '../../hooks/useAccessibilityProps';
+import usePortfolioItemHover from '../../hooks/usePortfolioItemHover';
+import useTransitionState from '../../hooks/useTransitionState';
+import usePortfolioImage from '../../hooks/usePortfolioImage';
+import usePortfolioDetails from '../../hooks/usePortfolioDetails';
+import PortfolioItemImage from './PortfolioItemImage';
+import PortfolioItemDetails from './PortfolioItemDetails';
+import PortfolioItemContainer from './PortfolioItemContainer';
+import { DEFAULT_PORTFOLIO_VALUES } from '../../constants/portfolioConstants';
+import { 
+  getDetailsButtonStyle,
+  getMainContentStyles,
+  getTitleOverlayStyle
+} from '../../utils/portfolioItemStyles';
 
 const PortfolioItem: React.FC<PortfolioItemProps> = ({
   title,
@@ -15,224 +22,133 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
   image,
   link,
   tags = [],
+  functionality = [],
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const p5ContainerRef = useRef<HTMLDivElement>(null);
-  const p5Instance = useRef<p5 | null>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
+  
+  // Generate control ID for accessibility
+  const detailsId = `details-${title.replace(/\s+/g, '-').toLowerCase()}`;
+  
+  // Use custom hooks - transition state
+  const { isTransitioning, startTransition } = useTransitionState();
+  
+  // Use expandable card hook
+  const { 
+    showDetails, 
+    isAnimating, 
+    toggleDetails
+  } = useExpandableCard({ 
+    link,
+    onToggle: () => startTransition()
+  });
+  
+  // Use more custom hooks
+  const { isItemHovered, handleMouseEnter, handleMouseLeave } = usePortfolioItemHover({ 
+    showDetails 
+  });
+  const { containerStyles: imageContainerStyles, imageStyles } = usePortfolioImage({
+    isHovered: isItemHovered
+  });
+  const { detailsStyles, detailsClassName } = usePortfolioDetails({
+    showDetails,
+    isTransitioning
+  });
 
-  useEffect(() => {
-    if (!p5ContainerRef.current) return;
+  // Use accessibility props hook
+  const accessibilityProps = useAccessibilityProps({
+    hasLink: false, // No longer treating entire card as clickable
+    isExpanded: showDetails,
+    title,
+    controlsId: detailsId,
+    onActivate: () => {} // Empty function since we're not making the whole card clickable
+  });
 
-    // Initialize P5 sketch
-    const sketch = (p: p5) => {
-      const notes: Note[] = [];
-      const noteCount = 12;
-      
-      interface Note {
-        x: number;
-        y: number;
-        size: number;
-        angle: number;
-        speed: number;
-        opacity: number;
-        isQuarterNote: boolean;
-      }
+  // Add example functionality if none provided
+  if (functionality.length === 0) {
+    functionality = DEFAULT_PORTFOLIO_VALUES.DEFAULT_FUNCTIONALITY;
+  }
 
-      p.setup = () => {
-        const container = containerRef.current;
-        if (!container) return;
-        
-        const width = container.offsetWidth;
-        const height = container.offsetHeight;
-        
-        p.createCanvas(width, height);
-        p.noFill();
-        
-        // Initialize notes
-        for (let i = 0; i < noteCount; i++) {
-          const side = Math.floor(p.random(4)); // 0: top, 1: right, 2: bottom, 3: left
-          let x, y;
-          
-          // Position notes along the border
-          switch (side) {
-            case 0: // top
-              x = p.random(width);
-              y = 0;
-              break;
-            case 1: // right
-              x = width;
-              y = p.random(height);
-              break;
-            case 2: // bottom
-              x = p.random(width);
-              y = height;
-              break;
-            case 3: // left
-              x = 0;
-              y = p.random(height);
-              break;
-            default:
-              x = p.random(width);
-              y = p.random(height);
-          }
-          
-          notes.push({
-            x,
-            y,
-            size: p.random(10, 20),
-            angle: p.random(p.TWO_PI),
-            speed: p.random(0.5, 1.5),
-            opacity: p.random(50, 200),
-            isQuarterNote: p.random() > 0.5,
-          });
-        }
-      };
-
-      p.draw = () => {
-        p.clear(0, 0, 0, 0);
-        
-        // Draw border glow
-        p.stroke(255, 240, 100, 50);
-        p.strokeWeight(2);
-        const container = containerRef.current;
-        if (container) {
-          const padding = 10;
-          p.rect(padding, padding, container.offsetWidth - padding * 2, container.offsetHeight - padding * 2, 8);
-        }
-        
-        // Draw and update notes
-        for (const note of notes) {
-          p.push();
-          p.translate(note.x, note.y);
-          p.rotate(note.angle);
-          p.stroke(0, 0, 0, note.opacity);
-          p.strokeWeight(1.5);
-          
-          if (note.isQuarterNote) {
-            // Draw quarter note
-            p.fill(0, 0, 0, note.opacity);
-            p.ellipse(0, 0, note.size, note.size * 0.8);
-            p.line(note.size / 2, 0, note.size / 2, -note.size * 1.8);
-          } else {
-            // Draw eighth note
-            p.fill(0, 0, 0, note.opacity);
-            p.ellipse(0, 0, note.size, note.size * 0.8);
-            p.line(note.size / 2, 0, note.size / 2, -note.size * 1.8);
-            p.beginShape();
-            p.vertex(note.size / 2, -note.size * 1.8);
-            p.bezierVertex(
-              note.size * 1.2, -note.size * 1.8,
-              note.size * 1.2, -note.size * 1.2,
-              note.size / 2, -note.size * 1.2
-            );
-            p.endShape();
-          }
-          p.pop();
-          
-          // Move notes
-          note.x += p.cos(note.angle) * note.speed;
-          note.y += p.sin(note.angle) * note.speed;
-          note.opacity -= 0.5;
-          
-          // Reset notes that fade out or move out of bounds
-          if (note.opacity <= 0 || 
-              note.x < -note.size * 2 || 
-              note.x > p.width + note.size * 2 || 
-              note.y < -note.size * 2 || 
-              note.y > p.height + note.size * 2) {
-            const side = Math.floor(p.random(4));
-            
-            switch (side) {
-              case 0: // top
-                note.x = p.random(p.width);
-                note.y = 0;
-                break;
-              case 1: // right
-                note.x = p.width;
-                note.y = p.random(p.height);
-                break;
-              case 2: // bottom
-                note.x = p.random(p.width);
-                note.y = p.height;
-                break;
-              case 3: // left
-                note.x = 0;
-                note.y = p.random(p.height);
-                break;
-            }
-            
-            note.angle = p.random(p.TWO_PI);
-            note.speed = p.random(0.5, 1.5);
-            note.opacity = p.random(50, 200);
-            note.isQuarterNote = p.random() > 0.5;
-          }
-        }
-      };
-
-      p.windowResized = () => {
-        const container = containerRef.current;
-        if (container) {
-          p.resizeCanvas(container.offsetWidth, container.offsetHeight);
-        }
-      };
-    };
-
-    p5Instance.current = new p5(sketch, p5ContainerRef.current);
-
-    return () => {
-      if (p5Instance.current) {
-        p5Instance.current.remove();
-      }
-    };
-  }, []);
+  // Create a compatible handler for the onClose prop
+  const handleClose = (e?: MouseEvent<Element>) => {
+    if (e) e.stopPropagation();
+    toggleDetails(e as MouseEvent);
+  };
 
   return (
-    <div 
-      ref={containerRef}
-      className="relative bg-white shadow-md rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl w-full max-w-[35rem] h-auto mx-auto"
+    <PortfolioItemContainer
+      containerRef={containerRef}
+      showDetails={showDetails}
+      title={title}
+      detailsId={detailsId}
+      accessibilityProps={accessibilityProps}
     >
+      {/* Main content with relative positioning and no gap */}
       <div 
-        ref={p5ContainerRef} 
-        className="absolute inset-0 pointer-events-none z-0"
-      />
-      <div className="relative z-10 p-5 flex flex-col items-center">
-        <div className="relative w-full">
-          <img 
-            src={image} 
-            alt={title} 
-            className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover rounded-lg"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-            {tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 justify-center">
-                {tags.map((tag, index) => (
-                  <span 
-                    key={index} 
-                    className="text-sm bg-blue-500/80 text-white px-3 py-1 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
+        className="relative z-10 flex flex-col overflow-hidden rounded-lg" 
+        style={getMainContentStyles()}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* Upper section with image - with better containment */}
+        <div className="w-full relative">
+          {/* Image container with proper containment */}
+          <div 
+            className="w-full portfolio-image-container transition-all duration-500 ease-in-out"
+            style={imageContainerStyles}
+          >
+            <PortfolioItemImage 
+              image={image} 
+              title={title} 
+              tags={tags} 
+              className="w-full h-full object-cover"
+              style={imageStyles}
+            />
+            
+            {/* Large monospace title overlay in the area marked by red rectangle */}
+            <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
+              <div 
+                className="w-11/12 text-center px-4"
+                style={getTitleOverlayStyle()}
+              >
+                {title}
               </div>
+            </div>
+            
+            {/* Prominent centered "Get Details" button */}
+            {!showDetails && (
+              <button
+                onClick={toggleDetails}
+                disabled={isAnimating}
+                className="pointer-events-auto"
+                style={getDetailsButtonStyle(isItemHovered)}
+                aria-expanded={showDetails}
+                aria-controls={detailsId}
+              >
+                Get Details
+              </button>
             )}
           </div>
         </div>
-        <div className="pt-4 text-center w-full">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-3">{title}</h3>
-          <p className="text-base text-gray-600 mb-4">{description}</p>
-          {link && (
-            <a 
-              href={link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-block text-lg text-blue-600 hover:text-blue-800 transition-colors font-medium"
-            >
-              View Project →
-            </a>
-          )}
+        
+        {/* Details section sliding up from bottom with curtain-like animation */}
+        <div 
+          ref={detailsRef}
+          id={detailsId}
+          className={detailsClassName}
+          style={detailsStyles}
+        >
+          {/* Content with same slide animation */}
+          <PortfolioItemDetails
+            title={title}
+            description={description}
+            functionality={functionality}
+            link={link}
+            onClose={handleClose}
+          />
         </div>
       </div>
-    </div>
+    </PortfolioItemContainer>
   );
 };
 

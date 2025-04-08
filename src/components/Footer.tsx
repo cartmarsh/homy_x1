@@ -10,13 +10,11 @@ const Sketch = React.lazy(() => import('react-p5'));
 interface FooterProps {
   className?: string;
   children?: React.ReactNode;
-  isLastSection?: boolean;
 }
 
 const Footer: React.FC<FooterProps> = ({
   className,
-  children,
-  isLastSection = false
+  children
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const p5InstanceRef = useRef<any>(null);
@@ -156,7 +154,6 @@ const Footer: React.FC<FooterProps> = ({
   return (
     <ContentSection 
       className={`relative min-h-[150px] overflow-hidden ${className}`}
-      isLastSection={isLastSection}
     >
       {/* P5.js Canvas Container */}
       <div ref={containerRef} className="absolute inset-0 z-0">
