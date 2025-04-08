@@ -48,7 +48,8 @@ export function useParticleAnimation({
     const sizes = particlesRef.current.geometry.attributes.size.array as Float32Array;
     
     // Calculate smooth color transition based on time
-    const colorProgress = (Math.sin(time * 0.5) + 1) * 0.5;
+    // Use state.clock for a more global time value that syncs better with other effects
+    const colorProgress = (Math.sin(state.clock.elapsedTime * 0.5) + 1) * 0.5;
     const currentColor = lerpColor(startColor.current, endColor.current, colorProgress);
     
     // Update material color
@@ -84,6 +85,18 @@ export function useParticleAnimation({
         ? Math.sin(time * 0.5 + idx * 0.3) * 0.1 * (1 - implodeProgress)
         : Math.sin(time * 0.5 + idx * 0.3) * 0.1;
       
+      // Subtle camera-based effect - particles closer to the camera view are slightly brighter
+      // Calculate position relative to camera
+      const cameraDirection = state.camera.position.clone().normalize();
+      const particleDirection = new THREE.Vector3(
+        Math.cos(angle) * radius, 
+        height, 
+        Math.sin(angle) * radius
+      ).normalize();
+      
+      // Dot product gives value between -1 and 1, where 1 means vectors are parallel
+      const dotProduct = cameraDirection.dot(particleDirection);
+      
       // Calculate new position with implosion effect
       const currentRadius = radius + radialOscillation;
       positions[i] = Math.cos(angle) * currentRadius;
@@ -102,8 +115,11 @@ export function useParticleAnimation({
       const implodingSizeMultiplier = isImploding 
         ? Math.pow(1 - implodeProgress, 1.5) // Less aggressive size reduction
         : 1;
+      
+      // Apply camera-based size variation - particles facing camera appear slightly larger
+      const cameraFacingMultiplier = Math.max(0.85, (dotProduct + 1) * 0.1 + 0.9);
         
-      const finalSize = particle.size * implodingSizeMultiplier * basePulse;
+      const finalSize = particle.size * implodingSizeMultiplier * basePulse * cameraFacingMultiplier;
       
       sizes[idx] = finalSize;
       

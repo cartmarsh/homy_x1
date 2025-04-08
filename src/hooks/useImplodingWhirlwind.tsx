@@ -78,10 +78,15 @@ const useImplodingWhirlwind = ({
 
     // During implosion, particles move towards center and speed up
     // Use a cubic function for more dramatic acceleration
-    const speedMultiplier = 1 + implodeProgress * implodeProgress * 4; 
+    const speedMultiplier = 1 + implodeProgress * implodeProgress * 4;
+    
+    // Use angle to create a subtle spiral effect during implosion
+    // Particles closer to certain angles move inward faster
+    const angleModifier = Math.sin(initialAngle * 2) * 0.1 + 1;
+    const radiusMultiplier = (1 - implodeProgress) * angleModifier;
 
     return {
-      radius: initialRadius * (1 - implodeProgress),
+      radius: initialRadius * radiusMultiplier,
       height: initialHeight * (1 - implodeProgress),
       speed: speed * speedMultiplier
     };
