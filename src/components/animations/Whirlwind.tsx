@@ -46,9 +46,11 @@ function Whirlwind({ duration, onImplodeComplete }: WhirlwindProps) {
       <pointsMaterial
         size={0.04}
         sizeAttenuation={true}
-        transparent
+        transparent={true}
+        opacity={0.8}
         color="#ff9d00"
         blending={THREE.AdditiveBlending}
+        depthWrite={false}
       />
     </points>
   );
