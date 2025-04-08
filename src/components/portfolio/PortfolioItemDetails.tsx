@@ -1,110 +1,114 @@
-import React from 'react';
+import React, { CSSProperties, useEffect } from 'react';
 
 interface PortfolioItemDetailsProps {
   title: string;
   description: string;
   functionality: string[];
-  tags: string[];
+  tags?: string[];
   link?: string;
   isVisible: boolean;
-  onClose: (e: React.MouseEvent) => void;
+  onClose: () => void;
 }
 
 const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
   title,
   description,
   functionality,
-  tags,
+  tags = [],
   link,
   isVisible,
   onClose
 }) => {
-  // Ensure we don't render too much content that might cause scrolling
-  const truncatedDescription = description.length > 280 
-    ? `${description.substring(0, 280)}...` 
-    : description;
-  
-  // Limit number of functionality items to prevent overflow
-  const displayFunctionality = functionality.slice(0, 4);
-  
-  // Limit number of tags to prevent overflow
-  const displayTags = tags.slice(0, 8);
-  
+  // Define button styles for reuse
+  const buttonStyles = `
+    inline-flex items-center justify-center
+    px-3 py-1.5 sm:px-4 sm:py-2
+    text-xs sm:text-sm font-medium
+    rounded-md
+    transition-all duration-300 ease-in-out
+    focus:outline-none focus:ring-2 focus:ring-offset-2
+  `;
+
+  const primaryButtonStyles = `
+    ${buttonStyles}
+    bg-purple-600 hover:bg-purple-700
+    text-white
+    shadow-md hover:shadow-lg
+    focus:ring-purple-500
+  `;
+
+  // Space Mono font styling for all text in details
+  const spaceMono: CSSProperties = {
+    fontFamily: "'Space Mono', monospace"
+  };
+
   return (
     <div 
-      className="p-5 rounded-b-lg"
-      onClick={(e) => e.stopPropagation()}
-      style={{ 
-        overflow: 'hidden',
-        background: '#2d1b69',
-        boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.2)',
-        backdropFilter: 'blur(5px)'
+      className="p-3 sm:p-5 bg-gradient-to-b from-purple-700/70 to-purple-900/80 rounded-b-lg text-white hide-scrollbar relative"
+      style={{
+        ...spaceMono,
       }}
     >
-      {/* Header with title and close button */}
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-2xl font-bold text-white truncate" style={{ maxWidth: 'calc(100% - 40px)' }}>{title}</h3>
+      {/* Two-column layout with clear separation */}
+      <div className="flex flex-col md:flex-row md:space-x-6">
+        {/* Left Column - Title and Features - with border on larger screens */}
+        <div className="w-full md:w-1/2 flex flex-col md:pr-4 md:border-r md:border-purple-500/30">
+          {/* Project Title */}
+          <h3 className="text-base sm:text-xl font-bold leading-tight sm:leading-6 text-white border-b border-purple-400/30 pb-2 mb-3">
+            {title}
+          </h3>
+          
+          {/* Features list without the "Key Features" header */}
+          {functionality.length > 0 && (
+            <div className="mb-4">
+              <ul className="space-y-1.5">
+                {functionality.map((feature, index) => (
+                  <li key={index} className="flex items-start text-xs sm:text-sm">
+                    <span className="text-purple-300 mr-1.5 flex-shrink-0">✓</span>
+                    <span className="text-white/90">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        
+        {/* Right Column - Description and Buttons - aligned with left column content */}
+        <div className="w-full md:w-1/2 flex flex-col h-full mt-4 pt-4 border-t border-purple-500/30 md:mt-0 md:pt-0 md:border-t-0">
+          {/* Project Description - Starting at the same level as features */}
+          <div className="flex-grow md:pt-10">
+            <p className="text-xs sm:text-sm text-white/90 leading-relaxed">{description}</p>
+          </div>
+          
+          {/* Action Buttons - Only View Project, no Close button */}
+          {link && (
+            <div className="mt-4 flex justify-end">
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={primaryButtonStyles}
+                aria-label={`View ${title} project`}
+              >
+                View Project
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Close button - positioned at the center-bottom */}
+      <div className="absolute bottom-3 left-0 right-0 flex justify-center mt-4">
         <button
           onClick={onClose}
-          className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors text-gray-300 flex-shrink-0"
+          className="bg-white/20 hover:bg-white/30 rounded-full p-1.5 transition-all duration-300 z-50"
           aria-label="Close details"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M14.293 5.293a1 1 0 00-1.414 0L10 8.586 6.707 5.293a1 1 0 00-1.414 1.414L8.586 10l-3.293 3.293a1 1 0 101.414 1.414L10 11.414l3.293 3.293a1 1 0 001.414-1.414L11.414 10l3.293-3.293a1 1 0 000-1.414z" clipRule="evenodd" />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
-      
-      {/* Project description */}
-      <p className="text-gray-300 mb-5 text-sm leading-relaxed line-clamp-3">{truncatedDescription}</p>
-      
-      {/* Functionality section */}
-      <div className="mb-5">
-        <h4 className="text-lg font-semibold text-gray-200 mb-2">Functionality</h4>
-        <ul className="space-y-1">
-          {displayFunctionality.map((item, index) => (
-            <li key={index} className="flex items-start">
-              <span className="text-green-400 mr-2 flex-shrink-0">✓</span>
-              <span className="text-gray-300 text-sm truncate">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      
-      {/* Tags section */}
-      {displayTags.length > 0 && (
-        <div className="mb-5">
-          <h4 className="text-lg font-semibold text-gray-200 mb-2">Technologies</h4>
-          <div className="flex flex-wrap gap-2">
-            {displayTags.map((tag, index) => (
-              <span 
-                key={index}
-                className="inline-block px-2 py-1 text-xs font-medium text-blue-200 bg-blue-900 rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {/* Visit project link */}
-      {link && (
-        <div className="mt-4">
-          <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md
-                     hover:bg-blue-700 transition-colors duration-300 font-medium text-sm"
-          >
-            Visit Project
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </a>
-        </div>
-      )}
     </div>
   );
 };

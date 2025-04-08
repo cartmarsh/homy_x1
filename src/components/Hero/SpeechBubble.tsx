@@ -78,7 +78,7 @@ const SpeechBubble: React.FC<{message: string, isExiting: boolean}> = ({ message
                     color: '#ff9a50',
                     fontSize: '1.6em', 
                     fontWeight: 'bold',
-                    fontFamily: 'Arial, sans-serif',
+                    fontFamily: '"Courier New", Courier, monospace',
                     textShadow: '0 0 5px rgba(0, 0, 0, 0.8)',
                     width: '260px',
                     textAlign: 'center',

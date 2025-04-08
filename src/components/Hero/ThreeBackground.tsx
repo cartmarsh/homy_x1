@@ -15,49 +15,20 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({ glitchIntensity }) =>
     const scanlinesRef = useRef<THREE.LineSegments | null>(null);
     const noiseParticlesRef = useRef<THREE.Points | null>(null);
 
-    // Update noise particles based on glitch intensity
+    // Update noise particles - always keep them invisible since we removed glitch effect
     const updateNoiseParticles = useCallback(() => {
         if (!noiseParticlesRef.current || !containerRef.current) return;
         
         const geometry = noiseParticlesRef.current.geometry;
-        const positions = geometry.attributes.position.array as Float32Array;
         const sizes = geometry.attributes.size.array as Float32Array;
         const particleCount = sizes.length;
         
-        const width = containerRef.current.clientWidth;
-        const height = containerRef.current.clientHeight;
-        const aspectRatio = width / height;
-        
-        // Set visibility based on glitch intensity
-        if (glitchIntensity > 0) {
-            // Map intensity from 0-1 to 0-160 (max particle count to show)
-            const visibleCount = Math.min(Math.floor(glitchIntensity * 80), particleCount);
-            
-            for (let i = 0; i < particleCount; i++) {
-                if (i < visibleCount) {
-                    // Random position
-                    positions[i * 3] = (Math.random() * 2 - 1) * aspectRatio;
-                    positions[i * 3 + 1] = Math.random() * 2 - 1;
-                    positions[i * 3 + 2] = 0;
-                    
-                    // Random size
-                    sizes[i] = Math.random() * 0.02 + 0.01;
-                } else {
-                    // Hide extra particles
-                    sizes[i] = 0;
-                }
-            }
-            
-            geometry.attributes.position.needsUpdate = true;
-            geometry.attributes.size.needsUpdate = true;
-        } else {
-            // Hide all particles when no glitch
-            for (let i = 0; i < particleCount; i++) {
-                sizes[i] = 0;
-            }
-            geometry.attributes.size.needsUpdate = true;
+        // Hide all particles as we removed glitch effects
+        for (let i = 0; i < particleCount; i++) {
+            sizes[i] = 0;
         }
-    }, [glitchIntensity]);
+        geometry.attributes.size.needsUpdate = true;
+    }, []);
 
     // Setup and animation
     useEffect(() => {
@@ -93,7 +64,7 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({ glitchIntensity }) =>
         // Create scanlines
         createScanlines();
 
-        // Create noise particles for glitch effect
+        // Create noise particles but keep them invisible
         createNoiseParticles();
 
         // Handle resize
@@ -137,7 +108,7 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({ glitchIntensity }) =>
         const animate = () => {
             frameIdRef.current = requestAnimationFrame(animate);
             
-            // Update noise particles based on glitch intensity
+            // Keep noise particles invisible
             updateNoiseParticles();
             
             // Render
@@ -314,7 +285,7 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({ glitchIntensity }) =>
         sceneRef.current.add(scanlines);
     };
     
-    // Create noise particles for glitch effect
+    // Create noise particles but keep them invisible
     const createNoiseParticles = () => {
         if (!sceneRef.current) return;
         
@@ -348,11 +319,6 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({ glitchIntensity }) =>
         noiseParticlesRef.current = noiseParticles;
         sceneRef.current.add(noiseParticles);
     };
-
-    // Effect to update noise particles when glitch intensity changes
-    useEffect(() => {
-        updateNoiseParticles();
-    }, [updateNoiseParticles]);
 
     return (
         <div 

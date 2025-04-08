@@ -1,27 +1,25 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, MouseEvent } from 'react';
 import { PortfolioItemProps } from '../../types/portfolioTypes';
 import useExpandableCard from '../../hooks/useExpandableCard';
 import useDimensionCalculation from '../../hooks/useDimensionCalculation';
-import useScrollPrevention from '../../hooks/useScrollPrevention';
 import useExpandedHeight from '../../hooks/useExpandedHeight';
 import useAccessibilityProps from '../../hooks/useAccessibilityProps';
 import useAnimationStyles from '../../hooks/useAnimationStyles';
+import usePortfolioItemHover from '../../hooks/usePortfolioItemHover';
+import useTransitionState from '../../hooks/useTransitionState';
+import usePortfolioImage from '../../hooks/usePortfolioImage';
+import usePortfolioDetails from '../../hooks/usePortfolioDetails';
 import PortfolioItemImage from './PortfolioItemImage';
 import PortfolioItemDetails from './PortfolioItemDetails';
-import PortfolioItemButton from './PortfolioItemButton';
 import PortfolioItemContainer from './PortfolioItemContainer';
 import { DEFAULT_PORTFOLIO_VALUES } from '../../constants/portfolioConstants';
-import { getMainContentStyles, getDetailButtonContainerStyles } from '../../utils/portfolioStyles';
-import { cx } from '../../utils/classUtils';
-
-// CSS utility to hide scrollbars across browsers
-const HIDE_SCROLLBAR_STYLE = {
-  '-ms-overflow-style': 'none',  // IE and Edge
-  'scrollbarWidth': 'none',      // Firefox
-  '&::-webkit-scrollbar': {      // Chrome, Safari and Opera
-    display: 'none'
-  }
-};
+import { 
+  getDetailsButtonStyle,
+  getDetailsSectionStyles,
+  getMainContentStyles,
+  getTitleOverlayStyle,
+  WEBKIT_SCROLLBAR_CSS
+} from '../../utils/portfolioItemStyles';
 
 const PortfolioItem: React.FC<PortfolioItemProps> = ({
   title,
@@ -33,24 +31,33 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const detailsRef = useRef<HTMLDivElement>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   
   // Generate control ID for accessibility
   const detailsId = `details-${title.replace(/\s+/g, '-').toLowerCase()}`;
   
-  // Use custom hooks
+  // Use custom hooks - transition state
+  const { isTransitioning, startTransition } = useTransitionState();
+  
+  // Use expandable card hook
   const { 
     showDetails, 
     isAnimating, 
-    toggleDetails, 
-    handleItemClick 
+    toggleDetails
   } = useExpandableCard({ 
     link,
-    onToggle: () => {
-      setIsTransitioning(true);
-      // Mark end of transition to allow final image position adjustment
-      setTimeout(() => setIsTransitioning(false), 600);
-    }
+    onToggle: () => startTransition()
+  });
+  
+  // Use more custom hooks
+  const { isItemHovered, handleMouseEnter, handleMouseLeave } = usePortfolioItemHover({ 
+    showDetails 
+  });
+  const { containerStyles: imageContainerStyles, imageStyles } = usePortfolioImage({
+    isHovered: isItemHovered
+  });
+  const { detailsStyles, detailsClassName } = usePortfolioDetails({
+    showDetails,
+    isTransitioning
   });
 
   const {
@@ -72,28 +79,27 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
 
   // Use accessibility props hook
   const accessibilityProps = useAccessibilityProps({
-    hasLink: !!link,
+    hasLink: false, // No longer treating entire card as clickable
     isExpanded: showDetails,
     title,
     controlsId: detailsId,
-    onActivate: handleItemClick
+    onActivate: () => {} // Empty function since we're not making the whole card clickable
   });
 
   // Get animation styles
   const animationStyles = useAnimationStyles();
   const buttonContainerStyles = animationStyles.getButtonContainerStyles(showDetails);
-  const detailsSectionStyles = animationStyles.getDetailsSectionStyles(showDetails);
   
-  // Prevent scrolling when expanded
-  useScrollPrevention({ containerRef });
-
   // Add example functionality if none provided
   if (functionality.length === 0) {
     functionality = DEFAULT_PORTFOLIO_VALUES.DEFAULT_FUNCTIONALITY;
   }
 
-  // Main content styles
-  const mainContentStyles = getMainContentStyles();
+  // Create a compatible handler for the onClose prop
+  const handleClose = (e?: MouseEvent<Element>) => {
+    if (e) e.stopPropagation();
+    toggleDetails(e as MouseEvent);
+  };
 
   return (
     <PortfolioItemContainer
@@ -102,56 +108,68 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
       expandedHeight={expandedHeight}
       containerHeight={containerHeight}
       imageHeight={imageHeight}
-      link={link}
+      link={null} // Remove link from container
       title={title}
       detailsId={detailsId}
-      onClick={handleItemClick}
+      onClick={undefined} // Remove click handler
       accessibilityProps={accessibilityProps}
     >
-      {/* Main content */}
+      {/* Main content with relative positioning and no gap */}
       <div 
-        className="relative z-10 flex flex-col h-full no-scrollbar hide-scrollbar" 
-        style={mainContentStyles}
+        className="relative z-10 flex flex-col overflow-hidden rounded-lg" 
+        style={getMainContentStyles()}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        {/* Prominent image section */}
-        <div 
-          className="w-full portfolio-image-container"
-          style={{
-            position: 'relative',
-            zIndex: 10
-          }}
-        >
-          <PortfolioItemImage 
-            image={image} 
-            title={title} 
-            tags={tags} 
-            className="w-full h-auto object-cover rounded-t-lg"
-          />
+        {/* Upper section with image - with better containment */}
+        <div className="w-full relative">
+          {/* Image container with proper containment */}
+          <div 
+            className="w-full portfolio-image-container transition-all duration-500 ease-in-out"
+            style={imageContainerStyles}
+          >
+            <PortfolioItemImage 
+              image={image} 
+              title={title} 
+              tags={tags} 
+              className="w-full h-full object-cover"
+              style={imageStyles}
+            />
+            
+            {/* Large monospace title overlay in the area marked by red rectangle */}
+            <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
+              <div 
+                className="w-11/12 text-center px-4"
+                style={getTitleOverlayStyle()}
+              >
+                {title}
+              </div>
+            </div>
+            
+            {/* Prominent centered "Get Details" button */}
+            {!showDetails && (
+              <button
+                onClick={toggleDetails}
+                disabled={isAnimating}
+                className="pointer-events-auto"
+                style={getDetailsButtonStyle(isItemHovered)}
+                aria-expanded={showDetails}
+                aria-controls={detailsId}
+              >
+                Get Details
+              </button>
+            )}
+          </div>
         </div>
         
-        {/* Button area */}
-        <div 
-          className="p-16 flex justify-center items-center relative z-20"
-          style={buttonContainerStyles}
-        >
-          <PortfolioItemButton
-            showDetails={showDetails}
-            isAnimating={isAnimating}
-            detailsId={detailsId}
-            onClick={toggleDetails}
-          />
-        </div>
-        
-        {/* Details section */}
+        {/* Details section sliding up from bottom with curtain-like animation */}
         <div 
           ref={detailsRef}
           id={detailsId}
-          className={cx(
-            'w-full no-scrollbar hide-scrollbar',
-            showDetails ? 'block' : 'hidden'
-          )}
-          style={detailsSectionStyles}
+          className={detailsClassName}
+          style={detailsStyles}
         >
+          {/* Content with same slide animation */}
           <PortfolioItemDetails
             title={title}
             description={description}
@@ -159,7 +177,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
             tags={tags}
             link={link}
             isVisible={showDetails}
-            onClose={toggleDetails}
+            onClose={handleClose}
           />
         </div>
       </div>

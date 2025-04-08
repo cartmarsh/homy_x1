@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, Suspense } from 'react';
+import React, { useRef, useEffect, Suspense } from 'react';
 import ContentSection from '../layout/ContentSection';
 import profilePic from './../../assets/Hauger.png';
 import './Hero.css';
@@ -21,29 +21,17 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ className, id }) => {
     const divRef = useRef<HTMLDivElement>(null);
-    const [backgroundLoaded, setBackgroundLoaded] = useState(false);
     
     // Use custom hooks
     const { dimensions, isClient } = useDimensions(divRef);
     const { handleMouseMove, getOffsets } = useMouseTracking(divRef);
-    const { glitchIntensity, triggerClickEffect } = useGlitchEffect();
+    const { triggerClickEffect } = useGlitchEffect();
     
     // Apply scroll snapping
     useScrollSnapping();
     
     // Get offsets for 3D effects
     const { offsetX, offsetY } = getOffsets();
-    
-    // Start loading background immediately but show it with a slight delay
-    useEffect(() => {
-        if (isClient && dimensions.width > 0) {
-            const timer = setTimeout(() => {
-                setBackgroundLoaded(true);
-            }, 50);
-            
-            return () => clearTimeout(timer);
-        }
-    }, [isClient, dimensions.width]);
 
     return (
         <ContentSection id={id} bgColor='bg-transparent' className={`${className} overflow-hidden`} isHero={true}>
@@ -55,31 +43,27 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
             >
                 {/* Three.js Canvas with higher z-index than the ContentSection background */}
                 {isClient && dimensions.width > 0 && (
-                    <AnimatePresence>
-                        {backgroundLoaded && (
-                            <div
-                                className="absolute inset-0 z-10 overflow-hidden"
-                                style={{ 
-                                    borderRadius: 'inherit',
-                                    mixBlendMode: 'lighten'
-                                }}
-                            >
-                                <div 
-                                    className="absolute inset-0 pointer-events-none overflow-hidden"
-                                    style={{ 
-                                        width: '100%',
-                                        height: '100%',
-                                        borderRadius: 'inherit',
-                                        opacity: 1
-                                    }}
-                                >
-                                    <Suspense fallback={null}>
-                                        <ThreeBackground glitchIntensity={glitchIntensity} />
-                                    </Suspense>
-                                </div>
-                            </div>
-                        )}
-                    </AnimatePresence>
+                    <div
+                        className="absolute inset-0 z-10 overflow-hidden"
+                        style={{ 
+                            borderRadius: 'inherit',
+                            mixBlendMode: 'lighten'
+                        }}
+                    >
+                        <div 
+                            className="absolute inset-0 pointer-events-none overflow-hidden"
+                            style={{ 
+                                width: '100%',
+                                height: '100%',
+                                borderRadius: 'inherit',
+                                opacity: 1
+                            }}
+                        >
+                            <Suspense fallback={null}>
+                                <ThreeBackground glitchIntensity={0} />
+                            </Suspense>
+                        </div>
+                    </div>
                 )}
                 
                 {/* Content */}
@@ -87,7 +71,7 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                     <HeroContent 
                         offsetX={offsetX}
                         offsetY={offsetY}
-                        glitchIntensity={glitchIntensity}
+                        glitchIntensity={0}
                         triggerClickEffect={triggerClickEffect}
                         className="w-full md:w-3/4"
                     />

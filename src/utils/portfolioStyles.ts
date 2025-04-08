@@ -20,15 +20,15 @@ export const WEBKIT_SCROLLBAR_STYLE = `
  */
 export const getContainerClasses = (showDetails: boolean, isLink: boolean): string => {
   const baseClasses = `
-    relative bg-white shadow-md rounded-lg overflow-hidden 
+    relative bg-white shadow-md rounded-lg
     transform transition-all duration-500 ease-out
-    mx-auto no-scrollbar
+    mx-auto
   `;
 
   // Size based on showDetails
   const sizeClasses = showDetails
-    ? `w-full max-w-[${DEFAULT_PORTFOLIO_VALUES.EXPANDED_MAX_WIDTH}] grid grid-cols-1 md:grid-cols-2 z-20 hover:shadow-xl`
-    : `w-full max-w-[${DEFAULT_PORTFOLIO_VALUES.COLLAPSED_MAX_WIDTH}] hover:scale-105 hover:shadow-xl active:scale-95 z-0`;
+    ? `w-full max-w-[${DEFAULT_PORTFOLIO_VALUES.EXPANDED_MAX_WIDTH}] grid grid-cols-1 md:grid-cols-2 z-20 hover:shadow-2xl`
+    : `w-full max-w-[${DEFAULT_PORTFOLIO_VALUES.COLLAPSED_MAX_WIDTH}] hover:scale-105 hover:shadow-2xl active:scale-95 z-0`;
 
   // Cursor style if it's a link and not expanded
   const cursorClasses = isLink && !showDetails ? 'cursor-pointer' : '';
@@ -46,18 +46,11 @@ export const getPortfolioContainerStyles = (
   imageHeight: number | null
 ): CSSProperties => {
   return {
-    overflowY: 'hidden',
-    overflowX: 'hidden',
-    height: showDetails && expandedHeight 
-      ? `${expandedHeight}px` 
-      : containerHeight 
-        ? `${containerHeight}px` 
-        : 'auto',
-    minHeight: imageHeight ? `${imageHeight + 80}px` : 'auto', // Add some padding for title
-    transition: 'height 600ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 300ms ease',
+    height: 'auto', // Allow height to adjust based on content
+    transition: 'all 600ms cubic-bezier(0.34, 1.56, 0.64, 1)',
     boxShadow: showDetails 
-      ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' 
-      : '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+      ? '0 20px 35px -10px rgba(0, 0, 0, 0.3), 0 15px 20px -10px rgba(0, 0, 0, 0.2)' 
+      : '0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.15)'
   };
 };
 
@@ -66,7 +59,7 @@ export const getPortfolioContainerStyles = (
  */
 export const getMainContentClasses = (showDetails: boolean): string => {
   return `
-    relative z-10 p-3 flex flex-col items-center no-scrollbar
+    relative z-10 p-3 flex flex-col items-center
     transition-all duration-500 ease-out
     ${showDetails ? 'h-full' : 'h-auto'}
   `.trim();
@@ -75,12 +68,12 @@ export const getMainContentClasses = (showDetails: boolean): string => {
 /**
  * Generate main content container styles
  */
-export const getMainContentStyles = (): CSSProperties => {
+export const getMainContentStyles = (showDetails: boolean = false): CSSProperties => {
   return {
-    overflow: 'hidden',
-    background: '#2d1b69',
-    boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.2)',
-    backdropFilter: 'blur(5px)'
+    background: showDetails ? 'rgba(45, 27, 105, 0.9)' : 'transparent',  // transparent when collapsed, 90% opacity when expanded
+    boxShadow: showDetails ? 'inset 0 0 30px rgba(0, 0, 0, 0.35)' : 'none',
+    backdropFilter: showDetails ? 'blur(5px)' : 'none',
+    transition: 'background 600ms ease-in-out, box-shadow 600ms ease-in-out, backdrop-filter 600ms ease-in-out'
   };
 };
 
@@ -94,10 +87,12 @@ export const getDetailButtonContainerStyles = (showDetails: boolean): CSSPropert
     transition: showDetails 
       ? 'opacity 300ms ease-out, visibility 0ms linear 300ms, transform 300ms ease-out' 
       : 'opacity 500ms ease-in 100ms, visibility 0ms linear, transform 500ms ease-in 100ms',
-    height: showDetails ? 0 : 'auto',
     transform: showDetails ? 'translateY(-10px) scale(0.8)' : 'translateY(0) scale(1)',
-    margin: showDetails ? 0 : undefined,
-    padding: showDetails ? 0 : undefined
+    background: 'rgba(0, 0, 0, 0.25)', // Semi-transparent overlay
+    backdropFilter: 'blur(2px)', // Subtle blur effect
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   };
 };
 
@@ -107,11 +102,13 @@ export const getDetailButtonContainerStyles = (showDetails: boolean): CSSPropert
 export const getDetailsButtonStyles = (): CSSProperties => {
   return {
     background: 'linear-gradient(135deg, #ffb938 0%, #ff9800 100%)',
-    transition: 'box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out',
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    transition: 'all 0.3s ease-in-out',
+    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25), 0 10px 15px rgba(255, 152, 0, 0.4)',
     letterSpacing: '1.5px',
     color: 'black',
-    lineHeight: 1
+    lineHeight: 1,
+    transform: 'translateY(0)',
+    border: '2px solid rgba(255, 255, 255, 0.3)'
   };
 };
 
@@ -121,19 +118,24 @@ export const getDetailsButtonStyles = (): CSSProperties => {
 export const getButtonHoverHandlers = () => {
   return {
     onMouseOver: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.boxShadow = '0 25px 30px -12px rgba(0, 0, 0, 0.25), 0 18px 20px -15px rgba(0, 0, 0, 0.2)';
+      e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.4), 0 15px 25px rgba(255, 152, 0, 0.5)';
+      e.currentTarget.style.transform = 'translateY(-2px)';
     },
     onMouseOut: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+      e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.25), 0 10px 15px rgba(255, 152, 0, 0.4)';
+      e.currentTarget.style.transform = 'translateY(0)';
     },
     onMouseDown: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.transform = 'scale(0.95)';
+      e.currentTarget.style.transform = 'translateY(1px)';
+      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.25), 0 5px 10px rgba(255, 152, 0, 0.3)';
     },
     onMouseUp: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.transform = 'scale(1)';
+      e.currentTarget.style.transform = 'translateY(-2px)';
+      e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.4), 0 15px 25px rgba(255, 152, 0, 0.5)';
     },
     onMouseLeave: (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.transform = 'scale(1)';
+      e.currentTarget.style.transform = 'translateY(0)';
+      e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.25), 0 10px 15px rgba(255, 152, 0, 0.4)';
     }
   };
 };
@@ -144,11 +146,11 @@ export const getButtonHoverHandlers = () => {
 export const getDetailsSectionStyles = (showDetails: boolean): CSSProperties => {
   return {
     opacity: showDetails ? 1 : 0,
-    transition: 'opacity 500ms ease-in-out',
+    maxHeight: showDetails ? '600px' : '0px',
+    transition: 'opacity 500ms ease-in-out, max-height 500ms ease-in-out',
     transitionDelay: showDetails ? '100ms' : '0ms',
-    position: 'relative',
-    zIndex: 30,
-    overflow: 'hidden'
+    overflow: showDetails ? 'auto' : 'hidden',
+    transform: showDetails ? 'translateY(0)' : 'translateY(-20px)',
   };
 };
 
@@ -187,7 +189,7 @@ export const getDividingLineClasses = (showDetails: boolean): string => {
 export const getDividingLineStyles = (showDetails: boolean): React.CSSProperties => {
   return {
     height: '100%',
-    boxShadow: '0 0 8px rgba(129, 140, 248, 0.6)',
+    boxShadow: '0 0 15px rgba(129, 140, 248, 0.8)',
     transformOrigin: 'center',
     transform: showDetails ? 'scaleY(1)' : 'scaleY(0)',
     transition: 'transform 500ms ease-out, opacity 500ms ease-out'
@@ -201,7 +203,7 @@ export const getDetailsContentClasses = (showDetails: boolean): string => {
   return `
     relative p-5 z-10 
     transition-all duration-500 ease-out
-    overflow-y-auto no-scrollbar
+    overflow-y-auto
     ${showDetails ? 'opacity-100 md:border-l-0 max-h-full' : 'opacity-0 pointer-events-none absolute right-0 max-h-0 invisible'}
   `.trim();
 };

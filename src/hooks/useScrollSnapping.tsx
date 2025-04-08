@@ -36,7 +36,7 @@ const useScrollSnapping = () => {
                     
                     setTimeout(() => {
                         document.body.classList.remove('scrolling');
-                    }, 500);
+                    }, 800);
                 }
             }
         };

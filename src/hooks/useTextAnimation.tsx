@@ -5,9 +5,9 @@ interface TextAnimationConfig {
     duration?: number;
 }
 
-const useTextAnimation = ({ delay = 0.1, duration = 0.4 }: TextAnimationConfig = {}) => {
+const useTextAnimation = ({ delay = 0, duration = 0.2 }: TextAnimationConfig = {}) => {
     const containerAnimation = {
-        initial: { opacity: 0, y: 10 },
+        initial: { opacity: 1, y: 0 },
         animate: { 
             opacity: 1, 
             y: 0,
@@ -20,13 +20,13 @@ const useTextAnimation = ({ delay = 0.1, duration = 0.4 }: TextAnimationConfig =
     };
 
     const buttonAnimation = {
-        initial: { opacity: 0, scale: 0.95 },
+        initial: { opacity: 1, scale: 1 },
         animate: { 
             opacity: 1, 
             scale: 1,
             transition: { 
                 duration, 
-                delay: delay + 0.1, 
+                delay, 
                 ease: [0.16, 1, 0.3, 1]
             }
         }

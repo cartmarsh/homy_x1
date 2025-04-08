@@ -33,7 +33,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
                         intensity={1}
                         className="text-box-width max-w-[95vw] md:max-w-none mx-0"
                     >
-                        <h1 className={`text-2xl xs:text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight relative retro-text whitespace-nowrap ${glitchIntensity > 0 ? 'glitch' : ''}`}>
+                        <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight relative retro-text whitespace-nowrap">
                             Dominik Hauger
                         </h1>
                     </TextBox3D>
@@ -49,7 +49,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
                         }}
                         className="max-w-[95vw] md:max-w-none mx-0"
                     >
-                        <h2 className={`text-xl xs:text-2xl sm:text-3xl md:text-4xl text-white tracking-wide retro-subtitle whitespace-nowrap ${glitchIntensity > 0 ? 'glitch-subtle' : ''}`}>
+                        <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl text-white tracking-wide retro-subtitle whitespace-nowrap">
                             Web Developer & Designer
                         </h2>
                     </TextBox3D>

@@ -6,7 +6,7 @@ const useGlitchEffect = () => {
         document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     }, []);
 
-    // Return minimal interface since we're only handling scrolling now
+    // Return minimal interface with glitchIntensity always set to 0 to remove glitch effects
     return { 
         glitchIntensity: 0, 
         isClicked: false, 

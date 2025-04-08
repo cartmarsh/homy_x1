@@ -6,21 +6,21 @@ const useExpandableCard = ({ link, onToggle }: UseExpandableCardProps = {}): Exp
   const [showDetails, setShowDetails] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Use the same animation duration for the animation states
-  const ANIMATION_DURATION = 500;
+  // Use the same animation duration for the animation states - further increased for slower curtain effect
+  const ANIMATION_DURATION = 600;
 
   // Handle animation completion
   useEffect(() => {
     if (isAnimating) {
       const timer = setTimeout(() => {
         setIsAnimating(false);
-      }, ANIMATION_DURATION + 50); // Add a small buffer to ensure animation completes
+      }, ANIMATION_DURATION + 150); // Add a larger buffer to ensure curtain animation completes fully
       
       return () => clearTimeout(timer);
     }
   }, [isAnimating]);
 
-  // Toggle show/hide details with smooth animation
+  // Toggle show/hide details with smooth curtain animation
   const toggleDetails = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsAnimating(true);
@@ -31,18 +31,16 @@ const useExpandableCard = ({ link, onToggle }: UseExpandableCardProps = {}): Exp
     }
   };
 
-  // Handle clicking the entire portfolio item
+  // No longer needed - we've removed click functionality on the whole component
   const handleItemClick = () => {
-    if (link && !showDetails) {
-      window.open(link, '_blank', 'noopener,noreferrer');
-    }
+    // Empty function, retained for interface compatibility
   };
 
   return {
     showDetails,
     isAnimating,
     toggleDetails,
-    handleItemClick
+    handleItemClick // Keep returning this for interface compatibility
   };
 };
 
