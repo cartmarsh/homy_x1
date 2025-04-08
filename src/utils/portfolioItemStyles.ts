@@ -46,7 +46,8 @@ export const getDetailsSectionStyles = (showDetails: boolean, isTransitioning: b
   backgroundColor: DETAILS_BACKGROUND_COLOR,
   backdropFilter: 'blur(3px)',
   transform: showDetails ? 'translateY(0)' : 'translateY(100%)',
-  transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1.0)',
+  opacity: showDetails ? 1 : 0,
+  transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1.0), opacity 0.6s ease',
   maxHeight: '100%', 
   overflowY: 'auto',
   zIndex: 40, // Ensure details appear above the image
@@ -56,9 +57,10 @@ export const getDetailsSectionStyles = (showDetails: boolean, isTransitioning: b
   transformOrigin: 'bottom',
   boxShadow: '0 -10px 25px rgba(0, 0, 0, 0.1)',
   pointerEvents: showDetails ? 'auto' : 'none', // Only allow interaction when visible
-  willChange: 'transform', // Optimize for animation performance
+  willChange: 'transform, opacity', // Optimize for animation performance
   borderBottomLeftRadius: '0.5rem',
   borderBottomRightRadius: '0.5rem',
+  paddingBottom: showDetails ? '4rem' : '0', // Add padding at the bottom when expanded
 });
 
 // Main content styles - constrained to fit inside card with no gap
