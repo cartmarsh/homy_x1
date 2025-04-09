@@ -1,12 +1,13 @@
 import './App.css';
 import NavBar from './components/NavBar/NavBar';
 import BackgroundStringsThree from './components/animations/BackgroundStringsThree';
-import { lazy, useEffect, useState, useRef } from 'react';
+import { lazy, useEffect, useState, useRef, Suspense } from 'react';
 import LoadingWrapper from './components/LoadingWrapper';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
+// Import Hero component directly for faster initial load
+import Hero from './components/Hero/Hero';
 
-// Lazy load components
-const Hero = lazy(() => import('./components/Hero/Hero'));
+// Lazy load other components that aren't needed immediately
 const Portfolio = lazy(() => import('./components/Portfolio'));
 const AboutMe = lazy(() => import('./components/AboutMe'));
 const Contact = lazy(() => import('./components/Contact'));
@@ -43,7 +44,7 @@ function App() {
       
       {/* Main content with higher z-index */}
       <LoadingWrapper
-        duration={9000}
+        duration={5000}
         primaryText="HELLO WORLD"
         accentText="..."
       >
@@ -59,10 +60,15 @@ function App() {
             height: '100vh' // Ensure full viewport height
           }}
         >
+          {/* Hero is loaded directly */}
           <Hero id="home" />
-          <Portfolio id="portfolio" />
-          <AboutMe id="about" />
-          <Contact id="contact" className="bg-transparent" />
+          
+          {/* Other sections are lazy loaded */}
+          <Suspense fallback={null}>
+            <Portfolio id="portfolio" />
+            <AboutMe id="about" />
+            <Contact id="contact" className="bg-transparent" />
+          </Suspense>
         </main>
       </LoadingWrapper>
     </div>

@@ -14,16 +14,21 @@ const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ children, duration = 30
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   
-  // Use a much shorter actual loading time, but ensure critical assets are loaded
-  const actualDuration = Math.min(duration, 2500);
+  // Use a shorter actual loading time, but ensure critical assets are loaded
+  const actualDuration = Math.min(duration, 3000); // Reduced from 2500ms to 1500ms
+  const minLoadingTime = 2500; // Minimum time to show loading screen
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
-    
     const startTime = Date.now();
     
     const handleProgress = (progress: number) => {
       setLoadingProgress(progress);
+      
+      // If progress is complete and minimum time has passed, finish loading
+      if (progress === 100 && Date.now() - startTime >= minLoadingTime) {
+        setIsLoading(false);
+      }
     };
 
     // Start preloading images immediately
@@ -34,17 +39,22 @@ const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ children, duration = 30
         
         // Ensure minimum display time for loading screen
         const elapsedTime = Date.now() - startTime;
-        const remainingTime = Math.max(0, actualDuration - elapsedTime);
+        const remainingTime = Math.max(0, Math.min(actualDuration, minLoadingTime) - elapsedTime);
         
-        timeoutId = setTimeout(() => {
+        if (remainingTime > 0) {
+          timeoutId = setTimeout(() => {
+            setIsLoading(false);
+          }, remainingTime);
+        } else {
           setIsLoading(false);
-        }, remainingTime);
+        }
       } catch (error) {
         console.error('Error during preloading:', error);
         // Fallback to minimum display time if preloading fails
+        const remainingTime = Math.max(0, minLoadingTime - (Date.now() - startTime));
         timeoutId = setTimeout(() => {
           setIsLoading(false);
-        }, actualDuration);
+        }, remainingTime);
       }
     };
 
@@ -53,7 +63,7 @@ const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ children, duration = 30
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [actualDuration]);
+  }, [actualDuration, minLoadingTime]);
 
   return (
     <AnimatePresence mode="wait">
@@ -63,7 +73,7 @@ const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ children, duration = 30
           initial={{ opacity: 1 }}
           exit={{ 
             opacity: 0,
-            transition: { duration: 0.3, ease: "easeInOut" }
+            transition: { duration: 0.1, ease: "easeInOut" } // Reduced from 0.3s to 0.2s
           }}
         >
           <RetroLoader
@@ -79,7 +89,7 @@ const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ children, duration = 30
           initial={{ opacity: 0 }}
           animate={{ 
             opacity: 1,
-            transition: { duration: 0.3, ease: "easeOut" }
+            transition: { duration: 0.2, ease: "easeOut" } // Reduced from 0.3s to 0.2s
           }}
           className="w-full h-full"
         >
