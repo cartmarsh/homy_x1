@@ -6,9 +6,11 @@ import { preloadImages, CRITICAL_IMAGES } from '../utils/imagePreloader';
 interface LoadingWrapperProps {
   children: React.ReactNode;
   duration?: number;
+  primaryText?: string;
+  accentText?: string;
 }
 
-const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ children, duration = 3000 }) => {
+const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ children, duration = 3000, primaryText, accentText }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   
@@ -65,8 +67,8 @@ const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ children, duration = 30
           }}
         >
           <RetroLoader
-            primaryText="hello world"
-            accentText="..."
+            primaryText={primaryText}
+            accentText={accentText}
             duration={actualDuration}
             progress={loadingProgress}
           />

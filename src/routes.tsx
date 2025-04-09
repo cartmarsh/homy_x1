@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import RetroLoader from './components/animations/RetroLoader';
 
@@ -29,72 +29,74 @@ const routeLoaders = {
   }
 };
 
-export function AppRoutes() {
+const AppRoutes = () => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(prev => (prev >= 100 ? 0 : prev + 1));
+    }, 30);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Routes>
-      <Route 
-        path="/" 
-        element={
-          <Suspense fallback={
-            <RetroLoader 
-              duration={2670} 
-              {...routeLoaders.home} 
-            />
-          }>
-            <HomePage />
-          </Suspense>
-        } 
-      />
-      <Route 
-        path="/portfolio" 
-        element={
-          <Suspense fallback={
-            <RetroLoader 
-              duration={2670} 
-              {...routeLoaders.portfolio} 
-            />
-          }>
-            <PortfolioPage />
-          </Suspense>
-        } 
-      />
-      <Route 
-        path="/about" 
-        element={
-          <Suspense fallback={
-            <RetroLoader 
-              duration={2670} 
-              {...routeLoaders.about} 
-            />
-          }>
-            <AboutPage />
-          </Suspense>
-        } 
-      />
-      <Route 
-        path="/contact" 
-        element={
-          <Suspense fallback={
-            <RetroLoader 
-              duration={2670} 
-              {...routeLoaders.contact} 
-            />
-          }>
-            <ContactPage />
-          </Suspense>
-        } 
-      />
-      <Route 
-        path="/404" 
-        element={
-          <Suspense fallback={<RetroLoader duration={2670} />}>
-            <NotFoundPage />
-          </Suspense>
-        } 
-      />
+      <Route path="/" element={
+        <Suspense fallback={
+          <RetroLoader
+            primaryText={routeLoaders.home.primaryText}
+            accentText={routeLoaders.home.accentText}
+            duration={2670}
+            progress={progress}
+          />
+        }>
+          <HomePage />
+        </Suspense>
+      } />
+      <Route path="/portfolio" element={
+        <Suspense fallback={
+          <RetroLoader
+            primaryText={routeLoaders.portfolio.primaryText}
+            accentText={routeLoaders.portfolio.accentText}
+            duration={2670}
+            progress={progress}
+          />
+        }>
+          <PortfolioPage />
+        </Suspense>
+      } />
+      <Route path="/about" element={
+        <Suspense fallback={
+          <RetroLoader
+            primaryText={routeLoaders.about.primaryText}
+            accentText={routeLoaders.about.accentText}
+            duration={2670}
+            progress={progress}
+          />
+        }>
+          <AboutPage />
+        </Suspense>
+      } />
+      <Route path="/contact" element={
+        <Suspense fallback={
+          <RetroLoader
+            primaryText={routeLoaders.contact.primaryText}
+            accentText={routeLoaders.contact.accentText}
+            duration={2670}
+            progress={progress}
+          />
+        }>
+          <ContactPage />
+        </Suspense>
+      } />
+      <Route path="/404" element={
+        <Suspense fallback={<RetroLoader duration={2670} progress={progress} />}>
+          <NotFoundPage />
+        </Suspense>
+      } />
       <Route path="*" element={<Navigate to="/404" replace />} />
     </Routes>
   );
-}
+};
 
 export default AppRoutes; 

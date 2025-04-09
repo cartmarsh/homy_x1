@@ -9,6 +9,7 @@ import useGlitchEffect from '../../hooks/useGlitchEffect';
 import HeroContent from './HeroContent';
 import ProfileImage from './ProfileImage';
 import ThreeBackground from './ThreeBackground';
+import HeroBackground from './HeroBackground';
 
 // Pre-load Three.js early but don't block rendering
 import('three');
@@ -38,7 +39,13 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
     const { offsetX, offsetY } = getOffsets();
 
     return (
-        <ContentSection id={id} bgColor='bg-transparent' className={`${className} overflow-hidden`} isHero={true}>
+        <ContentSection 
+            id={id} 
+            bgColor='bg-transparent' 
+            className={`${className} overflow-hidden`}
+            padding="compact"
+            backgroundElements={<HeroBackground />}
+        >
             <div 
                 ref={divRef}
                 className="w-full h-full flex items-center justify-center relative overflow-hidden"

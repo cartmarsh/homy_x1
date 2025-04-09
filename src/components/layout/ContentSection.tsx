@@ -4,8 +4,9 @@ interface ContentSectionProps {
     className?: string;
     children: React.ReactNode;
     id?: string;
-    isHero?: boolean;
     bgColor?: 'bg-cream' | 'bg-peach' | 'bg-gray-100' | 'bg-mint' | 'bg-sky' | 'bg-lemon' | 'bg-coral' | 'bg-lilac' | 'bg-transparent';
+    backgroundElements?: React.ReactNode;
+    padding?: 'default' | 'compact';
 }
 
 // Maximum distance the card can shift on mouse movement in px
@@ -15,8 +16,9 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     className = '', 
     children,
     id,
-    isHero = false,
-    bgColor = 'bg-cream'
+    bgColor = 'bg-cream',
+    backgroundElements,
+    padding = 'default'
 }) => {
     const [shiftX, setShiftX] = useState(0);
     const [shiftY, setShiftY] = useState(0);
@@ -70,6 +72,13 @@ const ContentSection: React.FC<ContentSectionProps> = ({
         setShiftY(distanceY * MAX_SHIFT);
     };
 
+    const getPaddingClasses = () => {
+        if (padding === 'compact') {
+            return 'p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16';
+        }
+        return 'p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16';
+    };
+
     return (
         <section 
             id={id}
@@ -115,40 +124,18 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                         mx-auto
                         retro-scroll
                         rounded-lg
-                        ${isHero 
-                          ? 'p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16' 
-                          : 'p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16'}
+                        ${getPaddingClasses()}
                         max-w-[1800px]
                         overflow-x-hidden overflow-y-auto
                         bg-transparent
+                        relative z-10
                     `}
                 >
                     {children}
                 </div>
                 
-                {/* Background gradient that covers entire card */}
-                {isHero && (
-                    <>
-                        <div className="absolute inset-0 z-0" style={{
-                            background: 'linear-gradient(135deg, #1a0f3c 0%, #2d1b69 50%, #1a0f3c 100%)',
-                            borderRadius: 'inherit'
-                        }}></div>
-                        
-                        {/* Grid pattern overlay - subtle version that doesn't compete with P5 animation */}
-                        <div 
-                            className="absolute inset-0 z-0 pointer-events-none"
-                            style={{
-                                backgroundImage: `
-                                    linear-gradient(rgba(30, 30, 80, 0.2) 1px, transparent 1px),
-                                    linear-gradient(90deg, rgba(30, 30, 80, 0.2) 1px, transparent 1px)
-                                `,
-                                backgroundSize: '40px 40px',
-                                opacity: 0.4,
-                                borderRadius: 'inherit'
-                            }}
-                        />
-                    </>
-                )}
+                {/* Injected background elements */}
+                {backgroundElements}
             </div>
         </section>
     );

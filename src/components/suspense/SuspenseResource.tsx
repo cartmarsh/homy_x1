@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { Suspense } from 'react';
 import RetroLoader from '../animations/RetroLoader';
 
@@ -47,7 +47,6 @@ interface ResourceLoaderProps {
     duration?: number;
     primaryText?: string;
     accentText?: string;
-    logoSrc?: string;
   };
 }
 
@@ -60,16 +59,24 @@ export function ResourceLoader({
   const {
     duration = 2670,
     primaryText = "FETCHING DATA",
-    accentText = "PLEASE WAIT...",
-    logoSrc
+    accentText = "PLEASE WAIT..."
   } = loaderProps;
+
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(prev => (prev >= 100 ? 0 : prev + 1));
+    }, 30);
+    return () => clearInterval(interval);
+  }, []);
 
   const defaultFallback = (
     <RetroLoader
       duration={duration}
       primaryText={primaryText}
       accentText={accentText}
-      logoSrc={logoSrc}
+      progress={progress}
     />
   );
 
