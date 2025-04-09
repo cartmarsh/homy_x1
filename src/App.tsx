@@ -30,7 +30,7 @@ function App() {
   }, []);
 
   // Use our custom smooth scroll hook
-  const { isScrolling } = useSmoothScroll(mainRef, {
+  useSmoothScroll(mainRef, {
     scrollThreshold: 400,
     animationDuration: 1000,
     minDeltaY: 10
