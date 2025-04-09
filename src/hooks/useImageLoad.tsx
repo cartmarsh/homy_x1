@@ -26,8 +26,8 @@ interface UseImageLoadReturn {
 const useImageLoad = ({ 
   src, 
   preload = true,
-  maxWidth = 1200,
-  maxHeight = 1200
+  maxWidth = 300,
+  maxHeight = 300
 }: UseImageLoadProps): UseImageLoadReturn => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -55,7 +55,7 @@ const useImageLoad = ({
     if (!ctx) return src;
 
     ctx.drawImage(img, 0, 0, width, height);
-    return canvas.toDataURL('image/webp', 0.6); // Always use WebP with 60% quality
+    return canvas.toDataURL('image/webp', 0.3); // Always use WebP with 60% quality
   };
 
   useEffect(() => {
