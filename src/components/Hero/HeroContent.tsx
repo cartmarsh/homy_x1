@@ -39,15 +39,15 @@ const HeroContent: React.FC<HeroContentProps> = ({
                     <TextBox3D 
                         offsetX={offsetX} 
                         offsetY={offsetY} 
-                        intensity={0.4}
+                        intensity={1}
                         glassEffect={{
-                            background: 'rgba(255, 255, 255, 0.08)',
-                            borderOpacity: 0.2,
+                            background: 'rgba(255, 255, 255, 0.4)',
+                            borderOpacity: 0.5,
                             blur: 5
                         }}
                         className="max-w-[95vw] md:max-w-none mx-0"
                     >
-                        <h3 className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-gray-300 whitespace-nowrap font-mono">
+                        <h3 className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-white  whitespace-nowrap font-mono">
                             Crafting Interactive Experiences
                         </h3>
                     </TextBox3D>
@@ -55,7 +55,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
                     <TextBox3D 
                         offsetX={offsetX} 
                         offsetY={offsetY} 
-                        intensity={0.8}
+                        intensity={1}
                         glassEffect={{
                             background: 'rgba(255, 255, 255, 0.15)',
                             borderOpacity: 0.3,
@@ -63,7 +63,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
                         }}
                         className="max-w-[95vw] md:max-w-none mx-0"
                     >
-                        <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl text-white tracking-wide whitespace-nowrap font-mono">
+                        <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl text-gray-300  tracking-wide whitespace-nowrap font-mono">
                             Web Developer & Designer
                         </h2>
                     </TextBox3D>

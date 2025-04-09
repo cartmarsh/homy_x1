@@ -1,33 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import LoadingScreen from './animations/RetroLoader';
+import RetroLoader from './animations/RetroLoader';
 import { motion, AnimatePresence } from 'framer-motion';
+import { preloadImages, CRITICAL_IMAGES } from '../utils/imagePreloader';
 
 interface LoadingWrapperProps {
   children: React.ReactNode;
-  duration: number;
-  primaryText: string;
-  accentText: string;
+  duration?: number;
 }
 
-const LoadingWrapper: React.FC<LoadingWrapperProps> = ({
-  children,
-  duration,
-  primaryText,
-  accentText
-}) => {
+const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ children, duration = 3000 }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   
-  // Use a much shorter actual loading time
-  const actualDuration = Math.min(duration, 2500); // Reduced by 0.7 seconds (from 4000)
+  // Use a much shorter actual loading time, but ensure critical assets are loaded
+  const actualDuration = Math.min(duration, 2500);
 
-  // Preload child components during loading screen
   useEffect(() => {
-    // Begin content preloading instantly
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, actualDuration);
+    let timeoutId: NodeJS.Timeout;
+    
+    const startTime = Date.now();
+    
+    const handleProgress = (progress: number) => {
+      setLoadingProgress(progress);
+    };
 
-    return () => clearTimeout(timer);
+    // Start preloading images immediately
+    const startLoading = async () => {
+      try {
+        // Start preloading images and track progress
+        await preloadImages(CRITICAL_IMAGES, handleProgress);
+        
+        // Ensure minimum display time for loading screen
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, actualDuration - elapsedTime);
+        
+        timeoutId = setTimeout(() => {
+          setIsLoading(false);
+        }, remainingTime);
+      } catch (error) {
+        console.error('Error during preloading:', error);
+        // Fallback to minimum display time if preloading fails
+        timeoutId = setTimeout(() => {
+          setIsLoading(false);
+        }, actualDuration);
+      }
+    };
+
+    startLoading();
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, [actualDuration]);
 
   return (
@@ -38,13 +61,14 @@ const LoadingWrapper: React.FC<LoadingWrapperProps> = ({
           initial={{ opacity: 1 }}
           exit={{ 
             opacity: 0,
-            transition: { duration: 0.3, ease: "easeInOut" } // Faster exit transition
+            transition: { duration: 0.3, ease: "easeInOut" }
           }}
         >
-          <LoadingScreen
-            primaryText={primaryText}
-            accentText={accentText}
-            duration={actualDuration + 300} // Shorter animation extension
+          <RetroLoader
+            primaryText="hello world"
+            accentText="..."
+            duration={actualDuration}
+            progress={loadingProgress}
           />
         </motion.div>
       ) : (
@@ -53,7 +77,7 @@ const LoadingWrapper: React.FC<LoadingWrapperProps> = ({
           initial={{ opacity: 0 }}
           animate={{ 
             opacity: 1,
-            transition: { duration: 0.3, ease: "easeOut" } // Faster content appearance
+            transition: { duration: 0.3, ease: "easeOut" }
           }}
           className="w-full h-full"
         >

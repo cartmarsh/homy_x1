@@ -48,7 +48,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
         <motion.div
             {...containerAnimation}
             className={`
-                md:absolute md:top-1/2 md:right-[20%] md:transform md:-translate-y-1/2 md:z-20
+                md:absolute md:top-1/2 md:right-[25%] md:transform md:-translate-y-1/2 md:z-20
                 relative mt-8 md:mt-0
                 flex justify-center
                 ${className}

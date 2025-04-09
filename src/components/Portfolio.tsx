@@ -109,7 +109,7 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
             <div className="w-full h-full flex flex-col" style={portfolioContainerStyle}>
                 {/* Header with responsive sizing */}
                 <div className="w-full flex flex-col items-center justify-center mb-4 sm:mb-6 py-1 sm:py-2">
-                    <RetroHeader title="PORTFOLIO" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl" />
+                    <RetroHeader title="PORTFOLIO" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-mono" />
                 </div>
                 
                 {/* Project Carousel Display - with flex-grow to take available space */}

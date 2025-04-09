@@ -53,7 +53,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
         <h1 
           className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-wider uppercase text-center text-gray-800 ${className}`}
           style={{
-            fontFamily: "'Press Start 2P', 'VT323', monospace",
+            fontFamily: className.includes('font-mono') ? 'monospace' : "'Press Start 2P', 'VT323', monospace",
             WebkitTextStroke: "0.7px rgba(0,0,0,0.3)",
             ...glitchStyle
           }}
