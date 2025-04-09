@@ -15,7 +15,7 @@ interface UseImageLoadReturn {
   hasError: boolean;
   handleImageLoad: () => void;
   handleImageError: () => void;
-  optimizedSrc: string; // New property to hold the optimized image source
+  optimizedSrc: string;
 }
 
 /**
@@ -26,20 +26,20 @@ interface UseImageLoadReturn {
 const useImageLoad = ({ 
   src, 
   preload = true,
-  maxWidth = 1200,  // Default max width
-  maxHeight = 1200  // Default max height
+  maxWidth = 1200,
+  maxHeight = 1200
 }: UseImageLoadProps): UseImageLoadReturn => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [optimizedSrc, setOptimizedSrc] = useState(src);
 
-  // Function to downscale image if needed
-  const downscaleImage = (img: HTMLImageElement): string => {
+  // Function to optimize image
+  const optimizeImage = (img: HTMLImageElement): string => {
     const canvas = document.createElement('canvas');
     let width = img.width;
     let height = img.height;
 
-    // Calculate new dimensions while maintaining aspect ratio
+    // Calculate new dimensions while maintaining aspect ratio if needed
     if (width > maxWidth) {
       height = (height * maxWidth) / width;
       width = maxWidth;
@@ -55,7 +55,7 @@ const useImageLoad = ({
     if (!ctx) return src;
 
     ctx.drawImage(img, 0, 0, width, height);
-    return canvas.toDataURL('image/webp', 0.85); // Use WebP format with 85% quality
+    return canvas.toDataURL('image/webp', 0.6); // Always use WebP with 60% quality
   };
 
   useEffect(() => {
@@ -72,19 +72,14 @@ const useImageLoad = ({
     const img = new Image();
 
     img.onload = () => {
-      // Only downscale if the image is larger than maxWidth or maxHeight
-      if (img.width > maxWidth || img.height > maxHeight) {
-        const optimized = downscaleImage(img);
-        setOptimizedSrc(optimized);
-        
-        // Cache the optimized version
-        const optimizedImg = new Image();
-        optimizedImg.src = optimized;
-        imageCache.set(src, optimizedImg);
-      } else {
-        // Cache the original image if no optimization needed
-        imageCache.set(src, img);
-      }
+      // Always optimize the image
+      const optimized = optimizeImage(img);
+      setOptimizedSrc(optimized);
+      
+      // Cache the optimized version
+      const optimizedImg = new Image();
+      optimizedImg.src = optimized;
+      imageCache.set(src, optimizedImg);
       
       setIsLoading(false);
     };
