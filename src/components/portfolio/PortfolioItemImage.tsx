@@ -31,9 +31,11 @@ const PortfolioItemImage: React.FC<PortfolioItemImageProps> = ({
   style = {}
 }) => {
   // Use our custom image loading hook
-  const { isLoading, hasError, handleImageLoad, handleImageError } = useImageLoad({
+  const { isLoading, hasError, handleImageLoad, handleImageError, optimizedSrc } = useImageLoad({
     src: image,
-    preload: true
+    preload: true,
+    maxWidth: 1200,  // Larger max width for portfolio images
+    maxHeight: 800   // Adjust based on your needs
   });
 
   // Filter tags to only show those with icons
@@ -75,11 +77,11 @@ const PortfolioItemImage: React.FC<PortfolioItemImageProps> = ({
       
       {/* Main image - using onLoad event */}
       <img 
-        src={image} 
+        src={optimizedSrc} 
         alt={`${title} project screenshot`}
         className={`${className} w-full h-auto object-cover transition-opacity duration-300 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         style={{
-          minHeight: '55vh', // Use relative units with increased height
+          minHeight: '55vh',
           objectFit: 'cover',
           objectPosition: 'center top',
           ...style

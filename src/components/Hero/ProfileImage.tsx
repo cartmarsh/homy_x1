@@ -37,9 +37,11 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
     });
 
     // Use image loading hook
-    const { isLoading, hasError, handleImageLoad, handleImageError } = useImageLoad({
+    const { isLoading, hasError, handleImageLoad, handleImageError, optimizedSrc } = useImageLoad({
         src: imageSrc,
-        preload: true
+        preload: true,
+        maxWidth: 400,  // Adjust based on your needs
+        maxHeight: 400  // Adjust based on your needs
     });
 
     return (
@@ -79,7 +81,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                 )}
                 
                 <motion.img
-                    src={imageSrc}
+                    src={optimizedSrc}
                     alt={alt}
                     className={`w-36 h-36 xs:w-48 xs:h-48 sm:w-54 sm:h-54 md:w-60 md:h-60 lg:w-66 lg:h-66 rounded-lg shadow-xl object-cover transition-opacity duration-300 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
                     animate={{ scale }}

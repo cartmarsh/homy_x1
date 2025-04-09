@@ -19,6 +19,13 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
             image: SoundRoomImage,
             link: "https://sound-room.vercel.app/",
             tags: ["React", "Node.js", "Tone.js", "TypeScript"]
+        },
+        {
+            title: "SoundRoom",
+            description: "A visual sound creation tool that lets users design custom audio by drawing waveforms, applying effects, and collaborating in a shared sound environment.",
+            image: SoundRoomImage,
+            link: "https://sound-room.vercel.app/",
+            tags: ["React", "Node.js", "Tone.js", "TypeScript"]
         }
     ];
 

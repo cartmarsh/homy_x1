@@ -31,7 +31,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
                         intensity={1}
                         className="text-box-width max-w-[95vw] md:max-w-none mx-0"
                     >
-                        <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight relative retro-text whitespace-nowrap">
+                        <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight relative whitespace-nowrap font-mono">
                             Dominik Hauger
                         </h1>
                     </TextBox3D>
@@ -39,23 +39,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
                     <TextBox3D 
                         offsetX={offsetX} 
                         offsetY={offsetY} 
-                        intensity={0.67}
-                        glassEffect={{
-                            background: 'rgba(255, 255, 255, 0.12)',
-                            borderOpacity: 0.25,
-                            blur: 5
-                        }}
-                        className="max-w-[95vw] md:max-w-none mx-0"
-                    >
-                        <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl text-white tracking-wide retro-subtitle whitespace-nowrap">
-                            Web Developer & Designer
-                        </h2>
-                    </TextBox3D>
-
-                    <TextBox3D 
-                        offsetX={offsetX} 
-                        offsetY={offsetY} 
-                        intensity={0.33}
+                        intensity={0.4}
                         glassEffect={{
                             background: 'rgba(255, 255, 255, 0.08)',
                             borderOpacity: 0.2,
@@ -63,9 +47,25 @@ const HeroContent: React.FC<HeroContentProps> = ({
                         }}
                         className="max-w-[95vw] md:max-w-none mx-0"
                     >
-                        <p className="text-lg xs:text-xl sm:text-2xl text-gray-300 retro-text-small whitespace-nowrap">
+                        <h3 className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-gray-300 whitespace-nowrap font-mono">
                             Crafting Interactive Experiences
-                        </p>
+                        </h3>
+                    </TextBox3D>
+
+                    <TextBox3D 
+                        offsetX={offsetX} 
+                        offsetY={offsetY} 
+                        intensity={0.8}
+                        glassEffect={{
+                            background: 'rgba(255, 255, 255, 0.15)',
+                            borderOpacity: 0.3,
+                            blur: 5
+                        }}
+                        className="max-w-[95vw] md:max-w-none mx-0"
+                    >
+                        <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl text-white tracking-wide whitespace-nowrap font-mono">
+                            Web Developer & Designer
+                        </h2>
                     </TextBox3D>
                 </div>
                 
@@ -81,33 +81,36 @@ const HeroContent: React.FC<HeroContentProps> = ({
                         }}
                     >
                         <button
-                            className="
-                                retro-button
-                                whitespace-nowrap
-                                text-base xs:text-lg
-                                relative
-                                group
-                                transition-transform
-                                hover:scale-105
-                                active:scale-95
-                                flex items-center justify-center gap-2
-                                pointer-events-auto
-                                px-6 py-3
-                            "
-                            onClick={triggerClickEffect}
-                            style={{ pointerEvents: 'auto' }}
+                            className="retro-button group"
+                            onClick={() => {
+                                triggerClickEffect();
+                                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                            }}
                         >
                             <svg 
                                 xmlns="http://www.w3.org/2000/svg" 
-                                className="h-5 w-5 xs:h-6 xs:w-6 transition-transform group-hover:rotate-12 pointer-events-none flex-shrink-0 self-center -mt-3" 
+                                className="transition-transform group-hover:rotate-6" 
                                 fill="none" 
                                 viewBox="0 0 24 24" 
                                 stroke="currentColor"
                             >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            <span className="pointer-events-none self-center leading-none">GET IN TOUCH</span>
-                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-current group-hover:w-full transition-all duration-200 pointer-events-none"></span>
+                            <p
+                             style={{
+                                fontSize: '1.2rem',
+                                fontWeight: 'bold',
+                                color: '#2e2b2a',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.1em',
+                                fontFamily: 'monospace',
+                                textShadow: '0 0 10px rgba(255, 255, 255, 0.5)',
+                                textAlign: 'center',
+                                lineHeight: '1.2',
+                                marginTop: '0.5em',
+                                
+                             }}
+                            >Get in Touch</p>
                         </button>
                     </div>
                 </motion.div>

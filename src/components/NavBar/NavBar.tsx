@@ -68,7 +68,7 @@ const NavBar: React.FC = () => {
     return (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto md:w-auto bg-transparent">
             <div 
-                className="retro-nav-card px-3 sm:px-4 md:px-6 py-1 sm:py-2 backdrop-blur-sm transition-transform duration-300 ease-out"
+                className="nav-card px-4 sm:px-6 md:px-8 py-3 sm:py-4 backdrop-blur-sm transition-transform duration-300 ease-out"
                 onMouseMove={handleMouseMove}
                 style={{
                     transform: `translate(${shiftX}px, ${shiftY}px)`,
@@ -138,10 +138,17 @@ const NavItem: React.FC<NavItemProps> = ({ id, label, isActive, onClick }) => {
             <a 
                 href={`#${id}`}
                 className={`
-                    retro-nav-link relative
-                    font-['Space_Grotesk'] text-xs sm:text-sm tracking-wider
+                    relative
+                    font-mono text-sm sm:text-base tracking-wider font-medium
                     block w-full md:w-auto text-center
-                    ${isActive ? 'text-white font-semibold scale-110' : 'text-neutral-200'}
+                    px-1.5 py-0.75
+                    ${isActive ? 'text-white font-bold scale-110' : 'text-neutral-200'}
+                    hover:text-white transition-all duration-200
+                    after:content-[''] after:absolute after:w-full after:h-[0.125rem] 
+                    after:bg-white after:left-0 after:bottom-[-0.25rem]
+                    after:scale-x-0 hover:after:scale-x-100
+                    after:transition-transform after:duration-200 after:origin-center
+                    ${isActive ? 'after:scale-x-100' : ''}
                 `}
                 onClick={handleClick}
             >
