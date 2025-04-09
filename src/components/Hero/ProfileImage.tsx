@@ -40,8 +40,8 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
     const { isLoading, hasError, handleImageLoad, handleImageError, optimizedSrc } = useImageLoad({
         src: imageSrc,
         preload: true,
-        maxWidth: 400,  // Adjust based on your needs
-        maxHeight: 400  // Adjust based on your needs
+        maxWidth: 400,
+        maxHeight: 400
     });
 
     return (
@@ -60,18 +60,23 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                 onMouseLeave={handleMouseLeave}
                 style={{ marginTop: '40px' }}
             >
-                {/* Loading state */}
-                {isLoading && (
-                    <div className="w-36 h-36 xs:w-48 xs:h-48 sm:w-54 sm:h-54 md:w-60 md:h-60 lg:w-66 lg:h-66 rounded-lg flex items-center justify-center bg-purple-900/20 backdrop-blur-sm animate-pulse">
-                        <div className="text-center">
-                            <div className="inline-block w-10 h-10 border-4 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
-                        </div>
-                    </div>
-                )}
+                {/* Loading state with fog effect */}
+                <div 
+                    className={`
+                        absolute inset-0 rounded-lg transition-all duration-1000
+                        ${isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+                    `}
+                    style={{
+                        background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(79, 70, 229, 0.2))',
+                        backdropFilter: isLoading ? 'blur(20px)' : 'blur(0px)',
+                        WebkitBackdropFilter: isLoading ? 'blur(20px)' : 'blur(0px)',
+                        animation: isLoading ? 'fogEffect 2s infinite alternate' : 'none'
+                    }}
+                />
                 
                 {/* Error state */}
                 {hasError && (
-                    <div className="w-36 h-36 xs:w-48 xs:h-48 sm:w-54 sm:h-54 md:w-60 md:h-60 lg:w-66 lg:h-66 rounded-lg flex items-center justify-center bg-purple-900/40 backdrop-blur-sm">
+                    <div className="absolute inset-0 rounded-lg flex items-center justify-center bg-purple-900/40 backdrop-blur-sm">
                         <div className="text-center text-white p-4">
                             <svg className="w-10 h-10 mx-auto text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -83,7 +88,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                 <motion.img
                     src={optimizedSrc}
                     alt={alt}
-                    className={`w-36 h-36 xs:w-48 xs:h-48 sm:w-54 sm:h-54 md:w-60 md:h-60 lg:w-66 lg:h-66 rounded-lg shadow-xl object-cover transition-opacity duration-300 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+                    className={`w-36 h-36 xs:w-48 xs:h-48 sm:w-54 sm:h-54 md:w-60 md:h-60 lg:w-66 lg:h-66 rounded-lg shadow-xl object-cover transition-all duration-1000 ease-in-out ${isLoading ? 'opacity-40 scale-[0.98]' : 'opacity-100 scale-100'}`}
                     animate={{ scale }}
                     transition={{ duration: 0.3 }}
                     onLoad={handleImageLoad}

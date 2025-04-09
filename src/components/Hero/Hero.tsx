@@ -1,6 +1,6 @@
 import React, { useRef, Suspense } from 'react';
 import ContentSection from '../layout/ContentSection';
-import profilePic from './../../assets/Hauger.png';
+import profilePic from './../../assets/output.png';
 import './Hero.css';
 import useScrollSnapping from '../../hooks/useScrollSnapping';
 import useDimensions from '../../hooks/useDimensions';
