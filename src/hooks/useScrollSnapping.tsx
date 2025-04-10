@@ -1,55 +1,28 @@
-import { throttle } from "lodash";
 import { useEffect } from "react";
 
 const useScrollSnapping = () => {
     useEffect(() => {
-        const handleScroll = () => {
-            const sections = document.querySelectorAll('section');
-            const navbarHeight = document.querySelector('nav')?.offsetHeight || 0;
-            
-            const viewportHeight = window.innerHeight - navbarHeight;
-            
-            const scrollPosition = window.scrollY;
-            let targetSection = null;
-            let minDistance = Infinity;
-            
-            sections.forEach((section) => {
-                const sectionTop = section.getBoundingClientRect().top + window.scrollY - navbarHeight;
-                const distance = Math.abs(scrollPosition - sectionTop);
-                
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    targetSection = section;
-                }
-            });
-            
-            if (targetSection && minDistance < viewportHeight / 3) {
-                const element = targetSection as HTMLElement;
-                const targetPosition = element.getBoundingClientRect().top + window.scrollY - navbarHeight;
-                
-                if (!document.body.classList.contains('scrolling')) {
-                    document.body.classList.add('scrolling');
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                    
-                    setTimeout(() => {
-                        document.body.classList.remove('scrolling');
-                    }, 800);
-                }
+        // Set CSS variable for navbar height
+        const updateNavbarHeight = () => {
+            const navbar = document.querySelector('nav');
+            if (navbar) {
+                const height = navbar.getBoundingClientRect().height;
+                document.documentElement.style.setProperty('--navbar-height', `${height}px`);
             }
         };
-        
-        const throttledScrollHandler = throttle(handleScroll, 200);
-        
-        window.addEventListener('scroll', throttledScrollHandler);
-        
+
+        // Update immediately and on resize
+        updateNavbarHeight();
+        window.addEventListener('resize', updateNavbarHeight);
+
+        // Also update after a short delay to ensure all content is loaded
+        const timeoutId = setTimeout(updateNavbarHeight, 500);
+
         return () => {
-            window.removeEventListener('scroll', throttledScrollHandler);
+            window.removeEventListener('resize', updateNavbarHeight);
+            clearTimeout(timeoutId);
         };
     }, []);
 };
-
 
 export default useScrollSnapping;

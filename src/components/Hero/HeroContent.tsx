@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import TextBox3D from './TextBox3D';
 import useTextAnimation from '../../hooks/useTextAnimation';
+import { useScrollObserver } from '../../hooks/useScrollObserver';
+import { SECTIONS } from '../../constants/sections';
 
 interface HeroContentProps {
     offsetX: number;
@@ -17,6 +19,11 @@ const HeroContent: React.FC<HeroContentProps> = ({
     className = ''
 }) => {
     const { containerAnimation, buttonAnimation } = useTextAnimation();
+    const { scrollToSection } = useScrollObserver(
+        SECTIONS,
+        () => {}, // We don't need to track active section here
+        { threshold: [0.2] } // Slightly different threshold for better trigger timing
+    );
 
     return (
         <motion.div 
@@ -83,8 +90,8 @@ const HeroContent: React.FC<HeroContentProps> = ({
                         <button
                             className="retro-button group"
                             onClick={() => {
-                                triggerClickEffect();
-                                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                                //triggerClickEffect();
+                                scrollToSection('contact');
                             }}
                         >
                             <svg 
