@@ -23,7 +23,7 @@ export const useScrollObserver = (
             });
         } else {
             // For lazy-loaded sections, wait for them to appear
-            const observer = new MutationObserver((mutations, obs) => {
+            const observer = new MutationObserver((_, obs) => {
                 const newElement = document.getElementById(sectionId);
                 if (newElement) {
                     obs.disconnect();

@@ -49,7 +49,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
             {...containerAnimation}
             className={`
                 md:absolute md:top-1/2 md:right-[25%] md:transform md:-translate-y-1/2 md:z-20
-                relative mt-8 md:mt-0
+                relative mt-4 md:mt-0
                 flex justify-center
                 ${className}
             `}
@@ -58,7 +58,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                 className="relative retro-image-container"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                style={{ marginTop: '40px' }}
+                style={{ marginTop: '1rem' }}
             >
                 {/* Loading state with fog effect */}
                 <div 
@@ -88,7 +88,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                 <motion.img
                     src={optimizedSrc}
                     alt={alt}
-                    className={`w-36 h-36 xs:w-48 xs:h-48 sm:w-54 sm:h-54 md:w-60 md:h-60 lg:w-66 lg:h-66 rounded-lg shadow-xl object-cover transition-all duration-1000 ease-in-out ${isLoading ? 'opacity-40 scale-[0.98]' : 'opacity-100 scale-100'}`}
+                    className={`w-32 h-32 xs:w-40 xs:h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-lg shadow-xl object-cover transition-all duration-1000 ease-in-out ${isLoading ? 'opacity-40 scale-[0.98]' : 'opacity-100 scale-100'}`}
                     animate={{ scale }}
                     transition={{ duration: 0.3 }}
                     onLoad={handleImageLoad}

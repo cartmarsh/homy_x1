@@ -5,7 +5,6 @@ import './Hero.css';
 import useScrollSnapping from '../../hooks/useScrollSnapping';
 import useDimensions from '../../hooks/useDimensions';
 import useMouseTracking from '../../hooks/useMouseTracking';
-import useGlitchEffect from '../../hooks/useGlitchEffect';
 import HeroContent from './HeroContent';
 import ProfileImage from './ProfileImage';
 import ThreeBackground from './ThreeBackground';
@@ -19,18 +18,12 @@ interface HeroProps {
     id?: string;
 }
 
-interface GlitchEffect {
-    triggerClickEffect: () => void;
-}
-
 const Hero: React.FC<HeroProps> = ({ className, id }) => {
     const divRef = useRef<HTMLDivElement>(null);
     
     // Use custom hooks
     const { dimensions, isClient } = useDimensions(divRef);
     const { handleMouseMove, getOffsets } = useMouseTracking(divRef);
-    const glitchEffect = useGlitchEffect() as unknown as GlitchEffect;
-    const { triggerClickEffect } = glitchEffect;
     
     // Apply scroll snapping
     useScrollSnapping();
@@ -42,13 +35,13 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
         <ContentSection 
             id={id} 
             bgColor='bg-transparent' 
-            className={`${className} overflow-hidden`}
+            className={`${className} overflow-hidden min-h-screen`}
             padding="compact"
             backgroundElements={<HeroBackground />}
         >
             <div 
                 ref={divRef}
-                className="w-full h-full flex items-center justify-center relative overflow-hidden"
+                className="w-full h-full flex items-start sm:items-center justify-center relative overflow-hidden py-4 sm:py-0"
                 onMouseMove={handleMouseMove}
                 style={{ position: 'relative', minHeight: '100%' }}
             >
@@ -78,16 +71,16 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                 )}
                 
                 {/* Content */}
-                <div className="flex flex-col items-center justify-start w-full relative">
+                <div className="flex flex-col items-center justify-start w-full relative mt-12 sm:mt-0">
                     <HeroContent 
                         offsetX={offsetX}
                         offsetY={offsetY}
-                        triggerClickEffect={triggerClickEffect}
                         className="w-full md:w-3/4"
                     />
                     <ProfileImage 
                         imageSrc={profilePic}
                         alt="Dominik's Profile"
+                        className="mt-4 sm:mt-8"
                     />
                 </div>
             </div>

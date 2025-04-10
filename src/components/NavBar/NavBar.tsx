@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useScrollObserver } from '../../hooks/useScrollObserver';
 import { SECTIONS } from '../../constants/sections';
 import "./NavBar.css";
@@ -7,8 +7,29 @@ const NavBar: React.FC = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("home");
+    const [greeting, setGreeting] = useState<string>("");
 
     const { scrollToSection } = useScrollObserver(SECTIONS, setActiveSection);
+
+    useEffect(() => {
+        const updateGreeting = () => {
+            const hour = new Date().getHours();
+            if (hour >= 5 && hour < 12) {
+                setGreeting("Good Morning");
+            } else if (hour >= 12 && hour < 17) {
+                setGreeting("Good Afternoon");
+            } else if (hour >= 17 && hour < 22) {
+                setGreeting("Good Evening");
+            } else {
+                setGreeting("Hello Night Owl");
+            }
+        };
+
+        updateGreeting();
+        const interval = setInterval(updateGreeting, 60000); // Update every minute
+
+        return () => clearInterval(interval);
+    }, []);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -21,48 +42,91 @@ const NavBar: React.FC = () => {
     const shiftX = (mousePosition.x - 0.5) * 4; // Max 2px shift
     const shiftY = (mousePosition.y - 0.5) * 4; // Max 2px shift
 
-    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
     return (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto md:w-auto bg-transparent">
-            <div 
-                className="nav-card px-4 sm:px-6 md:px-8 py-3 sm:py-4 backdrop-blur-sm transition-transform duration-300 ease-out"
-                onMouseMove={handleMouseMove}
-                style={{
-                    transform: `translate(${shiftX}px, ${shiftY}px)`,
-                }}
-            >
-                <div className="flex items-center justify-between md:justify-center">
-                    {/* Mobile Menu Button */}
+        <div className={`fixed top-0 left-0 w-full z-50 ${isMenuOpen ? 'h-full' : ''}`}>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex justify-center w-full">
+                <div 
+                    className={`nav-card px-8 py-4 w-[70%] max-w-5xl backdrop-blur-sm transition-all duration-300 ease-out mt-4
+                        ${isMenuOpen ? 'md:bg-gradient-to-r md:from-[rgba(45,27,105,0.95)] md:to-[rgba(224,95,32,0.95)]' : ''}
+                    `}
+                    onMouseMove={handleMouseMove}
+                    style={{
+                        transform: `translate(${shiftX}px, ${shiftY}px)`,
+                    }}
+                >
+                    <div className="flex items-center justify-center">
+                        <ul className="flex items-center gap-6 lg:gap-10">
+                            {SECTIONS.map(section => (
+                                <NavItem 
+                                    key={section.id}
+                                    id={section.id} 
+                                    label={section.label} 
+                                    isActive={activeSection === section.id}
+                                    onClick={() => {
+                                        scrollToSection(section.id);
+                                        setIsMenuOpen(false);
+                                    }}
+                                    isLastItem={section.id === 'contact'}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {/* Mobile Navigation */}
+            <div className="md:hidden">
+                {/* Mobile Header */}
+                <div className="flex items-center px-4 py-3">
                     <button 
-                        className="md:hidden text-[#e05f20] hover:text-[#f06c2e] transition-colors 
-                                  bg-white/30 p-2 rounded-md w-10 h-10 flex items-center justify-center text-xl"
-                        onClick={toggleMenu}
+                        className="text-[#e05f20] hover:text-[#f06c2e] transition-colors 
+                                  bg-white/30 p-2 rounded-md w-10 h-10 flex items-center justify-center text-xl mr-3"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
                         aria-label="Toggle menu"
                     >
-                        {isMenuOpen ? "✕" : "☰"}
+                        ☰
                     </button>
-
-                    {/* Navigation Links */}
-                    <ul className={`
-                        flex flex-col md:flex-row items-center gap-4 md:gap-6 lg:gap-10 relative z-10
-                        ${isMenuOpen ? 'flex' : 'hidden md:flex'}
-                        ${isMenuOpen ? 'absolute top-full left-0 w-full bg-gradient-to-r from-[#2d1b69]/95 to-[#e05f20]/95 mt-2 p-3 rounded-md shadow-lg border border-white/10' : ''}
-                    `}>
-                        {SECTIONS.map(section => (
-                            <NavItem 
-                                key={section.id}
-                                id={section.id} 
-                                label={section.label} 
-                                isActive={activeSection === section.id}
-                                onClick={() => {
-                                    scrollToSection(section.id);
-                                    isMenuOpen && toggleMenu();
-                                }}
-                            />
-                        ))}
-                    </ul>
+                    <span className="text-white/90 text-sm font-mono">
+                        {greeting}
+                    </span>
                 </div>
+
+                {/* Mobile Menu Overlay */}
+                {isMenuOpen && (
+                    <div className="fixed inset-0 bg-[#1a1a1a]/95 backdrop-blur-md z-40">
+                        <div className="flex flex-col h-full relative">
+                            <div className="flex justify-end p-4 relative z-50">
+                                <button 
+                                    className="text-[#e05f20] hover:text-[#f06c2e] transition-colors 
+                                              bg-white/30 p-2 rounded-md w-10 h-10 flex items-center justify-center text-xl"
+                                    onClick={() => {
+                                        setIsMenuOpen(false);
+                                        console.log('Close button clicked, setting isMenuOpen to false');
+                                    }}
+                                    aria-label="Close menu"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            <ul className="flex flex-col items-center justify-center flex-1 gap-6 -mt-20">
+                                {SECTIONS.map(section => (
+                                    <NavItem 
+                                        key={section.id}
+                                        id={section.id} 
+                                        label={section.label} 
+                                        isActive={activeSection === section.id}
+                                        onClick={() => {
+                                            scrollToSection(section.id);
+                                            setIsMenuOpen(false);
+                                        }}
+                                        isLastItem={section.id === 'contact'}
+                                    />
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -73,18 +137,19 @@ interface NavItemProps {
     label: string;
     isActive: boolean;
     onClick: () => void;
+    isLastItem?: boolean;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ id, label, isActive, onClick }) => {
+const NavItem: React.FC<NavItemProps> = ({ id, label, isActive, onClick, isLastItem }) => {
     return (
-        <li className="nav-item w-full md:w-auto py-2 md:py-0">
+        <li className={`nav-item ${isLastItem ? 'md:ml-0' : ''}`}>
             <a 
                 href={`#${id}`}
                 className={`
                     relative
-                    font-mono text-sm sm:text-base tracking-wider font-medium
-                    block w-full md:w-auto text-center
-                    px-1.5 py-0.75
+                    font-mono text-base sm:text-lg md:text-base tracking-wider font-medium
+                    block text-center
+                    px-6 py-3 md:px-1.5 md:py-0.75
                     ${isActive ? 'text-white font-bold scale-110' : 'text-neutral-200'}
                     hover:text-white transition-all duration-200
                     after:content-[''] after:absolute after:w-full after:h-[0.125rem] 
@@ -92,6 +157,7 @@ const NavItem: React.FC<NavItemProps> = ({ id, label, isActive, onClick }) => {
                     after:scale-x-0 hover:after:scale-x-100
                     after:transition-transform after:duration-200 after:origin-center
                     ${isActive ? 'after:scale-x-100' : ''}
+                    ${isLastItem ? 'md:px-4 md:py-2 md:bg-[#e05f20] md:rounded-full md:hover:bg-[#f06c2e] md:transition-colors' : ''}
                 `}
                 onClick={(e) => {
                     e.preventDefault();

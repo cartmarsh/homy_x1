@@ -8,14 +8,12 @@ import { SECTIONS } from '../../constants/sections';
 interface HeroContentProps {
     offsetX: number;
     offsetY: number;
-    triggerClickEffect: () => void;
     className?: string;
 }
 
 const HeroContent: React.FC<HeroContentProps> = ({
     offsetX,
     offsetY,
-    triggerClickEffect,
     className = ''
 }) => {
     const { containerAnimation, buttonAnimation } = useTextAnimation();
@@ -28,17 +26,17 @@ const HeroContent: React.FC<HeroContentProps> = ({
     return (
         <motion.div 
             {...containerAnimation}
-            className={`w-full flex flex-col items-start justify-start gap-4 md:gap-6 z-20 relative px-2 md:px-4 hero-stacking-fix bg-transparent ${className}`}
+            className={`w-full flex flex-col items-start justify-start gap-2 sm:gap-4 md:gap-6 z-20 relative px-1 sm:px-2 md:px-4 hero-stacking-fix bg-transparent ${className}`}
         >
-            <div className="w-full space-y-4 md:space-y-8">
-                <div className="space-y-3 md:space-y-5">
+            <div className="w-full space-y-2 sm:space-y-4 md:space-y-8">
+                <div className="space-y-2 sm:space-y-3 md:space-y-5">
                     <TextBox3D 
                         offsetX={offsetX} 
                         offsetY={offsetY} 
                         intensity={1}
-                        className="text-box-width max-w-[95vw] md:max-w-none mx-0"
+                        className="text-box-width max-w-[90vw] md:max-w-none mx-0"
                     >
-                        <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight relative whitespace-nowrap font-mono">
+                        <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-6xl text-white tracking-tight relative whitespace-normal sm:whitespace-nowrap font-mono">
                             Dominik Hauger
                         </h1>
                     </TextBox3D>
@@ -52,9 +50,9 @@ const HeroContent: React.FC<HeroContentProps> = ({
                             borderOpacity: 0.5,
                             blur: 5
                         }}
-                        className="max-w-[95vw] md:max-w-none mx-0"
+                        className="max-w-[90vw] md:max-w-none mx-0"
                     >
-                        <h3 className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-white  whitespace-nowrap font-mono">
+                        <h3 className="text-lg xs:text-xl sm:text-2xl lg:text-4xl text-white whitespace-normal sm:whitespace-nowrap font-mono">
                             Crafting Interactive Experiences
                         </h3>
                     </TextBox3D>
@@ -68,9 +66,9 @@ const HeroContent: React.FC<HeroContentProps> = ({
                             borderOpacity: 0.3,
                             blur: 5
                         }}
-                        className="max-w-[95vw] md:max-w-none mx-0"
+                        className="max-w-[90vw] md:max-w-none mx-0"
                     >
-                        <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl text-gray-300  tracking-wide whitespace-nowrap font-mono">
+                        <h2 className="text-base xs:text-lg sm:text-xl lg:text-3xl text-gray-300 tracking-wide whitespace-normal sm:whitespace-nowrap font-mono">
                             Web Developer & Designer
                         </h2>
                     </TextBox3D>
@@ -78,7 +76,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
                 
                 <motion.div 
                     {...buttonAnimation}
-                    className="w-full flex justify-start items-start pt-4 md:pt-2"
+                    className="w-full flex justify-start items-start pt-2 sm:pt-4 md:pt-2"
                 >
                     <div 
                         className="relative inline-block px-2 py-2 rounded-lg backdrop-blur-sm bg-transparent button-container"

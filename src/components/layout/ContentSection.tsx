@@ -74,9 +74,9 @@ const ContentSection: React.FC<ContentSectionProps> = ({
 
     const getPaddingClasses = () => {
         if (padding === 'compact') {
-            return 'p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16';
+            return 'p-2 xs:p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12';
         }
-        return 'p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16';
+        return 'p-3 xs:p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-14';
     };
 
     return (
@@ -99,15 +99,15 @@ const ContentSection: React.FC<ContentSectionProps> = ({
         >
             <div 
                 className={`
-                    w-[98%] sm:w-[96%] md:w-[94%]
-                    min-h-[440px] xs:min-h-[484px] sm:min-h-[528px]
+                    w-[99%] sm:w-[98%] md:w-[96%]
+                    min-h-[400px] xs:min-h-[440px] sm:min-h-[484px]
                     ${bgColor} retro-card
                     flex justify-center items-center
                     rounded-lg
                     transition-all duration-300 ease-out
                     max-w-[1800px]
                     relative
-                    my-6
+                    my-2 sm:my-4 md:my-6
                 `}
                 onMouseMove={handleMouseMove}
                 style={{
