@@ -34,8 +34,8 @@ const PortfolioItemImage: React.FC<PortfolioItemImageProps> = ({
   const { isLoading, hasError, handleImageLoad, handleImageError, optimizedSrc } = useImageLoad({
     src: image,
     preload: true,
-    maxWidth: 1200,  // Larger max width for portfolio images
-    maxHeight: 800   // Adjust based on your needs
+    maxWidth: 2400,  // Increased for higher resolution
+    maxHeight: 1600  // Increased for higher resolution
   });
 
   // Filter tags to only show those with icons
@@ -46,13 +46,13 @@ const PortfolioItemImage: React.FC<PortfolioItemImageProps> = ({
       {/* Loading placeholder */}
       {isLoading && (
         <div 
-          className="absolute inset-0 flex items-center justify-center bg-purple-900/20 backdrop-blur-sm animate-pulse"
+          className="absolute inset-0 flex items-center justify-center bg-gray-100"
           style={{
             minHeight: '55vh',
           }}
         >
           <div className="text-center">
-            <div className="inline-block w-12 h-12 border-4 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
+            <div className="inline-block w-12 h-12 border-4 border-gray-300 border-t-gray-800 rounded-full animate-spin"></div>
             <div className="mt-3 text-sm text-white font-semibold">Loading...</div>
           </div>
         </div>
@@ -61,12 +61,12 @@ const PortfolioItemImage: React.FC<PortfolioItemImageProps> = ({
       {/* Error state */}
       {hasError && (
         <div 
-          className="absolute inset-0 flex items-center justify-center bg-purple-900/40 backdrop-blur-sm"
+          className="absolute inset-0 flex items-center justify-center bg-gray-100"
           style={{
             minHeight: '55vh',
           }}
         >
-          <div className="text-center text-white p-4">
+          <div className="text-center text-red-500 p-4">
             <svg className="w-12 h-12 mx-auto text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>

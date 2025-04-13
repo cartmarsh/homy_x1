@@ -54,7 +54,7 @@ const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
   // Content animation styles
   const contentStyles: CSSProperties = {
     opacity: contentVisible ? 1 : 0,
-    transform: contentVisible ? 'translateY(0)' : 'translateY(10px)',
+    transform: contentVisible ? 'translateY(0)' : 'translateY(0.625rem)',
     transition: 'opacity 0.5s ease, transform 0.4s ease',
   };
 

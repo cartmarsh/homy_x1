@@ -24,11 +24,11 @@ const PortfolioItemButton: React.FC<PortfolioItemButtonProps> = ({
     ...buttonStyles,
     transform: 'translateY(0)', // Prevent movement
     boxShadow: isHovered 
-      ? '0 8px 25px rgba(0, 0, 0, 0.25), 0 10px 20px rgba(147, 51, 234, 0.35)'
+      ? '0 0.5rem 1.5625rem rgba(0, 0, 0, 0.25), 0 0.625rem 1.25rem rgba(147, 51, 234, 0.35)'
       : buttonStyles.boxShadow,
     transition: 'all 0.4s ease-in-out',
     background: 'linear-gradient(135deg, #9333ea 0%, #7e22ce 100%)',
-    border: '2px solid rgba(255, 255, 255, 0.3)'
+    border: '0.125rem solid rgba(255, 255, 255, 0.3)'
   };
 
   const buttonClasses = `

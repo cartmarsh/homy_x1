@@ -28,9 +28,9 @@ export const getDetailsButtonStyle = (isHovered: boolean): CSSProperties => ({
   fontWeight: 700,
   color: 'white',
   backgroundColor: 'rgba(147, 51, 234, 0.95)',
-  border: '2px solid rgba(255, 255, 255, 0.3)',
+  border: '0.125rem solid rgba(255, 255, 255, 0.3)',
   borderRadius: '0.5rem',
-  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5)',
+  boxShadow: '0 0.25rem 0.9375rem rgba(0, 0, 0, 0.5)',
   transition: 'all 0.3s ease',
   cursor: 'pointer',
   zIndex: 40,
@@ -44,23 +44,23 @@ export const getDetailsSectionStyles = (showDetails: boolean, isTransitioning: b
   left: 0,
   right: 0,
   backgroundColor: DETAILS_BACKGROUND_COLOR,
-  backdropFilter: 'blur(3px)',
+  backdropFilter: 'blur(0.1875rem)',
   transform: showDetails ? 'translateY(0)' : 'translateY(100%)',
   opacity: showDetails ? 1 : 0,
   transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1.0), opacity 0.6s ease',
   maxHeight: '100%', 
   overflowY: 'auto',
-  zIndex: 40, // Ensure details appear above the image
+  zIndex: 40,
   scrollbarWidth: 'none',
   msOverflowStyle: 'none',
-  visibility: isTransitioning || showDetails ? 'visible' : 'hidden', // Ensure visibility during transition
+  visibility: isTransitioning || showDetails ? 'visible' : 'hidden',
   transformOrigin: 'bottom',
-  boxShadow: '0 -10px 25px rgba(0, 0, 0, 0.1)',
-  pointerEvents: showDetails ? 'auto' : 'none', // Only allow interaction when visible
-  willChange: 'transform, opacity', // Optimize for animation performance
+  boxShadow: '0 -0.625rem 1.5625rem rgba(0, 0, 0, 0.1)',
+  pointerEvents: showDetails ? 'auto' : 'none',
+  willChange: 'transform, opacity',
   borderBottomLeftRadius: '0.5rem',
   borderBottomRightRadius: '0.5rem',
-  paddingBottom: showDetails ? '4rem' : '0', // Add padding at the bottom when expanded
+  paddingBottom: showDetails ? '4rem' : '0',
 });
 
 // Main content styles - constrained to fit inside card with no gap
@@ -78,11 +78,11 @@ export const getImageContainerStyles = (isHovered: boolean): CSSProperties => ({
   position: 'relative',
   zIndex: 10,
   overflow: 'hidden',
-  boxShadow: isHovered ? '0 10px 25px rgba(0, 0, 0, 0.15)' : 'none',
-  height: 'min(70vh, 500px)', // Adjusted height to match red outlined area
+  boxShadow: isHovered ? '0 0.625rem 1.5625rem rgba(0, 0, 0, 0.15)' : 'none',
+  height: 'min(70vh, 31.25rem)', // Changed from 500px to 31.25rem
   width: '100%',
   transform: 'none',
-  borderRadius: '0.75rem', // Match container's border radius
+  borderRadius: '0.75rem',
   transition: 'all 0.3s ease',
 });
 
@@ -95,7 +95,7 @@ export const getTitleOverlayStyle = (): CSSProperties => ({
   textShadow: '0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.7)',
   letterSpacing: '0.32em',
   lineHeight: 1.7,
-  marginTop: '7%', // Position in the upper part of the image where the red rectangle was
+  marginTop: '7%',
   opacity: 0.8,
   textTransform: 'uppercase',
   backgroundColor: 'rgba(0, 0, 0, 0.3)',

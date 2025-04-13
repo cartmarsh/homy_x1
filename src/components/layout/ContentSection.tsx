@@ -9,8 +9,8 @@ interface ContentSectionProps {
     padding?: 'default' | 'compact';
 }
 
-// Maximum distance the card can shift on mouse movement in px
-const MAX_SHIFT = 8;
+// Maximum distance the card can shift on mouse movement in rem
+const MAX_SHIFT = 0.5;
 
 const ContentSection: React.FC<ContentSectionProps> = ({ 
     className = '', 
@@ -88,30 +88,34 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                 w-full
                 flex justify-center items-center
                 snap-start
+                text-white/90
                 ${className}
             `}
             style={{ 
-                height: isClient ? `calc(100vh - ${navbarHeight / 16}rem)` : '100vh',
+                height: isClient ? `calc(80vh - ${navbarHeight / 16}rem)` : '80vh',
                 marginTop: isClient ? `${navbarHeight / 16}rem` : '0',
-                scrollMarginTop: `${navbarHeight}px`,
+                scrollMarginTop: isClient ? `${navbarHeight / 16}rem` : '0',
                 transition: 'opacity 0.5s ease-in-out',
             }}
         >
             <div 
                 className={`
                     w-[99%] sm:w-[98%] md:w-[96%]
-                    min-h-[400px] xs:min-h-[440px] sm:min-h-[484px]
-                    ${bgColor} retro-card
+                    min-h-[25rem] xs:min-h-[27.5rem] sm:min-h-[30.25rem]
                     flex justify-center items-center
                     rounded-lg
                     transition-all duration-300 ease-out
-                    max-w-[1800px]
+                    max-w-[112.5rem]
                     relative
                     my-2 sm:my-4 md:my-6
+                    bg-white/[0.08]
+                    backdrop-blur-[0.125rem]
+                    border border-white/20
+                    shadow-lg
                 `}
                 onMouseMove={handleMouseMove}
                 style={{
-                    transform: `translate(${shiftX}px, ${shiftY}px)`,
+                    transform: `translate(${shiftX}rem, ${shiftY}rem)`,
                     transition: 'transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
                 }}
             >
@@ -122,13 +126,12 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                         h-full
                         flex flex-col
                         mx-auto
-                        retro-scroll
                         rounded-lg
                         ${getPaddingClasses()}
-                        max-w-[1800px]
+                        max-w-[112.5rem]
                         overflow-x-hidden overflow-y-auto
-                        bg-transparent
                         relative z-10
+                        text-white/90
                     `}
                 >
                     {children}

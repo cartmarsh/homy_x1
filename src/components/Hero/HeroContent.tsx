@@ -1,125 +1,82 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import TextBox3D from './TextBox3D';
-import useTextAnimation from '../../hooks/useTextAnimation';
-import { useScrollObserver } from '../../hooks/useScrollObserver';
-import { SECTIONS } from '../../constants/sections';
+import Button from '../../components/Button/Button';
+import { useHeroAnimation } from '../../hooks/useHeroAnimation';
+import ProfileImage from './ProfileImage';
 
 interface HeroContentProps {
-    offsetX: number;
-    offsetY: number;
+    title: string;
+    subtitle: string;
+    buttonText: string;
+    onButtonClick: () => void;
     className?: string;
+    profileImage: string;
 }
 
 const HeroContent: React.FC<HeroContentProps> = ({
-    offsetX,
-    offsetY,
-    className = ''
+    title,
+    subtitle,
+    buttonText,
+    onButtonClick,
+    className = '',
+    profileImage
 }) => {
-    const { containerAnimation, buttonAnimation } = useTextAnimation();
-    const { scrollToSection } = useScrollObserver(
-        SECTIONS,
-        () => {}, // We don't need to track active section here
-        { threshold: [0.2] } // Slightly different threshold for better trigger timing
-    );
+    const { ref, containerAnimation, titleAnimation, subtitleAnimation, buttonAnimation } = useHeroAnimation();
 
     return (
-        <motion.div 
+        <motion.div
+            ref={ref}
             {...containerAnimation}
-            className={`w-full flex flex-col items-start justify-start gap-2 sm:gap-4 md:gap-6 z-20 relative px-1 sm:px-2 md:px-4 hero-stacking-fix bg-transparent ${className}`}
+            className={`relative flex flex-col items-center justify-center min-h-[70vh] p-8 ${className}`}
+            style={{ transformStyle: 'preserve-3d' }}
         >
-            <div className="w-full space-y-2 sm:space-y-4 md:space-y-8">
-                <div className="space-y-2 sm:space-y-3 md:space-y-5">
-                    <TextBox3D 
-                        offsetX={offsetX} 
-                        offsetY={offsetY} 
-                        intensity={1}
-                        className="text-box-width max-w-[90vw] md:max-w-none mx-0"
-                    >
-                        <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-6xl text-white tracking-tight relative whitespace-normal sm:whitespace-nowrap font-mono">
-                            Dominik Hauger
-                        </h1>
-                    </TextBox3D>
+            {/* Title above image */}
+            <motion.h1
+                {...titleAnimation}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 sm:mb-12 text-center"
+                style={{
+                    transform: 'translateZ(40px)',
+                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
+                }}
+            >
+                {title}
+            </motion.h1>
 
-                    <TextBox3D 
-                        offsetX={offsetX} 
-                        offsetY={offsetY} 
-                        intensity={1}
-                        glassEffect={{
-                            background: 'rgba(255, 255, 255, 0.4)',
-                            borderOpacity: 0.5,
-                            blur: 5
-                        }}
-                        className="max-w-[90vw] md:max-w-none mx-0"
-                    >
-                        <h3 className="text-lg xs:text-xl sm:text-2xl lg:text-4xl text-white whitespace-normal sm:whitespace-nowrap font-mono">
-                            Crafting Interactive Experiences
-                        </h3>
-                    </TextBox3D>
-
-                    <TextBox3D 
-                        offsetX={offsetX} 
-                        offsetY={offsetY} 
-                        intensity={1}
-                        glassEffect={{
-                            background: 'rgba(255, 255, 255, 0.15)',
-                            borderOpacity: 0.3,
-                            blur: 5
-                        }}
-                        className="max-w-[90vw] md:max-w-none mx-0"
-                    >
-                        <h2 className="text-base xs:text-lg sm:text-xl lg:text-3xl text-gray-300 tracking-wide whitespace-normal sm:whitespace-nowrap font-mono">
-                            Web Developer & Designer
-                        </h2>
-                    </TextBox3D>
-                </div>
-                
-                <motion.div 
-                    {...buttonAnimation}
-                    className="w-full flex justify-start items-start pt-2 sm:pt-4 md:pt-2"
-                >
-                    <div 
-                        className="relative inline-block px-2 py-2 rounded-lg backdrop-blur-sm bg-transparent button-container"
-                        style={{ 
-                            transform: `perspective(1000px) rotateX(${offsetY * -0.05}deg) rotateY(${offsetX * 0.05}deg) translate3d(${offsetX * -0.2}px, ${offsetY * -0.2}px, 0px)`,
-                            transformStyle: 'preserve-3d'
-                        }}
-                    >
-                        <button
-                            className="retro-button group"
-                            onClick={() => {
-                                //triggerClickEffect();
-                                scrollToSection('contact');
-                            }}
-                        >
-                            <svg 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                className="transition-transform group-hover:rotate-6" 
-                                fill="none" 
-                                viewBox="0 0 24 24" 
-                                stroke="currentColor"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                            <p
-                             style={{
-                                fontSize: '1.2rem',
-                                fontWeight: 'bold',
-                                color: '#2e2b2a',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.1em',
-                                fontFamily: 'monospace',
-                                textShadow: '0 0 10px rgba(255, 255, 255, 0.5)',
-                                textAlign: 'center',
-                                lineHeight: '1.2',
-                                marginTop: '0.5em',
-                                
-                             }}
-                            >Get in Touch</p>
-                        </button>
-                    </div>
-                </motion.div>
+            {/* Profile Image - Centered */}
+            <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 mb-8 sm:mb-12">
+                <ProfileImage 
+                    imageSrc={profileImage}
+                    alt="Profile Picture"
+                    className="transform-none"
+                />
             </div>
+
+            {/* Subtitle below image */}
+            <motion.p
+                {...subtitleAnimation}
+                className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-6 sm:mb-8 text-center max-w-2xl px-4"
+                style={{
+                    transform: 'translateZ(20px)',
+                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
+                }}
+            >
+                {subtitle}
+            </motion.p>
+
+            {/* Button at bottom */}
+            <motion.div 
+                {...buttonAnimation} 
+                style={{ transform: 'translateZ(60px)' }}
+            >
+                <Button
+                    onClick={onButtonClick}
+                    className="text-lg sm:text-xl px-12 py-4 bg-gradient-to-r from-purple-500 to-pink-500 
+                             hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-full 
+                             transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                >
+                    {buttonText}
+                </Button>
+            </motion.div>
         </motion.div>
     );
 };

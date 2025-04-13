@@ -124,5 +124,9 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, './src')
     }
+  },
+  server: {
+    host: true, // Listen on all local IPs
+    port: 5173, // Default Vite port
   }
 })

@@ -4,8 +4,8 @@
     position: relative;
     font-family: 'Space Mono', monospace;
     text-shadow: 
-        1px 1px 0px rgba(0, 0, 0, 0.1);
-    letter-spacing: 0.5px;
+        0.0625rem 0.0625rem 0rem rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.03125rem;
 }
 
 .retro-text span {
@@ -19,9 +19,9 @@
     content: '';
     position: absolute;
     left: 0;
-    bottom: -2px;
+    bottom: -0.125rem;
     width: 100%;
-    height: 2px;
+    height: 0.125rem;
     background-color: #000;
     transform: scaleX(0);
     transition: transform 0.3s ease;
@@ -46,7 +46,7 @@
         transparent 50%,
         rgba(0, 0, 0, 0.05) 50%
     );
-    background-size: 100% 4px;
+    background-size: 100% 0.25rem;
     pointer-events: none;
 }
 
@@ -56,16 +56,16 @@
         transform: translate(0);
     }
     20% {
-        transform: translate(-1px, 1px);
+        transform: translate(-0.0625rem, 0.0625rem);
     }
     40% {
-        transform: translate(-1px, -1px);
+        transform: translate(-0.0625rem, -0.0625rem);
     }
     60% {
-        transform: translate(1px, 1px);
+        transform: translate(0.0625rem, 0.0625rem);
     }
     80% {
-        transform: translate(1px, -1px);
+        transform: translate(0.0625rem, -0.0625rem);
     }
     100% {
         transform: translate(0);

@@ -1,7 +1,7 @@
 import React, { useRef, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import ContentSection from './layout/ContentSection';
-import profileImage from '../assets/Hauger3.png';
+import profileImage from '../assets/hauger4.png';
 import styles from './AboutMe.module.css';
 import type p5Types from 'p5';
 import { setupCanvas, prepareDrawing, drawMultipleBorders } from '../utils/p5Setup';
@@ -54,40 +54,40 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, id }) => {
                 </div>
                 
                 <motion.div 
-                    className="w-full h-full flex flex-col lg:flex-row items-center justify-around px-4 lg:px-8 gap-6 lg:gap-12 relative z-10"
+                    className="w-full h-full flex flex-col lg:flex-row items-center justify-around px-4 lg:px-8 gap-6 lg:gap-12 relative z-10 mt-[4.5rem] lg:mt-0"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                 >
                     {/* Left Content */}
                     <div className="w-full lg:w-1/2 flex flex-col gap-6">
-                        <div className="space-y-6 text-gray-600">
-                            <p className={`text-lg sm:text-xl ${styles['retro-text']}`}>
-                                Born in <span>1993</span> in Munich, Dominik did a <span>gap year</span> in Australia and went to study {' '}
-                                <span>Medical Informatics</span> at the Technical University Vienna (TU Vienna).
+                        <div className="space-y-4 lg:space-y-6 text-black/90 bg-white/[0.67] backdrop-blur-[2px] p-4 lg:p-8 rounded-xl border border-white/20 shadow-lg mx-2 lg:mx-0">
+                            <p className={`text-base lg:text-xl ${styles['retro-text']}`}>
+                                Born in <span className="text-black font-semibold">1993</span> in Munich, Dominik did a <span className="text-black font-semibold">gap year</span> in Australia and went to study {' '}
+                                <span className="text-black font-semibold">Medical Informatics</span> at the Technical University Vienna (TU Vienna).
                             </p>
                             
-                            <p className={`text-lg sm:text-xl ${styles['retro-text']}`}>
-                                During that time <span>Web Development</span> became an interest and {' '}
-                                <span>User Experience</span> a passion.
+                            <p className={`text-base lg:text-xl ${styles['retro-text']}`}>
+                                During that time <span className="text-black font-semibold">Web Development</span> became an interest and {' '}
+                                <span className="text-black font-semibold">User Experience</span> a passion.
                             </p>
                             
-                            <p className={`text-lg sm:text-xl ${styles['retro-text']}`}>
-                                After working hours he loves <span>organizing music events</span> with his friends.
+                            <p className={`text-base lg:text-xl ${styles['retro-text']}`}>
+                                After working hours he loves <span className="text-black font-semibold">organizing music events</span> with his friends.
                             </p>
                         </div>
                     </div>
 
                     {/* Right Content - Image */}
-                    <div className="w-full lg:w-1/2 relative">
-                        <div className="aspect-square relative overflow-hidden bg-transparent max-w-[50vh] mx-auto 
-                                    hover:shadow-[0_0_30px_rgba(147,51,234,0.5)] transition-all duration-300">
+                    <div className="w-full lg:w-1/2 relative flex justify-center lg:justify-start">
+                        <div className="aspect-square relative overflow-hidden bg-transparent w-[80vw] max-w-[20rem] lg:max-w-[35vh] mx-auto 
+                                    shadow-[0_0_15px_rgba(147,51,234,0.3)] hover:shadow-[0_0_30px_rgba(147,51,234,0.5)] 
+                                    transition-all duration-300 rounded-xl">
                             <img 
                                 src={profileImage}
                                 alt="Profile picture"
-                                className="w-full h-full object-cover scale-[0.85] hover:scale-110 transition-all duration-300"
+                                className="w-full h-full object-cover scale-[0.85] hover:scale-110 transition-all duration-300 rounded-xl"
                             />
-           
                         </div>
                     </div>
                 </motion.div>

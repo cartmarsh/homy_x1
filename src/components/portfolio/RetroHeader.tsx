@@ -35,7 +35,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
       onMouseLeave={handleMouseLeave}
     >
       {/* 3D Canvas for retro grid and particles */}
-      <RetroCanvas height="60px">
+      <RetroCanvas height="3.75rem">
         <RetroGrid />
         <GridParticles 
           count={15}
@@ -45,7 +45,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
       </RetroCanvas>
       
       {/* Title Container */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-[50px] sm:h-[60px] md:h-[70px] lg:h-[90px] w-auto">
+      <div className="relative z-10 flex flex-col items-center justify-center h-[3.125rem] sm:h-[3.75rem] md:h-[4.375rem] lg:h-[5.625rem] w-auto">
         {/* Scanline effect */}
         <ScanLines isHovered={isHovered} />
         
@@ -54,7 +54,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
           className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-wider uppercase text-center text-gray-800 ${className}`}
           style={{
             fontFamily: className.includes('font-mono') ? 'monospace' : "'Press Start 2P', 'VT323', monospace",
-            WebkitTextStroke: "0.7px rgba(0,0,0,0.3)",
+            WebkitTextStroke: "0.04375rem rgba(0,0,0,0.3)",
             ...glitchStyle
           }}
         >
@@ -62,7 +62,7 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
         </h1>
         
         {/* Decorative line */}
-        <div className="w-28 sm:w-36 md:w-44 h-[2px] bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-1"></div>
+        <div className="w-28 sm:w-36 md:w-44 h-[0.125rem] bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-1"></div>
       </div>
     </div>
   );
@@ -76,8 +76,8 @@ const ScanLines = memo(({ isHovered }: { isHovered: boolean }) => (
     {Array.from({ length: 2 }).map((_, i) => (
       <div 
         key={i} 
-        className="h-[3px] w-full bg-black opacity-30"
-        style={{ marginTop: `${i * 10}px` }}
+        className="h-[0.1875rem] w-full bg-black opacity-30"
+        style={{ marginTop: `${i * 0.625}rem` }}
       />
     ))}
   </div>

@@ -23,44 +23,39 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
     
     // Use custom hooks
     const { dimensions, isClient } = useDimensions(divRef);
-    const { handleMouseMove, getOffsets } = useMouseTracking(divRef);
+    const { handleMouseMove } = useMouseTracking(divRef);
     
     // Apply scroll snapping
     useScrollSnapping();
-    
-    // Get offsets for 3D effects
-    const { offsetX, offsetY } = getOffsets();
 
     return (
         <ContentSection 
             id={id} 
             bgColor='bg-transparent' 
-            className={`${className} overflow-hidden min-h-screen`}
+            className={`${className} overflow-visible min-h-screen`}
             padding="compact"
             backgroundElements={<HeroBackground />}
         >
             <div 
                 ref={divRef}
-                className="w-full h-full flex items-start sm:items-center justify-center relative overflow-hidden py-4 sm:py-0"
+                className="w-full h-full flex items-center justify-center relative overflow-visible"
                 onMouseMove={handleMouseMove}
                 style={{ position: 'relative', minHeight: '100%' }}
             >
-                {/* Three.js Canvas with higher z-index than the ContentSection background */}
+                {/* Three.js Canvas */}
                 {isClient && dimensions.width > 0 && (
                     <div
-                        className="absolute inset-0 z-10 overflow-hidden"
+                        className="absolute inset-0 z-0 overflow-visible"
                         style={{ 
-                            borderRadius: 'inherit',
-                            mixBlendMode: 'lighten'
+                            borderRadius: 'inherit'
                         }}
                     >
                         <div 
-                            className="absolute inset-0 pointer-events-none overflow-hidden"
+                            className="absolute inset-0 pointer-events-none overflow-visible"
                             style={{ 
                                 width: '100%',
                                 height: '100%',
-                                borderRadius: 'inherit',
-                                opacity: 1
+                                borderRadius: 'inherit'
                             }}
                         >
                             <Suspense fallback={null}>
@@ -70,18 +65,23 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                     </div>
                 )}
                 
-                {/* Content */}
-                <div className="flex flex-col items-center justify-start w-full relative mt-12 sm:mt-0">
-                    <HeroContent 
-                        offsetX={offsetX}
-                        offsetY={offsetY}
-                        className="w-full md:w-3/4"
-                    />
-                    <ProfileImage 
-                        imageSrc={profilePic}
-                        alt="Dominik's Profile"
-                        className="mt-4 sm:mt-8"
-                    />
+                {/* Content Card */}
+                <div className="w-full max-w-6xl mx-auto px-4 relative z-10 h-full sm:h-auto flex items-center overflow-visible">
+                    <div className="w-full flex flex-col items-center justify-center relative overflow-visible">
+                        <HeroContent 
+                            title="Hi, I'm Dominik"
+                            subtitle="Full Stack Developer & Creative Technologist"
+                            buttonText="View My Work"
+                            onButtonClick={() => {
+                                const portfolioSection = document.getElementById('portfolio');
+                                if (portfolioSection) {
+                                    portfolioSection.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}
+                            className="w-full rounded-xl overflow-hidden"
+                            profileImage={profilePic}
+                        />
+                    </div>
                 </div>
             </div>
         </ContentSection>
