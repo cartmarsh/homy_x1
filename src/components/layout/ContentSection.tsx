@@ -89,6 +89,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                 flex justify-center items-center
                 snap-start
                 text-white/90
+                ${bgColor}
                 ${className}
             `}
             style={{ 
