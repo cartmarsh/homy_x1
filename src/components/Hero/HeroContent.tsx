@@ -27,39 +27,39 @@ const HeroContent: React.FC<HeroContentProps> = ({
         <motion.div
             ref={ref}
             {...containerAnimation}
-            className={`relative flex flex-col items-center justify-center min-h-[70vh] p-4 sm:p-6 md:p-8 overflow-visible ${className}`}
+            className={`relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] w-[calc(100%-2rem)] sm:w-[calc(100%-4rem)] md:w-[calc(100%-6rem)] max-w-7xl mx-auto p-4 sm:p-6 md:p-8 overflow-visible ${className}`}
             style={{ transformStyle: 'preserve-3d', overflow: 'visible' }}
         >
             {/* Title above image */}
             <motion.h1
                 {...titleAnimation}
-                className="w-[85vw] sm:w-[80vw] md:w-[75vw] text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 sm:mb-12 text-center font-primary tracking-wide"
+                className="w-full px-4 font-bold text-white mb-8 sm:mb-12 text-center font-primary tracking-wide"
                 style={{
                     transform: 'translateZ(40px)',
-                    textShadow: '0.225rem 0.225rem 0.35rem rgba(0, 0, 0, 0.7)'
+                    textShadow: '0.225rem 0.225rem 0.35rem rgba(0, 0, 0, 0.7)',
+                    fontSize: 'clamp(2rem, 5vw, 4.5rem)'
                 }}
             >
                 {title}
             </motion.h1>
 
             {/* Profile Image - Centered */}
-            <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 mb-8 sm:mb-12 overflow-visible">
+            <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 mb-8 sm:mb-12 overflow-visible">
                 <ProfileImage 
                     imageSrc={profileImage}
                     alt="Profile Picture"
                     className="transform-none"
-                    
                 />
             </div>
 
             {/* Subtitle below image */}
             <motion.p
                 {...subtitleAnimation}
-                className="w-[57vw] sm:w-[90vw] md:w-[90vw] text-xl sm:text-2xl md:text-3xl lg:text-[2.1rem] lg:w-[57vw] text-white/90 mb-8 sm:mb-10 text-center font-secondary"
-                
+                className="w-full px-4 text-white/90 mb-8 sm:mb-10 text-center font-primary"
                 style={{
                     transform: 'translateZ(20px)',
-                    textShadow: '0.225rem 0.225rem 0.35rem rgba(0, 0, 0, 0.7)'
+                    textShadow: '0.225rem 0.225rem 0.35rem rgba(0, 0, 0, 0.7)',
+                    fontSize: 'clamp(1.125rem, 2vw, 2rem)'
                 }}
             >
                 {subtitle}
@@ -72,9 +72,22 @@ const HeroContent: React.FC<HeroContentProps> = ({
             >
                 <Button
                     onClick={onButtonClick}
-                    className="text-3xl sm:text-4xl px-12 py-4 bg-gradient-to-r from-purple-500 to-pink-500 
-                             hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-full 
-                             transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-secondary"
+                    className="font-primary px-8 sm:px-12 py-3 sm:py-4 font-semibold rounded-full 
+                             transition-all duration-300 hover:scale-105"
+                    style={{
+                        fontSize: 'clamp(1rem, 1.5vw, 1.5rem)',
+                        background: 'linear-gradient(240deg, rgba(199, 155, 98, 1), hsla(308, 30.00%, 47.60%, 0.7))',
+                        backdropFilter: 'blur(12px)',
+                        WebkitBackdropFilter: 'blur(12px)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        boxShadow: `
+                            0 0.5rem 1.5rem rgba(0, 0, 0, 0.1),
+                            inset 0 0.125rem 0.25rem rgba(255, 255, 255, 0.1),
+                            inset 0 -0.125rem 0.25rem rgba(0, 0, 0, 0.1)
+                        `,
+                        color: '#34355e',
+                        textShadow: '2px 2px 2px rgba(208, 179, 199, 0.4)'
+                    }}
                 >
                     {buttonText}
                 </Button>

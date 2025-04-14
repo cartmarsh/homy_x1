@@ -175,7 +175,7 @@ const SpeechBubbleScene: React.FC<SpeechBubbleSceneProps> = ({ isExiting = false
             style={{
                 position: 'absolute',
                 left: 'var(--bubble-left, 65%)',
-                top: 'var(--bubble-top, 30%)',
+                top: 'var(--bubble-top, 40%)',
                 transform: 'translate(var(--bubble-translate-x, 0), var(--bubble-translate-y, -50%))',
                 width: 'clamp(300px, 50vw, 700px)',
                 height: 'clamp(200px, 35vw, 450px)',
@@ -221,7 +221,7 @@ const SpeechBubbleScene: React.FC<SpeechBubbleSceneProps> = ({ isExiting = false
                     position: 'absolute',
                     overflow: 'visible'
                 }}
-                camera={{ position: [0, 0, 9], fov: 45 }}
+                camera={{ position: [0, 0, 11], fov: 45 }}
                 gl={{ alpha: true, antialias: true }}
                 dpr={[1, 2]}
             >
