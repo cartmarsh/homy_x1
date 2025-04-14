@@ -3,7 +3,7 @@ import React from 'react';
 const HeroBackground: React.FC = () => {
   return (
     <>
-      {/* Transparent background to allow strings to show through */}
+      {/* Transparent background base layer */}
       <div 
         className="absolute inset-0 z-0" 
         style={{
@@ -12,7 +12,23 @@ const HeroBackground: React.FC = () => {
         }}
       />
       
-      {/* Grid pattern overlay - subtle version that doesn't compete with strings */}
+      {/* Scanlines effect */}
+      <div 
+        className="w-4/5 mx-auto absolute inset-0 z-0 pointer-events-none"
+        style={{
+          background: `repeating-linear-gradient(
+            0deg,
+            rgba(255, 140, 0, 0.15) 0px,
+            rgba(255, 140, 0, 0.15) 2px,
+            transparent 2px,
+            transparent 60px
+          )`,
+          opacity: 0.4,
+          borderRadius: 'inherit'
+        }}
+      />
+      
+      {/* Grid pattern overlay */}
       <div 
         className="absolute inset-0 z-0 pointer-events-none"
         style={{
