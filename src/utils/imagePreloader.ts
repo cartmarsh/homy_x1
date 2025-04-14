@@ -1,6 +1,8 @@
 // List of critical images that should be preloaded immediately
 export const CRITICAL_IMAGES = [
-    '/src/assets/Hauger.png', // Add your critical images here
+    '/src/assets/hauger4_optimized.png',
+    '/src/assets/SoundRoom2_optimized.png',
+    '/src/assets/output.png' // Add your critical images here
 ];
 
 // Global cache for preloaded images

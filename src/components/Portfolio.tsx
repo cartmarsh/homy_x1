@@ -2,7 +2,7 @@ import { useState, useEffect, CSSProperties } from 'react';
 import ContentSection from './layout/ContentSection';
 import PortfolioItem from './portfolio/PortfolioItem';
 import RetroHeader from './portfolio/RetroHeader';
-import SoundRoomImage from './../assets/SoundRoom2.png';
+import SoundRoomImage from './../assets/SoundRoom2_optimized.png';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
 interface PortfolioProps {

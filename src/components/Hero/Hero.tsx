@@ -6,7 +6,6 @@ import useScrollSnapping from '../../hooks/useScrollSnapping';
 import useDimensions from '../../hooks/useDimensions';
 import useMouseTracking from '../../hooks/useMouseTracking';
 import HeroContent from './HeroContent';
-import ProfileImage from './ProfileImage';
 import ThreeBackground from './ThreeBackground';
 import HeroBackground from './HeroBackground';
 

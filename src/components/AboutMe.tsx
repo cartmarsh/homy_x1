@@ -1,7 +1,7 @@
 import React, { useRef, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import ContentSection from './layout/ContentSection';
-import profileImage from '../assets/hauger4.png';
+import profileImage from '../assets/hauger4_optimized.png';
 import styles from './AboutMe.module.css';
 import type p5Types from 'p5';
 import { setupCanvas, prepareDrawing, drawMultipleBorders } from '../utils/p5Setup';
@@ -63,7 +63,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, id }) => {
                     <div className="w-full lg:w-1/2 flex flex-col gap-6">
                         <div className="space-y-4 lg:space-y-6 text-black/90 bg-white/[0.67] backdrop-blur-[2px] p-4 lg:p-8 rounded-xl border border-white/20 shadow-lg mx-2 lg:mx-0">
                             <p className={`text-base lg:text-xl ${styles['retro-text']}`}>
-                                Born in <span className="text-black font-semibold">1993</span> in Munich, Dominik did a <span className="text-black font-semibold">gap year</span> in Australia and went to study {' '}
+                                Born <span className="text-black font-semibold">1993</span> in Munich, Dominik did a <span className="text-black font-semibold">gap year</span> in Australia and went to study {' '}
                                 <span className="text-black font-semibold">Medical Informatics</span> at the Technical University Vienna (TU Vienna).
                             </p>
                             

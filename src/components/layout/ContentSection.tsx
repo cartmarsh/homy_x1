@@ -16,7 +16,6 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     className = '', 
     children,
     id,
-    bgColor = 'bg-cream',
     backgroundElements,
     padding = 'default'
 }) => {
