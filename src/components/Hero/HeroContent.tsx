@@ -76,7 +76,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
                              transition-all duration-300 hover:scale-105"
                     style={{
                         fontSize: 'clamp(1rem, 1.5vw, 1.5rem)',
-                        background: 'linear-gradient(240deg, rgba(199, 155, 98, 1), hsla(308, 30.00%, 47.60%, 0.7))',
+                        background: 'linear-gradient(240deg, rgb(224, 134, 17), hsla(309, 79.80%, 57.30%, 0.70))',
                         backdropFilter: 'blur(12px)',
                         WebkitBackdropFilter: 'blur(12px)',
                         border: '1px solid rgba(255, 255, 255, 0.08)',
