@@ -61,25 +61,25 @@ const AboutMe: React.FC<AboutMeProps> = ({ className, id }) => {
                 >
                     {/* Left Content */}
                     <div className="w-full lg:w-1/2 flex flex-col gap-6">
-                        <div className="space-y-4 lg:space-y-6 text-black/90 bg-white/[0.67] backdrop-blur-[2px] p-4 lg:p-8 rounded-xl border border-white/20 shadow-lg mx-2 lg:mx-0">
-                            <p className={`text-base lg:text-xl ${styles['retro-text']}`}>
+                        <div className="space-y-8 lg:space-y-12 text-black/90 bg-white/[0.67] backdrop-blur-[2px] p-8 lg:p-16 rounded-xl border border-white/20 shadow-lg mx-2 lg:mx-0">
+                            <p className={`text-3xl lg:text-4xl leading-relaxed font-primary ${styles['retro-text']}`}>
                                 Born <span className="text-black font-semibold">1993</span> in Munich, Dominik did a <span className="text-black font-semibold">gap year</span> in Australia and went to study {' '}
                                 <span className="text-black font-semibold">Medical Informatics</span> at the Technical University Vienna (TU Vienna).
                             </p>
                             
-                            <p className={`text-base lg:text-xl ${styles['retro-text']}`}>
+                            <p className={`text-2xl lg:text-4xl leading-relaxed font-secondary ${styles['retro-text']}`}>
                                 During that time <span className="text-black font-semibold">Web Development</span> became an interest and {' '}
                                 <span className="text-black font-semibold">User Experience</span> a passion.
                             </p>
                             
-                            <p className={`text-base lg:text-xl ${styles['retro-text']}`}>
+                            <p className={`text-2xl lg:text-4xl leading-relaxed font-secondary ${styles['retro-text']}`}>
                                 After working hours he loves <span className="text-black font-semibold">organizing music events</span> with his friends.
                             </p>
                         </div>
                     </div>
 
                     {/* Right Content - Image */}
-                    <div className="w-full lg:w-1/2 relative flex justify-center lg:justify-start">
+                    <div className="w-full lg:w-1/4 relative flex justify-center lg:justify-start">
                         <div className="aspect-square relative overflow-hidden bg-transparent w-[80vw] max-w-[20rem] lg:max-w-[35vh] mx-auto 
                                     shadow-[0_0_15px_rgba(147,51,234,0.3)] hover:shadow-[0_0_30px_rgba(147,51,234,0.5)] 
                                     transition-all duration-300 rounded-xl">

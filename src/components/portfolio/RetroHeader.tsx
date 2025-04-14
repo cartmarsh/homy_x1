@@ -51,10 +51,10 @@ const RetroHeader: React.FC<RetroHeaderProps> = ({ title, className = '' }) => {
         
         {/* Title with glitch effect */}
         <h1 
-          className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-wider uppercase text-center text-gray-800 ${className}`}
+          className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-wider text-center text-gray-800 font-primary ${className}`}
           style={{
-            fontFamily: className.includes('font-mono') ? 'monospace' : "'Press Start 2P', 'VT323', monospace",
             WebkitTextStroke: "0.04375rem rgba(0,0,0,0.3)",
+            textShadow: "0.225rem 0.225rem 0.35rem rgba(0,0,0,0.7)",
             ...glitchStyle
           }}
         >

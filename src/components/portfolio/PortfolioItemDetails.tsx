@@ -36,6 +36,7 @@ const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
     rounded-md
     transition-all duration-300 ease-in-out
     focus:outline-none focus:ring-2 focus:ring-offset-2
+    font-secondary
   `;
 
   const primaryButtonStyles = `
@@ -45,11 +46,6 @@ const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
     shadow-md hover:shadow-lg
     focus:ring-purple-500
   `;
-
-  // Space Mono font styling for all text in details
-  const spaceMono: CSSProperties = {
-    fontFamily: "'Space Mono', monospace"
-  };
   
   // Content animation styles
   const contentStyles: CSSProperties = {
@@ -60,11 +56,7 @@ const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
 
   return (
     <div 
-      className="p-3 sm:p-5 bg-gradient-to-b from-purple-700/70 to-purple-900/80 rounded-b-lg text-white hide-scrollbar relative"
-      style={{
-        ...spaceMono,
-        paddingBottom: '4.5rem',
-      }}
+      className="p-3 sm:p-5 bg-gradient-to-b from-purple-700/70 to-purple-900/80 rounded-b-lg text-white hide-scrollbar relative font-secondary"
     >
       {/* Two-column layout with clear separation */}
       <div 
@@ -74,7 +66,7 @@ const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
         {/* Left Column - Title and Features - with border on larger screens */}
         <div className="w-full md:w-1/2 flex flex-col md:pr-4 md:border-r md:border-purple-500/30">
           {/* Project Title */}
-          <h3 className="text-base sm:text-xl font-bold leading-tight sm:leading-6 text-white border-b border-purple-400/30 pb-2 mb-3">
+          <h3 className="text-sm sm:text-lg font-bold leading-tight sm:leading-6 text-white border-b border-purple-400/30 pb-2 mb-3 font-primary tracking-wide">
             {title}
           </h3>
           

@@ -2,7 +2,7 @@
 
 .retro-text {
     position: relative;
-    font-family: 'Space Mono', monospace;
+    font-family: var(--font-primary);
     text-shadow: 
         0.0625rem 0.0625rem 0rem rgba(0, 0, 0, 0.1);
     letter-spacing: 0.03125rem;
@@ -11,8 +11,8 @@
 .retro-text span {
     position: relative;
     display: inline-block;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    font-weight: var(--font-weight-semibold);
+    transition: all 0.1s ease;
 }
 
 .retro-text span::after {

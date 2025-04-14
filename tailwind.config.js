@@ -7,6 +7,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        primary: ['var(--font-primary)'],
+        secondary: ['var(--font-secondary)'],
+        body: ['var(--font-body)'],
+        poetsen: ['Poetsen One', 'cursive'],
+        josefin: ['Josefin Sans', 'sans-serif'],
         pixel: ['Press\\ Start\\ 2P', 'cursive'],
         mono: ['Space\\ Mono', 'monospace'],
       },
@@ -76,16 +81,25 @@ export default {
       },
       // Adding rem-based configuration
       fontSize: {
-        'xs': '0.75rem',
-        'sm': '0.875rem',
-        'base': '1rem',
-        'lg': '1.125rem',
-        'xl': '1.25rem',
-        '2xl': '1.5rem',
-        '3xl': '1.875rem',
-        '4xl': '2.25rem',
-        '5xl': '3rem',
-        '6xl': '4rem',
+        'xs': 'var(--font-size-xs)',
+        'sm': 'var(--font-size-sm)',
+        'base': 'var(--font-size-base)',
+        'lg': 'var(--font-size-lg)',
+        'xl': 'var(--font-size-xl)',
+        '2xl': 'var(--font-size-2xl)',
+        '3xl': 'var(--font-size-3xl)',
+        '4xl': 'var(--font-size-4xl)',
+      },
+      lineHeight: {
+        tight: 'var(--line-height-tight)',
+        normal: 'var(--line-height-normal)',
+        relaxed: 'var(--line-height-relaxed)',
+      },
+      fontWeight: {
+        normal: 'var(--font-weight-normal)',
+        medium: 'var(--font-weight-medium)',
+        semibold: 'var(--font-weight-semibold)',
+        bold: 'var(--font-weight-bold)',
       },
       borderWidth: {
         DEFAULT: '0.0625rem',

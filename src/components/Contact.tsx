@@ -121,7 +121,7 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
                 <div className="w-full h-full min-h-[80vh] flex flex-col justify-center items-center relative z-10">
                     {/* Content Wrapper */}
                     <div className="w-full max-w-4xl mx-auto text-center bg-white/[0.67] backdrop-blur-[0.25rem] p-8 rounded-xl">
-                        <h2 className="text-3xl sm:text-4xl font-bold text-black/90 mb-8 font-mono">Contact Me</h2>
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black/90 mb-8 font-primary">Contact Me</h2>
 
                         {/* Social Icons */}
                         <div className="flex justify-center space-x-12 mb-8">
@@ -151,10 +151,10 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
 
                         {/* Contact Info */}
                         <div className="mb-12">
-                            <p className="text-xl text-black/90 mb-4 font-mono">
+                            <p className="text-2xl sm:text-3xl text-black/90 mb-4 font-secondary leading-relaxed">
                                 Feel free to reach out for collaborations or just a friendly hello
                             </p>
-                            <p className="text-black/80 font-mono">
+                            <p className="text-xl sm:text-2xl text-black/80 font-secondary">
                                 Email: domi.hauger@gmail.com
                             </p>
                         </div>
@@ -162,20 +162,20 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
 
                     {/* Footer Content */}
                     <div className="absolute bottom-0 right-0 p-4 text-right">
-                        <p className="text-xs mb-1 text-black/70 font-medium font-mono">
+                        <p className="text-sm mb-1 text-black/70 font-medium font-secondary">
                             © {new Date().getFullYear()} Dominik. All rights reserved.
                         </p>
                         <div className="flex justify-end space-x-3 text-black/70">
                             <a
                                 href="/privacy-policy"
-                                className="text-xs hover:text-black transition duration-300 font-mono"
+                                className="text-sm hover:text-black transition duration-300 font-secondary"
                             >
                                 Privacy Policy
                             </a>
-                            <span className="text-xs font-mono">|</span>
+                            <span className="text-sm font-secondary">|</span>
                             <a
                                 href="/terms-of-service"
-                                className="text-xs hover:text-black transition duration-300 font-mono"
+                                className="text-sm hover:text-black transition duration-300 font-secondary"
                             >
                                 Terms of Service
                             </a>

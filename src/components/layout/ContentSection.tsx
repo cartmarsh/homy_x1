@@ -88,6 +88,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                 flex justify-center items-center
                 snap-start
                 text-white/90
+                overflow-visible
                 ${className}
             `}
             style={{ 
@@ -111,6 +112,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                     backdrop-blur-[0.125rem]
                     border border-white/20
                     shadow-lg
+                    overflow-visible
                 `}
                 onMouseMove={handleMouseMove}
                 style={{
@@ -128,9 +130,9 @@ const ContentSection: React.FC<ContentSectionProps> = ({
                         rounded-lg
                         ${getPaddingClasses()}
                         max-w-[112.5rem]
-                        overflow-x-hidden overflow-y-auto
                         relative z-10
                         text-white/90
+                        overflow-visible
                     `}
                 >
                     {children}

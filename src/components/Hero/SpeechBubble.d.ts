@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface SpeechBubbleSceneProps {
-    message: string;
+    message?: string;
     isExiting?: boolean;
 }
 

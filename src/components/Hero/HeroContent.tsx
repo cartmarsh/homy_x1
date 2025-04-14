@@ -27,37 +27,39 @@ const HeroContent: React.FC<HeroContentProps> = ({
         <motion.div
             ref={ref}
             {...containerAnimation}
-            className={`relative flex flex-col items-center justify-center min-h-[70vh] p-8 ${className}`}
-            style={{ transformStyle: 'preserve-3d' }}
+            className={`relative flex flex-col items-center justify-center min-h-[70vh] p-4 sm:p-6 md:p-8 overflow-visible ${className}`}
+            style={{ transformStyle: 'preserve-3d', overflow: 'visible' }}
         >
             {/* Title above image */}
             <motion.h1
                 {...titleAnimation}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 sm:mb-12 text-center"
+                className="w-[85vw] sm:w-[80vw] md:w-[75vw] text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 sm:mb-12 text-center font-primary tracking-wide"
                 style={{
                     transform: 'translateZ(40px)',
-                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
+                    textShadow: '0.225rem 0.225rem 0.35rem rgba(0, 0, 0, 0.7)'
                 }}
             >
                 {title}
             </motion.h1>
 
             {/* Profile Image - Centered */}
-            <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 mb-8 sm:mb-12">
+            <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 mb-8 sm:mb-12 overflow-visible">
                 <ProfileImage 
                     imageSrc={profileImage}
                     alt="Profile Picture"
                     className="transform-none"
+                    
                 />
             </div>
 
             {/* Subtitle below image */}
             <motion.p
                 {...subtitleAnimation}
-                className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-6 sm:mb-8 text-center max-w-2xl px-4"
+                className="w-[57vw] sm:w-[90vw] md:w-[90vw] text-xl sm:text-2xl md:text-3xl lg:text-[2.1rem] lg:w-[57vw] text-white/90 mb-8 sm:mb-10 text-center font-secondary"
+                
                 style={{
                     transform: 'translateZ(20px)',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
+                    textShadow: '0.225rem 0.225rem 0.35rem rgba(0, 0, 0, 0.7)'
                 }}
             >
                 {subtitle}
@@ -70,9 +72,9 @@ const HeroContent: React.FC<HeroContentProps> = ({
             >
                 <Button
                     onClick={onButtonClick}
-                    className="text-lg sm:text-xl px-12 py-4 bg-gradient-to-r from-purple-500 to-pink-500 
+                    className="text-3xl sm:text-4xl px-12 py-4 bg-gradient-to-r from-purple-500 to-pink-500 
                              hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-full 
-                             transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                             transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-secondary"
                 >
                     {buttonText}
                 </Button>

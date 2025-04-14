@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import useProfileAnimation from '../../hooks/useProfileAnimation';
 import useProfileHoverEffect from '../../hooks/useProfileHoverEffect';
 import useImageLoad from '../../hooks/useImageLoad';
+import SpeechBubbleScene from './SpeechBubble';
 
 interface ProfileImageProps {
     imageSrc: string;
@@ -14,17 +15,32 @@ interface ProfileImageProps {
 const ProfileImage: React.FC<ProfileImageProps> = ({ 
     imageSrc, 
     alt, 
-    className = ''
+    className = '',
+    message = "Hello! I'm glad you're here! 👋"
 }) => {
     const { containerAnimation } = useProfileAnimation();
     const { 
         scale, 
-        handleMouseEnter, 
-        handleMouseLeave 
+        handleMouseEnter: baseHandleMouseEnter, 
+        handleMouseLeave: baseHandleMouseLeave 
     } = useProfileHoverEffect({
         exitDelay: 2500,
         scaleAmount: 1.05
     });
+
+    // State for speech bubble visibility
+    const [showSpeechBubble, setShowSpeechBubble] = useState(false);
+
+    // Enhanced mouse handlers
+    const handleMouseEnter = () => {
+        baseHandleMouseEnter();
+        setShowSpeechBubble(true);
+    };
+
+    const handleMouseLeave = () => {
+        baseHandleMouseLeave();
+        setShowSpeechBubble(false);
+    };
 
     // Use image loading hook with higher resolution values
     const { isLoading, hasError, handleImageLoad, handleImageError, optimizedSrc } = useImageLoad({
@@ -37,13 +53,25 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
     return (
         <motion.div
             {...containerAnimation}
-            className={`relative overflow-visible ${className}`}
+            className={`relative ${className}`}
+            style={{ overflow: 'visible' }}
         >
             <div 
                 className="relative"
+                style={{ overflow: 'visible' }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
+                {/* Speech Bubble */}
+                <div className="absolute w-full h-full" style={{ overflow: 'visible' }}>
+                    {showSpeechBubble && (
+                        <SpeechBubbleScene 
+                            message={message} 
+                            isExiting={!showSpeechBubble} 
+                        />
+                    )}
+                </div>
+                
                 {/* Loading state */}
                 {isLoading && (
                     <div className="absolute inset-0 rounded-full flex items-center justify-center">
@@ -63,7 +91,8 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                 )}
                 
                 <motion.div
-                    className="relative rounded-xl overflow-visible"
+                    className="relative"
+                    style={{ overflow: 'visible' }}
                     animate={{ scale }}
                     transition={{ duration: 0.3 }}
                 >

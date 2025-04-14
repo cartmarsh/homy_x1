@@ -56,7 +56,7 @@ const NavBar: React.FC = () => {
                     }}
                 >
                     <div className="flex items-center justify-center">
-                        <ul className="flex items-center gap-6 lg:gap-10">
+                        <ul className="flex items-center gap-0 lg:gap-6">
                             {SECTIONS.map(section => (
                                 <NavItem 
                                     key={section.id}
@@ -87,7 +87,7 @@ const NavBar: React.FC = () => {
                     >
                         ☰
                     </button>
-                    <span className="text-white/90 text-sm font-mono">
+                    <span className="text-white/90 text-sm font-secondary">
                         {greeting}
                     </span>
                 </div>
@@ -147,24 +147,24 @@ const NavItem: React.FC<NavItemProps> = ({ id, label, isActive, onClick, isLastI
                 href={`#${id}`}
                 className={`
                     relative
-                    font-mono text-base sm:text-lg md:text-base tracking-wider font-medium
+                    font-primary text-base sm:text-lg md:text-base tracking-wider font-medium
                     block text-center
-                    px-6 py-3 md:px-1.5 md:py-0.75
-                    ${isActive ? 'text-white font-bold scale-110' : 'text-neutral-200'}
+                    px-4 py-2 md:px-4 md:py-2
+                    ${isActive ? 'text-white font-bold scale-105' : 'text-neutral-200'}
                     hover:text-white transition-all duration-200
                     after:content-[''] after:absolute after:w-full after:h-[0.125rem] 
                     after:bg-white after:left-0 after:bottom-[-0.25rem]
                     after:scale-x-0 hover:after:scale-x-100
                     after:transition-transform after:duration-200 after:origin-center
                     ${isActive ? 'after:scale-x-100' : ''}
-                    ${isLastItem ? 'md:px-4 md:py-2 md:bg-[#e05f20] md:rounded-full md:hover:bg-[#f06c2e] md:transition-colors' : ''}
+                    ${isLastItem ? 'md:bg-[#e05f20] md:rounded-full md:hover:bg-[#f06c2e] md:transition-colors' : ''}
                 `}
                 onClick={(e) => {
                     e.preventDefault();
                     onClick();
                 }}
             >
-                {label}
+                <span style={{ fontFamily: "var(--font-primary)", fontWeight: 500 }}>{label}</span>
             </a>
         </li>
     );

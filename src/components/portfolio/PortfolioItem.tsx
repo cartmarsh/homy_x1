@@ -119,7 +119,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
             {/* Large monospace title overlay in the area marked by red rectangle */}
             <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
               <div 
-                className="w-11/12 text-center px-4"
+                className="w-11/12 text-center px-4 font-primary text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-wide"
                 style={getTitleOverlayStyle()}
               >
                 {title}
@@ -131,7 +131,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
               <button
                 onClick={toggleDetails}
                 disabled={isAnimating}
-                className="pointer-events-auto"
+                className="pointer-events-auto font-secondary"
                 style={getDetailsButtonStyle(isItemHovered)}
                 aria-expanded={showDetails}
                 aria-controls={detailsId}
