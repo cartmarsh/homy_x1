@@ -25,7 +25,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
         handleMouseLeave: baseHandleMouseLeave 
     } = useProfileHoverEffect({
         exitDelay: 2500,
-        scaleAmount: 1.05
+        scaleAmount: 1.15
     });
 
     // State for speech bubble visibility
@@ -53,17 +53,15 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
     return (
         <motion.div
             {...containerAnimation}
-            className={`relative ${className}`}
-            style={{ overflow: 'visible' }}
+            className={`relative flex justify-center items-center w-full h-full ${className}`}
         >
             <div 
-                className="relative"
-                style={{ overflow: 'visible' }}
+                className="relative w-full h-full flex justify-center items-center"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
                 {/* Speech Bubble */}
-                <div className="absolute w-full h-full" style={{ overflow: 'visible' }}>
+                <div className="absolute w-full h-0" style={{ top: '1rem' }}>
                     {showSpeechBubble && (
                         <SpeechBubbleScene 
                             message={message} 
@@ -74,14 +72,14 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                 
                 {/* Loading state */}
                 {isLoading && (
-                    <div className="absolute inset-0 rounded-full flex items-center justify-center">
+                    <div className="absolute inset-0 flex items-center justify-center">
                         <div className="w-12 h-12 border-3 border-white/30 border-t-white/80 rounded-full animate-spin"></div>
                     </div>
                 )}
                 
                 {/* Error state */}
                 {hasError && (
-                    <div className="absolute inset-0 rounded-full flex items-center justify-center">
+                    <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-red-500">
                             <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -91,18 +89,16 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                 )}
                 
                 <motion.div
-                    className="relative"
-                    style={{ overflow: 'visible' }}
+                    className="relative flex justify-center items-center w-full h-full"
                     animate={{ scale }}
                     transition={{ duration: 0.3 }}
                 >
                     <motion.img
                         src={optimizedSrc}
                         alt={alt}
-                        className={`w-full h-full object-cover rounded-xl transition-all duration-300
+                        className={`object-cover rounded-xl transition-all duration-300
                                   ${isLoading ? 'opacity-0' : 'opacity-100'}
-                                  max-w-[80vw] sm:max-w-[50vw] md:max-w-none
-                                  w-48 h-48 xs:w-56 xs:h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80`}
+                                  w-full h-full`}
                         onLoad={handleImageLoad}
                         onError={handleImageError}
                     />

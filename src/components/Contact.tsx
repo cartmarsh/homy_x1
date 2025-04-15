@@ -121,7 +121,7 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
                 <div className="w-full h-full min-h-[80vh] flex flex-col justify-center items-center relative z-10">
                     {/* Content Wrapper */}
                     <div className="w-full max-w-4xl mx-auto text-center bg-white/[0.67] backdrop-blur-[0.25rem] p-8 rounded-xl">
-                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black/90 mb-8 font-primary">Contact Me</h2>
+                        <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black/90 mb-8 font-primary">Contact Me</h2>
 
                         {/* Social Icons */}
                         <div className="flex justify-center space-x-12 mb-8">
