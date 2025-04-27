@@ -118,10 +118,10 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
                 </div>
 
                 {/* Content Container */}
-                <div className="w-full h-full flex flex-col justify-center items-center relative z-10">
+                <div className="w-full h-full min-h-[80vh] flex flex-col justify-center items-center relative z-10">
                     {/* Content Wrapper */}
-                    <div className="w-full max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 font-mono">Contact Me</h2>
+                    <div className="w-full max-w-4xl mx-auto text-center bg-white/[0.67] backdrop-blur-[0.25rem] p-8 rounded-xl">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-black/90 mb-8 font-mono">Contact Me</h2>
 
                         {/* Social Icons */}
                         <div className="flex justify-center space-x-12 mb-8">
@@ -129,7 +129,7 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
                                 href="https://www.linkedin.com/in/dominik-hauger-148315205/" 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
+                                className="text-black/80 hover:text-black transition-colors duration-300"
                             >
                                 <FontAwesomeIcon icon={faLinkedin} size="3x" />
                             </a>
@@ -137,13 +137,13 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
                                 href="https://github.com/cartmarsh" 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                className="text-gray-800 hover:text-gray-600 transition-colors duration-300"
+                                className="text-black/80 hover:text-black transition-colors duration-300"
                             >
                                 <FontAwesomeIcon icon={faGithub} size="3x" />
                             </a>
                             <a 
                                 href="mailto:domi.hauger@gmail.com" 
-                                className="text-gray-800 hover:text-red-600 transition-colors duration-300"
+                                className="text-black/80 hover:text-black transition-colors duration-300"
                             >
                                 <FontAwesomeIcon icon={faEnvelope} size="3x" />
                             </a>
@@ -151,10 +151,10 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
 
                         {/* Contact Info */}
                         <div className="mb-12">
-                            <p className="text-xl text-gray-800 mb-4 font-mono">
+                            <p className="text-xl text-black/90 mb-4 font-mono">
                                 Feel free to reach out for collaborations or just a friendly hello
                             </p>
-                            <p className="text-gray-700 font-mono">
+                            <p className="text-black/80 font-mono">
                                 Email: domi.hauger@gmail.com
                             </p>
                         </div>
@@ -162,20 +162,20 @@ const Contact: React.FC<ContactProps> = ({ className, id }) => {
 
                     {/* Footer Content */}
                     <div className="absolute bottom-0 right-0 p-4 text-right">
-                        <p className="text-xs mb-1 text-gray-700 font-medium font-mono">
+                        <p className="text-xs mb-1 text-black/70 font-medium font-mono">
                             © {new Date().getFullYear()} Dominik. All rights reserved.
                         </p>
-                        <div className="flex justify-end space-x-3 text-gray-700">
+                        <div className="flex justify-end space-x-3 text-black/70">
                             <a
                                 href="/privacy-policy"
-                                className="text-xs hover:text-gray-900 transition duration-300 font-mono"
+                                className="text-xs hover:text-black transition duration-300 font-mono"
                             >
                                 Privacy Policy
                             </a>
                             <span className="text-xs font-mono">|</span>
                             <a
                                 href="/terms-of-service"
-                                className="text-xs hover:text-gray-900 transition duration-300 font-mono"
+                                className="text-xs hover:text-black transition duration-300 font-mono"
                             >
                                 Terms of Service
                             </a>

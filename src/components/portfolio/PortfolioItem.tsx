@@ -95,14 +95,25 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
           {/* Image container with proper containment */}
           <div 
             className="w-full portfolio-image-container transition-all duration-500 ease-in-out"
-            style={imageContainerStyles}
+            style={{
+              ...imageContainerStyles,
+              aspectRatio: '16/9',
+              minHeight: '55vh',
+              maxHeight: '70vh',
+              overflow: 'hidden',
+              position: 'relative'
+            }}
           >
             <PortfolioItemImage 
               image={image} 
               title={title} 
               tags={tags} 
               className="w-full h-full object-cover"
-              style={imageStyles}
+              style={{
+                ...imageStyles,
+                transform: isItemHovered ? 'scale(1.05)' : 'scale(1)',
+                transition: 'transform 0.5s ease-in-out'
+              }}
             />
             
             {/* Large monospace title overlay in the area marked by red rectangle */}

@@ -1,14 +1,13 @@
 import React, { useRef, Suspense } from 'react';
 import ContentSection from '../layout/ContentSection';
-import profilePic from './../../assets/Hauger.png';
+import profilePic from './../../assets/output.png';
 import './Hero.css';
 import useScrollSnapping from '../../hooks/useScrollSnapping';
 import useDimensions from '../../hooks/useDimensions';
 import useMouseTracking from '../../hooks/useMouseTracking';
-import useGlitchEffect from '../../hooks/useGlitchEffect';
 import HeroContent from './HeroContent';
-import ProfileImage from './ProfileImage';
 import ThreeBackground from './ThreeBackground';
+import HeroBackground from './HeroBackground';
 
 // Pre-load Three.js early but don't block rendering
 import('three');
@@ -18,49 +17,44 @@ interface HeroProps {
     id?: string;
 }
 
-interface GlitchEffect {
-    triggerClickEffect: () => void;
-}
-
 const Hero: React.FC<HeroProps> = ({ className, id }) => {
     const divRef = useRef<HTMLDivElement>(null);
     
     // Use custom hooks
     const { dimensions, isClient } = useDimensions(divRef);
-    const { handleMouseMove, getOffsets } = useMouseTracking(divRef);
-    const glitchEffect = useGlitchEffect() as unknown as GlitchEffect;
-    const { triggerClickEffect } = glitchEffect;
+    const { handleMouseMove } = useMouseTracking(divRef);
     
     // Apply scroll snapping
     useScrollSnapping();
-    
-    // Get offsets for 3D effects
-    const { offsetX, offsetY } = getOffsets();
 
     return (
-        <ContentSection id={id} bgColor='bg-transparent' className={`${className} overflow-hidden`} isHero={true}>
+        <ContentSection 
+            id={id} 
+            bgColor='bg-transparent' 
+            className={`${className} overflow-visible min-h-screen`}
+            padding="compact"
+            backgroundElements={<HeroBackground />}
+        >
             <div 
                 ref={divRef}
-                className="w-full h-full flex items-center justify-center relative overflow-hidden"
+                className="w-full h-full flex items-center justify-center relative overflow-visible"
                 onMouseMove={handleMouseMove}
                 style={{ position: 'relative', minHeight: '100%' }}
             >
-                {/* Three.js Canvas with higher z-index than the ContentSection background */}
+                {/* Three.js Canvas */}
                 {isClient && dimensions.width > 0 && (
                     <div
-                        className="absolute inset-0 z-10 overflow-hidden"
+                        className="absolute inset-0 z-0 overflow-visible"
                         style={{ 
-                            borderRadius: 'inherit',
-                            mixBlendMode: 'lighten'
+                            borderRadius: 'inherit'
                         }}
                     >
                         <div 
-                            className="absolute inset-0 pointer-events-none overflow-hidden"
+                            className="absolute inset-0 pointer-events-none overflow-visible"
                             style={{ 
                                 width: '100%',
                                 height: '100%',
-                                borderRadius: 'inherit',
-                                opacity: 1
+                                borderRadius: 'inherit'
                             }}
                         >
                             <Suspense fallback={null}>
@@ -70,18 +64,23 @@ const Hero: React.FC<HeroProps> = ({ className, id }) => {
                     </div>
                 )}
                 
-                {/* Content */}
-                <div className="flex flex-col items-center justify-start w-full relative">
-                    <HeroContent 
-                        offsetX={offsetX}
-                        offsetY={offsetY}
-                        triggerClickEffect={triggerClickEffect}
-                        className="w-full md:w-3/4"
-                    />
-                    <ProfileImage 
-                        imageSrc={profilePic}
-                        alt="Dominik's Profile"
-                    />
+                {/* Content Card */}
+                <div className="w-full max-w-6xl mx-auto px-4 relative z-10 h-full sm:h-auto flex items-center overflow-visible">
+                    <div className="w-full flex flex-col items-center justify-center relative overflow-visible">
+                        <HeroContent 
+                            title="Hi, I'm Dominik"
+                            subtitle="Full Stack Developer & Creative Technologist"
+                            buttonText="View My Work"
+                            onButtonClick={() => {
+                                const portfolioSection = document.getElementById('portfolio');
+                                if (portfolioSection) {
+                                    portfolioSection.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}
+                            className="w-full rounded-xl overflow-hidden"
+                            profileImage={profilePic}
+                        />
+                    </div>
                 </div>
             </div>
         </ContentSection>

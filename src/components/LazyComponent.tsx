@@ -7,7 +7,6 @@ interface LazyComponentProps {
     duration?: number;
     primaryText?: string;
     accentText?: string;
-    logoSrc?: string;
   };
   [key: string]: any;
 }
@@ -27,19 +26,27 @@ export function LazyComponent({
   const {
     duration = 10000,
     primaryText = "LOADING",
-    accentText = "PLEASE WAIT...",
-    logoSrc
+    accentText = "PLEASE WAIT..."
   } = loaderProps;
 
   const [showFallback, setShowFallback] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const minDisplayTime = 10000; // 5 seconds
+    const minDisplayTime = 10000; // 10 seconds
     const timer = setTimeout(() => {
       setShowFallback(false);
     }, minDisplayTime);
 
-    return () => clearTimeout(timer);
+    // Progress animation
+    const interval = setInterval(() => {
+      setProgress(prev => (prev >= 100 ? 0 : prev + 1));
+    }, 30);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, []);
 
   return (
@@ -50,7 +57,7 @@ export function LazyComponent({
             duration={duration} 
             primaryText={primaryText} 
             accentText={accentText}
-            logoSrc={logoSrc}
+            progress={progress}
           />
         )
       }

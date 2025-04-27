@@ -30,16 +30,16 @@ const PortfolioItemContainer: React.FC<PortfolioItemContainerProps> = ({
   const enhancedContainerStyles: CSSProperties = {
     ...containerStyles,
     height: 'auto',
-    maxHeight: 'min(55vh, 500px)', // Taller to match the red outline
-    minHeight: '400px', // Ensure minimum height for smaller screens
-    padding: 0, // Ensure no padding inside container
-    margin: '0 auto', // Center the container
+    maxHeight: 'min(55vh, 31.25rem)', // Changed from 500px to 31.25rem
+    minHeight: '25rem', // Changed from 400px to 25rem
+    padding: 0,
+    margin: '0 auto',
     position: 'relative' as const,
     display: 'block' as const,
-    borderRadius: '0.75rem', // Slightly larger border radius
-    overflow: 'hidden', // Ensure content doesn't spill out
-    boxShadow: '0 5px 20px rgba(0, 0, 0, 0.15)', // Enhanced shadow for depth
-    border: '2px solid rgba(0, 0, 0, 0.1)', // Subtle border
+    borderRadius: '0.75rem',
+    overflow: 'hidden',
+    boxShadow: '0 0.3125rem 1.25rem rgba(0, 0, 0, 0.15)', // Changed from 5px 20px to rem
+    border: '0.125rem solid rgba(0, 0, 0, 0.1)', // Changed from 2px to 0.125rem
   };
 
   return (

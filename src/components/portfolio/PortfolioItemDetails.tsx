@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 
 interface PortfolioItemDetailsProps {
   title: string;
@@ -15,6 +15,19 @@ const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
   link,
   onClose
 }) => {
+  // State for content fade-in
+  const [contentVisible, setContentVisible] = useState(false);
+  
+  // Trigger fade-in effect when component mounts
+  useEffect(() => {
+    // Small delay to ensure the fade-in happens after slide-in animation starts
+    const timer = setTimeout(() => {
+      setContentVisible(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   // Define button styles for reuse
   const buttonStyles = `
     inline-flex items-center justify-center
@@ -37,16 +50,27 @@ const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
   const spaceMono: CSSProperties = {
     fontFamily: "'Space Mono', monospace"
   };
+  
+  // Content animation styles
+  const contentStyles: CSSProperties = {
+    opacity: contentVisible ? 1 : 0,
+    transform: contentVisible ? 'translateY(0)' : 'translateY(0.625rem)',
+    transition: 'opacity 0.5s ease, transform 0.4s ease',
+  };
 
   return (
     <div 
       className="p-3 sm:p-5 bg-gradient-to-b from-purple-700/70 to-purple-900/80 rounded-b-lg text-white hide-scrollbar relative"
       style={{
         ...spaceMono,
+        paddingBottom: '4.5rem',
       }}
     >
       {/* Two-column layout with clear separation */}
-      <div className="flex flex-col md:flex-row md:space-x-6">
+      <div 
+        className="flex flex-col md:flex-row md:space-x-6"
+        style={contentStyles}
+      >
         {/* Left Column - Title and Features - with border on larger screens */}
         <div className="w-full md:w-1/2 flex flex-col md:pr-4 md:border-r md:border-purple-500/30">
           {/* Project Title */}
@@ -94,7 +118,13 @@ const PortfolioItemDetails: React.FC<PortfolioItemDetailsProps> = ({
       </div>
       
       {/* Close button - positioned at the center-bottom */}
-      <div className="absolute bottom-3 left-0 right-0 flex justify-center mt-4">
+      <div 
+        className="absolute bottom-3 left-0 right-0 flex justify-center mt-4"
+        style={{
+          ...contentStyles,
+          transitionDelay: '0.2s', // Slight delay for close button to appear after content
+        }}
+      >
         <button
           onClick={onClose}
           className="bg-white/20 hover:bg-white/30 rounded-full p-1.5 transition-all duration-300 z-50"

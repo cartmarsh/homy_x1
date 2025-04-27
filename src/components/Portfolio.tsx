@@ -60,7 +60,7 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
     }, [isTransitioning, currentIndex]);
 
     // Arrow button style with responsive sizing - made bigger with slower hover effect
-    const arrowButtonStyle = "bg-gray-800 bg-opacity-70 hover:bg-opacity-90 text-white rounded-full p-3 sm:p-5 focus:outline-none transition-all duration-700 transform hover:scale-110 shadow-lg";
+    const arrowButtonStyle = "bg-gray-800 bg-opacity-70 hover:bg-opacity-90 text-white/90 rounded-full p-3 sm:p-5 focus:outline-none transition-all duration-700 transform hover:scale-110 shadow-lg";
 
     // Style to ensure content is visible and contained within card
     const portfolioContainerStyle: CSSProperties = {
@@ -77,7 +77,7 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
     // Card container styling to match the red rectangle in the screenshot
     const cardContainerStyle: CSSProperties = {
         width: '90%',
-        maxWidth: '850px',
+        maxWidth: '53.125rem',
         padding: '0',
         margin: '0 auto',
         boxSizing: 'border-box',
@@ -102,7 +102,7 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
             <div className="w-full h-full flex flex-col" style={portfolioContainerStyle}>
                 {/* Header with responsive sizing */}
                 <div className="w-full flex flex-col items-center justify-center mb-4 sm:mb-6 py-1 sm:py-2">
-                    <RetroHeader title="PORTFOLIO" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl" />
+                    <RetroHeader title="PORTFOLIO" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-mono text-white/90" />
                 </div>
                 
                 {/* Project Carousel Display - with flex-grow to take available space */}
@@ -133,7 +133,7 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
                         <>
                             {/* Left arrow - adjusted position to match new container width */}
                             <button 
-                                className={`${arrowButtonStyle} absolute left-0 sm:left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-16 sm:h-16`}
+                                className={`${arrowButtonStyle} absolute left-0 sm:left-2 md:left-4 top-1/2 -translate-y-1/2 z-30`}
                                 onClick={goToPrevious}
                                 disabled={isTransitioning}
                                 aria-label="Previous project"
@@ -143,7 +143,7 @@ export const Portfolio = ({ className, id }: PortfolioProps) => {
                             
                             {/* Right arrow - adjusted position to match new container width */}
                             <button 
-                                className={`${arrowButtonStyle} absolute right-0 sm:right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-16 sm:h-16`}
+                                className={`${arrowButtonStyle} absolute right-0 sm:right-2 md:right-4 top-1/2 -translate-y-1/2 z-30`}
                                 onClick={goToNext}
                                 disabled={isTransitioning}
                                 aria-label="Next project"

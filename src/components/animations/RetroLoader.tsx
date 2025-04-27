@@ -1,56 +1,45 @@
-import { useEffect, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import React, { useRef } from 'react';
+import { motion } from 'framer-motion';
 import './RetroLoader.css';
-import useTimeout from '../../hooks/useTimeout';
-import useByteElementsLoaderMemo from '../../hooks/useByteElementsLoaderMemo';
-import Whirlwind from './Whirlwind';
+import useRetroParticles from '../../hooks/useRetroParticles';
 
-interface RetroLoaderProps {
-  duration?: number; // Duration in milliseconds
-  primaryText?: string; // Text to display as the main loading text
-  accentText?: string; // Text to display as the secondary loading text
-  logoSrc?: string; // Optional logo to display above the loading text
+export interface RetroLoaderProps {
+  primaryText?: string;
+  accentText?: string;
+  duration: number;
+  progress: number;
 }
 
 const RetroLoader: React.FC<RetroLoaderProps> = ({
-  duration = 3000,
-  primaryText = "HELLO WORLD",
-  accentText = "...",
-  logoSrc
+  progress
 }) => {
-  const { isVisible } = useTimeout({ duration });
-  const byteElements = useByteElementsLoaderMemo(accentText);
-  const [isImploding, setIsImploding] = useState(false);
-
-  // Start implosion effect when timeout is about to end
-  useEffect(() => {
-    const implodeTimer = setTimeout(() => {
-      setIsImploding(true);
-    }, Math.max(0, duration - 1000)); // Start implosion 1 second before the end
-
-    return () => clearTimeout(implodeTimer);
-  }, [duration]);
-
-  if (!isVisible) return null;
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Use the custom hook for Three.js particle animation
+  useRetroParticles({
+    containerRef,
+    progress
+  });
 
   return (
     <div className="retro-loader-container">
-      <div className="three-container">
-        <Canvas camera={{ position: [0, 0, 2], fov: 60 }}>
-          <ambientLight intensity={0.8} />
-          <Whirlwind duration={duration} />
-          <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
-        </Canvas>
-      </div>
-      <div className={`retro-loader-content ${isImploding ? 'imploding' : ''}`}>
-        {logoSrc && (
-          <div className="retro-loader-logo">
-            <img src={logoSrc} alt="Logo" />
-          </div>
-        )}
-        <div className="retro-loading-text">{primaryText}</div>
-        <div className="retro-loading-bytes">{byteElements}</div>
+      <div ref={containerRef} className="three-container" />
+      <div className="retro-loader-content">
+        <motion.div
+          className="retro-loading-text"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{ 
+            color: '#ff61b3',
+            textShadow: '0 0 10px #ff61b3',
+            fontSize: '2.5rem',
+            fontWeight: 'bold',
+            letterSpacing: '0.4em'
+          }}
+        >
+          hello world...
+        </motion.div>
       </div>
     </div>
   );

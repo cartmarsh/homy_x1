@@ -12,7 +12,7 @@ interface RetroCanvasProps {
  */
 const RetroCanvas: React.FC<RetroCanvasProps> = ({ 
   children, 
-  height = '40px',
+  height = '2.5rem',
   className = ''
 }) => {
   return (
